@@ -1,0 +1,370 @@
+---
+title: "Clean raw data"
+author: "Daniel Cerritos"
+date: "9/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Cleaning data for analysis of efficacy field trials of ethaboxam seed treatment  
+in combination with resistant varieties. Data from three locations were collected 
+in 2017 field trials and recorded in sheets in Field Book 2017. In 2018,  
+just one location was used and data recorded in the tablet.   
+We also received data from a 2018 field trial in Iowa. Stand count and yield data was collected.
+Varieties used in Illinois were previously screen for Phytphthora sojae resistance.
+
+```{r library}
+library(tidyverse)
+library(readxl)
+library(here)
+library(naniar)
+```
+
+## Load data
+
+```{r list all files}
+# file names were not changed, same name as found in box 
+(raw.files <- list.files(here("data"), full.names = TRUE)) 
+```
+
+```{r load data, echo=FALSE}
+# Resistance screening 
+tray.test <- raw.files[14] %>% 
+  excel_sheets() %>%  # divided in multiple sets (sheets)
+  set_names() %>% 
+  map(read_excel, path = raw.files[14]) 
+
+layer.test <- raw.files[8] %>% 
+  excel_sheets() %>%
+  set_names() %>% 
+  map(read_excel, path = raw.files[8])
+
+# stand counts are in different excel sheets, yields in different files 
+# Monmouth 
+mon.stand.vc <- read_excel(raw.files[11], sheet = 1)
+mon.stand.v2 <- read_excel(raw.files[11], sheet = 2)
+mon.yield <- read_excel(raw.files[3])
+
+# Orr
+orr.stand.vc <- read_excel(raw.files[12], sheet = 1)
+orr.stand.v2 <- read_excel(raw.files[12], sheet = 2)
+orr.yield <- read_excel(raw.files[1])
+
+# Urbana 
+urb.stand.vc <- read_excel(raw.files[13], sheet = 1)
+urb.stand.v2 <- read_excel(raw.files[13], sheet = 2)
+urb.stand.r8 <- read_excel(raw.files[13], sheet = 4) # there was final stand
+urb.yield <- read_csv(raw.files[10])
+
+# Urbana 2018
+urb.18.stand <- read_csv(raw.files[2])
+urb.18.yield <- read_excel(raw.files[4], skip = 2)
+
+# Iowa 2018
+iowa <- read_excel(raw.files[5])
+```
+
+## P. sojae screening
+
+```{r clean screening data}
+
+str(layer.test) # only need two sheets
+
+layer.test$`Group 2`$`#plants deat...5`
+
+
+layer.test.1 <- layer.test$Group1 %>% 
+  select(line = Line, 
+         rep = Rep, 
+         scale_dorrance = `Scale dorrance`, 
+         seedlings_alive = `#plants alive`, 
+         seedlings_dead = `#plants deat`, 
+         )
+
+layer.test.2 <- layer.test$`Group 2` %>% 
+  select(line = Line...1, 
+         rep = Rep...2, 
+         scale_dorrance = `Scale dorrance...3`,
+         seedlings_alive =`#plants alive...4`, 
+         seedlings_dead = `#plants deat...5`
+         )
+
+layer.test <- bind_rows(layer.test.1, layer.test.2)
+
+write_csv(layer.test, path = here("output", 
+                                  "clean_data", 
+                                  "2019-10-15_psojae-screening_layer-test_clean-data.csv")
+          )
+
+
+tray.test <- bind_rows(tray.test) %>% 
+  rename(id = `PRR#`, 
+         line = Strain, 
+         seedling_number = Plant, 
+         lesion_length.cm = Lenglesion)
+
+write_csv(tray.test, path = here("output", 
+                                 "clean_data", 
+                                 "2019-10-15_psojae-screening_tray-test_clean-data.csv")
+          )
+```
+
+## Multilocation field trials 2017 
+
+```{r clean monmouth}
+str(mon.stand.vc)
+
+mon.row1 <- mon.stand.vc %>% 
+  filter(row_number() %% 2 == 1) %>% # select even rows
+  dplyr::select(vc_row1 = stand)
+
+mon.row2 <- mon.stand.vc %>% 
+  filter(row_number() %% 2 == 0) %>% 
+  dplyr::select(vc_row2 = stand)
+  
+mon.stand.vc <- cbind(mon.row1, mon.row2)
+
+str(mon.stand.v2) # row stands in different column, also includes a disease rating
+
+mon.stand.v2 <- mon.stand.v2 %>% 
+  select(v2_row1 = `Stand Row 1`,
+         v2_row2 = `Stand Row 2`, 
+         damping_off = `Phytophthora (1-5)`)
+
+
+str(mon.yield)
+
+mon.yield <- mon.yield %>% 
+  select(sub_plot = plot, 
+         weight_lb = Weight...12, 
+         moisture = Moisture...13)
+
+view(mon.yield)
+
+# add an extra zero to first eight sub_plots to arrange them in order
+rows.yield <- mon.yield[1:8, ] 
+
+rows.yield$sub_plot <- str_replace_all(rows.yield$sub_plot,
+                                       c("17SM001" = "17SM0001",
+                                         "17SM002" = "17SM0002",
+                                         "17SM003" = "17SM0003",
+                                         "17SM004" = "17SM0004",
+                                         "17SM005" = "17SM0005",
+                                         "17SM006" = "17SM0006",
+                                         "17SM007" = "17SM0007",
+                                         "17SM008" = "17SM0008")
+                                        )
+mon.yield <- mon.yield[-c(1:8), ] # eliminate old rows
+
+mon.yield <- mon.yield %>% 
+  rbind(rows.yield) %>% 
+  arrange(sub_plot) 
+
+mon.var.trt.data <- read_excel(raw.files[11], sheet = 4) %>% 
+  select(sub_plot = plot_name, 
+         block = rep, 
+         variety = var, 
+         treatment = treat) # add rest variety and treatmetn info 
+
+
+
+monmouth <- bind_cols(mon.var.trt.data, mon.stand, mon.yield)
+
+monmouth <- monmouth %>% 
+  select(-sub_plot1) %>% 
+  mutate(location = "Monmouth")
+```
+
+```{r clean orr}
+str(orr.stand.vc)
+
+orr.row1 <- orr.stand.vc %>% 
+  filter(row_number() %% 2 == 1) %>% 
+  select(sub_plot = `plot_ name`, 
+         block, 
+         variety, 
+         treatment, 
+         vc_row1 = Stand1)
+
+orr.row2 <- orr.stand.vc %>% 
+  filter(row_number() %% 2 == 0) %>% 
+  select(vc_row2 = Stand1)
+
+orr.stand.vc <- bind_cols(orr.row1, orr.row2)
+
+orr.stand.v2 <- orr.stand.v2 %>%
+  select(v2_row1 = row1, 
+         v2_row2 = Row2, 
+         damping_off = `Phytoptora death`)
+
+orr.yield <- orr.yield %>% 
+  select(weight_lb = Weight, 
+         moisture = Moisture)
+
+orr.info <- read_excel(raw.files[12], sheet = 4) %>% 
+  select(sub_plot = row_id)
+
+
+orr <- bind_cols(orr.info, 
+                 orr.stand.vc, 
+                 orr.stand.v2, 
+                 orr.yield) %>% 
+  select(-sub_plot1) %>% 
+  mutate(location = "Orr")
+```
+
+```{r clean urbana}
+str(urb.stand.vc)
+str(urb.stand.v2)
+str(urb.yield)
+
+urb.stand.vc <- urb.stand.vc %>% 
+  select(plot_name, row, stand) %>% 
+  spread(row, stand) %>% 
+  rename(vc_row1 = `1`, 
+         vc_row2 = `2`)
+
+urb.stand.v2 <- urb.stand.v2 %>% 
+  select(v2_row1 = `Stand Row 1`, 
+         v2_row2 = `Stand Row 2`, 
+         damping_off = `Phytophthora (1-5)`)
+
+urb.stand.r8 <- urb.stand.r8 %>% 
+  select(r8_row1 = `Stand Row 1`, 
+         r8_row2 = `Stand Row 2`)
+
+
+# Yield file for Urbana 2017 did not have all the plot names
+# added manually in Excel using haverst sequence and the field map 
+
+urb.yield <- urb.yield %>% 
+  select(sub_plot = Plot, 
+         weight_lb = Weight, 
+         moisture = Moisture, 
+         ) %>% 
+  filter(!sub_plot == "Fill") %>% 
+  arrange(sub_plot)
+
+# add variety and treatment info
+urb.info <- read_excel(raw.files[13], sheet = 5) %>% 
+  select(sub_plot = plot_name, 
+         block = rep, 
+         variety = var,
+         treatment = treat)
+
+
+urbana <- bind_cols(urb.info, 
+                    urb.stand.vc, 
+                    urb.stand.v2, 
+                    urb.stand.r8, 
+                    urb.yield
+                    )
+
+urbana <- urbana %>% 
+  select(-c(plot_name, sub_plot1)) %>% 
+  mutate(location = "Urbana")
+```
+
+```{r combine 2017 data}
+
+multilocation_2017 <- bind_rows(urbana, monmouth, orr)
+
+# change "_" for "-" in variety name to be consistant with naming
+multilocation_2017$variety <- str_replace_all(multilocation_2017$variety, 
+                                     c("LD07_3395bf" = "LD07-3395bf", 
+                                       "LD10_10219" = "LD10-10219",
+                                       "LD11_10069" = "LD11-10069" , 
+                                       "LD11_13802R2" = "LD11-13802R2", 
+                                       "LD11_7311" = "LD11-7311", 
+                                       "LD12_15156R1a" = "LD12-15156R1a", 
+                                       "LD12_8677" = "LD12-8677", 
+                                       "LD13_14071R2" = "LD13-14071R2")
+                                     ) 
+write_csv(multilocation_2017, 
+          path = here("output", 
+                      "clean_data", 
+                      "2019-9-25_multilocation-2017_clean-data.csv")
+          )
+```
+
+## Urbana and Iowa field trials 2018
+
+```{r clean urbana 2018}
+
+str(urb.18.stand)
+view(urb.18.stand)
+
+urb.18.stand <- urb.18.stand %>% 
+  filter(!is.na(Block) # eliminate fill plots
+         ) %>% 
+  arrange(`Plot ID`) %>% 
+  mutate(row = case_when( 
+  Row %in% c(82, 78, 74, 70, 66, 62, 58, 54, 50, 46, 42, 38) ~ "row1", 
+  TRUE ~ "row2" # change row numbers to 1 and 2                
+  )) %>%
+  select(`Source Stock`, 
+         block = Block, 
+         vc = Stand1, 
+         v2 = Stand2, 
+         v4 = Stand3, 
+         r8 = `Final Stand`, 
+         row) %>% 
+  group_by(`Source Stock`, block) %>% 
+  pivot_wider(names_from = row, 
+              values_from = c(vc, v2, v4, r8)
+              ) %>% 
+  separate(`Source Stock`, 
+           sep = "_", 
+           into = c("variety", "treatment")
+           ) 
+
+view(urb.18.yield)
+
+urb.18.yield <- urb.18.yield[-c(73:81), ] # remove fill rows
+
+urb.18.yield <- urb.18.yield %>% 
+  select(weight = Weight, 
+         moisture = Moisture, 
+         yield_bu.acre = Yield)
+
+urbana_2018 <- bind_cols(urb.18.stand, urb.18.yield)
+
+write_csv(urbana_2018, 
+          path = here("output", 
+                      "clean_data", 
+                      "2019-9-25_urbana-2018_clean-data.csv")
+          )
+```
+
+```{r clean iowa}
+# Iowa data was sent organized
+
+names(iowa) <- c("location", "variety", "treatment", 
+                 "variety_treatment","block", "sub_plot", 
+                 "vc_row1", "vc_row2", 
+                 "v1_row1", "v1_row2",
+                 "r2_row1", "r2_row2", 
+                 "r8_row1", "r8_row2",
+                 "damping_off", "moisture",
+                 "weight_kg", "yield_bu.acre")
+
+iowa$treatment <- str_replace_all(iowa$treatment,
+                                  c("Y" = "intego",
+                                    "N" = "control"
+                                    )
+                                  )
+
+write_csv(iowa, 
+          path = here("output", 
+                      "clean_data", 
+                      "2019-9-25_iowa-2018_clean-data.csv")
+          )
+```
+
+
+
+
+
