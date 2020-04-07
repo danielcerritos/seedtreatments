@@ -1,5 +1,5 @@
 ---
-title: "Analysis seedtreatments"
+title: "Seed treatment field trials analysis"
 author: "Daniel Cerritos"
 date: "12/11/2019"
 output: html_document
@@ -31,14 +31,6 @@ library(ggpubr)
 
 ## Import data files  
 
-```{r import screening data}
-(screening.data <- list.files(path = here("output", "clean_data"), 
-                         full.names = TRUE, pattern = "screening")
- )
-
-layer.test <- read.csv(screening.data[1])
-tray.test <- read.csv(screening.data[2])
-```
 ```{r import field trials data}
 (seed.treatments.data <- list.files(path = here("output", "transform_data"), 
                          full.names = TRUE)
@@ -46,57 +38,6 @@ tray.test <- read.csv(screening.data[2])
 multilocation_2017 <- read.csv(seed.treatments.data[[2]]) 
 urbana_2018 <- read.csv(seed.treatments.data[[3]])
 iowa <- read.csv(seed.treatments.data[[1]])
-```
-
-## Screening for P. sojae resistance
-
-```{r layer test scores}
-str(layer.test)
-hist(layer.test$scale_dorrance) # most scores are b/w 4-7 (moderate to low levels)
-
-# mean for layer test and clasify as High, Moderate or Low based on the score mean
-mean.scores <- layer.test %>% 
-  group_by(line) %>% 
-  summarise(mean(scale_dorrance)) 
-
-mean.scores %>% 
-  rename(mean_score = `mean(scale_dorrance)`)%>% 
-  mutate(
-    pr_level = case_when(
-      mean_score <= 4 ~ "High", 
-      mean_score >= 6 ~ "Low", 
-      TRUE ~ "Moderate"
-    )
-  )
-```
-
-```{r tray test lesion}
-# Tray Test
-hist(tray.test$lesion_length.cm)  
-
-fm.tray.test <- lm(lesion_length.cm ~ line, data = tray.test) 
-summary(fm.tray.test) 
-
-plot(fm.tray.test) #data not normal
-trans <- boxcox(fm.tray.test) 
-trans$x[which.max(trans$y)]
-boxc.tran <- make.tran("boxcox", 0.2626)
-
-fm.tray.test<- with(boxc.tran, 
-                lm(linkfun(lesion_length.cm) ~ line, data = tray.test))
-summary(fm.tray.test) # differences in lesion length 
-
-mean.lesion <- emmeans(fm.tray.test, ~ line, type = "response") #obtain back-transformed emmmeans    
-mean.lesion %>% 
-  cld.emmGrid()
-
-# dunnetts to compare against moderately susceptible check (Williams)
-line.vs.will <- emmeans(fm.tray.test, trt.vs.ctrlk ~ line, type = "response")
-line.vs.will <- tidy(line.vs.will$contrasts)
-
-# compare against resistant check (L76-1988)
-line.vs.L76 <- emmeans(fm.tray.test, trt.vs.ctrlk ~ line, type = "response", ref = 1)
-line.vs.L76 <- tidy(line.vs.L76$contrasts)
 ```
 
 ## Multilocation field trials 2017 
