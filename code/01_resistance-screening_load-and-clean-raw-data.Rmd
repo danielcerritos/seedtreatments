@@ -1,0 +1,201 @@
+---
+title: "Clean raw data resistance screening"
+author: "Daniel Cerritos"
+date: "4/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Varieties used in fied trials in Illinois were previously screened for both resistance gene presence (Rps)
+prand partial resistance.
+
+```{r library}
+library(tidyverse)
+library(readxl)
+library(here)
+```
+
+## Load data
+
+```{r load data}
+# Rps screening
+rps.gh.path <- here("data", "Diers' Line Testing Data.xlsx") # greenhouse trials
+
+rps.gh <-  rps.gh.path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map_df(~ read_excel(path = rps.gh.path, sheet = .x, skip = 2), 
+         .id = "sheet") %>% 
+  filter(!is.na(Line))
+
+rps.rolls.path <- here("data", "Hypocotyl_Ragdolls.xlsx") # rag rolls in incubator
+
+rps.rolls <- rps.rolls.path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map_df(~ read_excel (path = rps.rolls.path), .id = "sheet")
+
+
+# Partial resistance 
+tray.path <- here("data", "Tray Test.xlsx")
+
+tray.test <- tray.path %>% 
+  excel_sheets() %>%  # divided in multiple sets (sheets)
+  set_names() %>% 
+  map(read_excel, path = tray.path) 
+
+layer.path <- here("data", "Layer Test 2.xlsx")
+
+layer.test <- layer.path %>% 
+  excel_sheets() %>%
+  set_names() %>% 
+  map(read_excel, path = layer.path)
+```
+
+## Rps screening
+
+```{r rps greenhouse}
+# first experiment: Greenhouse Trials
+str(rps.gh)
+view(rps.gh)
+
+rps.gh <- rps.gh %>% 
+  rename(rep1_dai.5_dead = Infected...2, 
+         rep1_dai.5_total = Total...3, 
+         rep1_dai.10_dead = Infected...4, 
+         rep1_dai.10_total = Total...5, 
+         rep2_dai.5_dead = Infected...6,
+         rep2_dai.5_total = Total...7, 
+         rep2_dai.10_dead = Infected...8, 
+         rep2_dai.10_total = Total...9, 
+         rep3_dai.5_dead = Infected...10, 
+         rep3_dai.5_total = Total...11, 
+         rep3_dai.10_dead = Infected...12, 
+         rep3_dai.10_total = Total...13, 
+         line = Line)
+
+rps.gh <- rps.gh %>% 
+  pivot_longer(
+  c(-sheet, -line), 
+  names_to = "columnn", 
+  values_to = "count") %>% 
+  filter(!is.na(count)) %>% 
+  separate(columnn, c("rep", "dai", "infected_total" ), sep = "_" ) 
+
+rps.gh <- rps.gh %>% 
+  filter(!row_number() %in% c(1522:1526)) %>% # repeated rows
+  spread(infected_total, count)
+
+rps.gh <- rps.gh %>% 
+  mutate(isolate = case_when(
+    sheet == "Sheet1" ~ "OH1", 
+    sheet == "Sheet2" ~ "OH3", 
+    sheet == "Sheet3" ~ "OH4", 
+    sheet == "Sheet4" ~ "OH7", 
+    sheet == "Sheet5" ~ "OH25", 
+    sheet == "Sheet6" ~ "OH28")
+    ) %>% 
+  select(-sheet) %>% 
+  rename(dead_seedlings = dead, 
+         total_seedlings = total)
+
+
+rps.gh$line <- str_replace_all(rps.gh$line, 
+                               c("Harlon" = "harlon", 
+                                 "Harosoy" = "harosoy",
+                                 "harosoy 2015" = "harosoy",
+                                 "Harosoy62xx" = "harosoy62xx", 
+                                 "Williams" = "williams", 
+                                 "Sloan" = "sloan", 
+                                 "williams 82" = "williams82", 
+                                 "wiliams79" = "williams79")
+                               )
+
+write_csv(rps.gh, path = here("output", 
+                              "clean_data", 
+                              "01_resistance-screening_rps_greenhouse_clean-data.csv") 
+          )
+```
+
+```{r rps incubator}
+# second experiment: Rag rolls in incubator 
+rps.rolls <- rps.rolls %>% 
+  select(isolate_pathotype = sheet, 
+         rep = REP, 
+         line = LINE, 
+         dead_seedlings = DEAD, 
+         total_seedlings = TOTAL) %>% 
+  filter(!is.na(rep))
+
+lines <- rps.rolls %>% 
+  filter(!is.na(line)) %>% 
+  select(line)
+
+lines <- lines$line
+
+lines <- rep(lines, each = 3) # only the first rep has the line name
+
+rps.rolls$line <- lines
+
+rps.rolls <- rps.rolls %>% 
+  mutate(isolate_pathotype = case_when(
+     isolate_pathotype == "Race 1" ~ "OH1", 
+    isolate_pathotype == "Race 3" ~ "OH3", 
+    isolate_pathotype == "Race 4" ~ "OH4")
+    )
+
+write_csv(rps.rolls, path = here("output", 
+                              "clean_data", 
+                              "01_resistance-screening_rps_incubator_clean-data.csv") 
+          )
+
+```
+
+## Partial resistance screening
+
+```{r pr layer test }
+str(layer.test) # only need two sheets
+
+layer.test$`Group 2`$`#plants deat...5`
+
+
+layer.test.1 <- layer.test$Group1 %>% 
+  select(line = Line, 
+         rep = Rep, 
+         scale_dorrance = `Scale dorrance`, 
+         alive_seedlings = `#plants alive`, 
+         dead_seedlings = `#plants deat`, 
+         )
+
+layer.test.2 <- layer.test$`Group 2` %>% 
+  select(line = Line...1, 
+         rep = Rep...2, 
+         scale_dorrance = `Scale dorrance...3`,
+         alive_seedlings =`#plants alive...4`, 
+         dead_seedlings = `#plants deat...5`
+         )
+
+layer.test <- bind_rows(layer.test.1, layer.test.2)
+
+write_csv(layer.test, path = here("output", 
+                                  "clean_data", 
+                                  "01_resistance-screening_partial-resistance_layer-test_clean-data.csv")
+          )
+```
+
+```{r pr tray test}
+tray.test <- bind_rows(tray.test) %>% 
+  rename(id = `PRR#`, 
+         line = Strain, 
+         seedling_number = Plant, 
+         lesion_length.cm = Lenglesion)
+
+write_csv(tray.test, path = here("output", 
+                                 "clean_data", 
+                                 "01_resistance-screening_partial-resistance_tray-test_clean-data.csv")
+          )
+
+```

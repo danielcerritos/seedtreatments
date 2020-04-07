@@ -1,5 +1,5 @@
 ---
-title: "Clean raw data"
+title: "Clean raw data field trials "
 author: "Daniel Cerritos"
 date: "9/25/2019"
 output: html_document
@@ -20,7 +20,6 @@ Varieties used in Illinois were previously screen for Phytphthora sojae resistan
 library(tidyverse)
 library(readxl)
 library(here)
-library(naniar)
 ```
 
 ## Load data
@@ -31,33 +30,23 @@ library(naniar)
 ```
 
 ```{r load data, echo=FALSE}
-# Resistance screening 
-tray.test <- raw.files[14] %>% 
-  excel_sheets() %>%  # divided in multiple sets (sheets)
-  set_names() %>% 
-  map(read_excel, path = raw.files[14]) 
-
-layer.test <- raw.files[8] %>% 
-  excel_sheets() %>%
-  set_names() %>% 
-  map(read_excel, path = raw.files[8])
 
 # stand counts are in different excel sheets, yields in different files 
 # Monmouth 
-mon.stand.vc <- read_excel(raw.files[11], sheet = 1)
-mon.stand.v2 <- read_excel(raw.files[11], sheet = 2)
+mon.stand.vc <- read_excel(raw.files[13], sheet = 1)
+mon.stand.v2 <- read_excel(raw.files[13], sheet = 2)
 mon.yield <- read_excel(raw.files[3])
 
 # Orr
-orr.stand.vc <- read_excel(raw.files[12], sheet = 1)
-orr.stand.v2 <- read_excel(raw.files[12], sheet = 2)
+orr.stand.vc <- read_excel(raw.files[14], sheet = 1)
+orr.stand.v2 <- read_excel(raw.files[14], sheet = 2)
 orr.yield <- read_excel(raw.files[1])
 
 # Urbana 
-urb.stand.vc <- read_excel(raw.files[13], sheet = 1)
-urb.stand.v2 <- read_excel(raw.files[13], sheet = 2)
-urb.stand.r8 <- read_excel(raw.files[13], sheet = 4) # there was final stand
-urb.yield <- read_csv(raw.files[10])
+urb.stand.vc <- read_excel(raw.files[15], sheet = 1)
+urb.stand.v2 <- read_excel(raw.files[15], sheet = 2)
+urb.stand.r8 <- read_excel(raw.files[15], sheet = 4) # there was final stand
+urb.yield <- read_csv(raw.files[12])
 
 # Urbana 2018
 urb.18.stand <- read_csv(raw.files[2])
@@ -65,51 +54,6 @@ urb.18.yield <- read_excel(raw.files[4], skip = 2)
 
 # Iowa 2018
 iowa <- read_excel(raw.files[5])
-```
-
-## P. sojae screening
-
-```{r clean screening data}
-
-str(layer.test) # only need two sheets
-
-layer.test$`Group 2`$`#plants deat...5`
-
-
-layer.test.1 <- layer.test$Group1 %>% 
-  select(line = Line, 
-         rep = Rep, 
-         scale_dorrance = `Scale dorrance`, 
-         seedlings_alive = `#plants alive`, 
-         seedlings_dead = `#plants deat`, 
-         )
-
-layer.test.2 <- layer.test$`Group 2` %>% 
-  select(line = Line...1, 
-         rep = Rep...2, 
-         scale_dorrance = `Scale dorrance...3`,
-         seedlings_alive =`#plants alive...4`, 
-         seedlings_dead = `#plants deat...5`
-         )
-
-layer.test <- bind_rows(layer.test.1, layer.test.2)
-
-write_csv(layer.test, path = here("output", 
-                                  "clean_data", 
-                                  "2019-10-15_psojae-screening_layer-test_clean-data.csv")
-          )
-
-
-tray.test <- bind_rows(tray.test) %>% 
-  rename(id = `PRR#`, 
-         line = Strain, 
-         seedling_number = Plant, 
-         lesion_length.cm = Lenglesion)
-
-write_csv(tray.test, path = here("output", 
-                                 "clean_data", 
-                                 "2019-10-15_psojae-screening_tray-test_clean-data.csv")
-          )
 ```
 
 ## Multilocation field trials 2017 
@@ -133,6 +77,8 @@ mon.stand.v2 <- mon.stand.v2 %>%
   select(v2_row1 = `Stand Row 1`,
          v2_row2 = `Stand Row 2`, 
          damping_off = `Phytophthora (1-5)`)
+
+mon.stand <- bind_cols(mon.stand.vc, mon.stand.v2)
 
 
 str(mon.yield)
@@ -163,7 +109,7 @@ mon.yield <- mon.yield %>%
   rbind(rows.yield) %>% 
   arrange(sub_plot) 
 
-mon.var.trt.data <- read_excel(raw.files[11], sheet = 4) %>% 
+mon.var.trt.data <- read_excel(raw.files[13], sheet = 4) %>% 
   select(sub_plot = plot_name, 
          block = rep, 
          variety = var, 
@@ -204,7 +150,7 @@ orr.yield <- orr.yield %>%
   select(weight_lb = Weight, 
          moisture = Moisture)
 
-orr.info <- read_excel(raw.files[12], sheet = 4) %>% 
+orr.info <- read_excel(raw.files[14], sheet = 4) %>% 
   select(sub_plot = row_id)
 
 
@@ -249,7 +195,7 @@ urb.yield <- urb.yield %>%
   arrange(sub_plot)
 
 # add variety and treatment info
-urb.info <- read_excel(raw.files[13], sheet = 5) %>% 
+urb.info <- read_excel(raw.files[15], sheet = 5) %>% 
   select(sub_plot = plot_name, 
          block = rep, 
          variety = var,
@@ -286,7 +232,7 @@ multilocation_2017$variety <- str_replace_all(multilocation_2017$variety,
 write_csv(multilocation_2017, 
           path = here("output", 
                       "clean_data", 
-                      "2019-9-25_multilocation-2017_clean-data.csv")
+                      "02_field-trials_multilocation-2017_clean-data.csv")
           )
 ```
 
@@ -335,7 +281,7 @@ urbana_2018 <- bind_cols(urb.18.stand, urb.18.yield)
 write_csv(urbana_2018, 
           path = here("output", 
                       "clean_data", 
-                      "2019-9-25_urbana-2018_clean-data.csv")
+                      "02_field-trials_urbana-2018_clean-data.csv")
           )
 ```
 
@@ -360,11 +306,6 @@ iowa$treatment <- str_replace_all(iowa$treatment,
 write_csv(iowa, 
           path = here("output", 
                       "clean_data", 
-                      "2019-9-25_iowa-2018_clean-data.csv")
+                      "02_field-trials_iowa-2018_clean-data.csv")
           )
 ```
-
-
-
-
-

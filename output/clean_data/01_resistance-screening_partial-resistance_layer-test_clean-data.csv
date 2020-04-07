@@ -1,4 +1,4 @@
-line,rep,scale_dorrance,seedlings_alive,seedlings_dead
+line,rep,scale_dorrance,alive_seedlings,dead_seedlings
 LD07-3395bf,1,5,8,2
 LD11-10069,1,3,10,0
 LD11-7311,1,4.5,8,2

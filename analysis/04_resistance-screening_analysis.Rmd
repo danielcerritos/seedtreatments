@@ -1,0 +1,141 @@
+---
+title: "Resistance screening analysis"
+author: "Daniel Cerritos"
+date: "4/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r library}
+library(here)
+library(tidyverse)
+```
+
+## Import data
+
+```{r import screening data}
+(screening.data <- list.files(path = here("output", "clean_data"), 
+                         full.names = TRUE, pattern = "screening")
+ )
+
+layer.test <- read.csv(screening.data[1])
+tray.test <- read.csv(screening.data[2])
+rps.greenhouse <- read.csv(screening.data[3])
+rps.incubator <- read.csv(screening.data[4])
+```
+
+## Resistance gene (Rps) screening 
+
+```{r greenhouse trial}
+
+rps.greenhouse <- rps.greenhouse %>% 
+  filter(dai == "dai.10",            
+         !isolate == "OH28", # similar pathotype with OH25
+         !is.na(dead_seedlings), 
+         !is.na(total_seedlings)) %>% 
+  mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
+  group_by(isolate, line) %>% 
+  summarise(mean_incidence = mean(incidence)) %>% 
+  mutate(reaction = case_when(
+    mean_incidence >= 75 ~ "Susceptible", 
+    mean_incidence <= 25 ~ "Resistant", 
+    TRUE ~ "Intermediate")
+    )
+
+rps.greenhouse %>% 
+  ggplot(aes(x = reaction, fill = reaction)) +
+  geom_bar(alpha = 0.7 ) +
+  theme_classic() +
+  facet_wrap(~isolate) # to many intermediate reactions for OH7
+
+
+controls <- c("harlon", "harosoy", "williams79", 
+              "williams82", "williams", "harosoy62xx", "harosoy13xx")
+
+rps.greenhouse %>% 
+  filter(line %in% controls) %>% 
+  ggplot(aes(x = line, fill = reaction)) +
+  geom_bar(position = "dodge") +
+  facet_grid(~isolate, space = "free", scales = "free_x")
+
+
+
+```
+
+```{r rps discovery}
+# many susceptible reactions, seems most lines don't have a resistance gene
+# some intermediate reactions, probably contamination
+prueba <- rps.greenhouse %>% 
+  filter(!reaction == "Intermediate") %>% 
+  select(-mean_incidence)
+
+prueba %>% 
+  spread(isolate, reaction) %>% 
+  select(line, OH1, OH3, OH4, OH7, OH25)
+
+
+
+prueba %>% view()
+
+
+```
+
+
+
+
+
+
+
+## Partial resistance screening
+
+```{r layer test scores}
+str(layer.test)
+hist(layer.test$scale_dorrance) # most scores are b/w 4-7 (moderate to low levels)
+
+# mean for layer test and clasify as High, Moderate or Low based on the score mean
+mean.scores <- layer.test %>% 
+  group_by(line) %>% 
+  summarise(mean(scale_dorrance)) 
+
+mean.scores %>% 
+  rename(mean_score = `mean(scale_dorrance)`)%>% 
+  mutate(
+    pr_level = case_when(
+      mean_score <= 4 ~ "High", 
+      mean_score >= 6 ~ "Low", 
+      TRUE ~ "Moderate"
+    )
+  )
+```
+
+```{r tray test lesion}
+# Tray Test
+hist(tray.test$lesion_length.cm)  
+
+fm.tray.test <- lm(lesion_length.cm ~ line, data = tray.test) 
+summary(fm.tray.test) 
+
+plot(fm.tray.test) #data not normal
+trans <- boxcox(fm.tray.test) 
+trans$x[which.max(trans$y)]
+boxc.tran <- make.tran("boxcox", 0.2626)
+
+fm.tray.test<- with(boxc.tran, 
+                lm(linkfun(lesion_length.cm) ~ line, data = tray.test))
+summary(fm.tray.test) # differences in lesion length 
+
+mean.lesion <- emmeans(fm.tray.test, ~ line, type = "response") #obtain back-transformed emmmeans    
+mean.lesion %>% 
+  cld.emmGrid()
+
+# dunnetts to compare against moderately susceptible check (Williams)
+line.vs.will <- emmeans(fm.tray.test, trt.vs.ctrlk ~ line, type = "response")
+line.vs.will <- tidy(line.vs.will$contrasts)
+
+# compare against resistant check (L76-1988)
+line.vs.L76 <- emmeans(fm.tray.test, trt.vs.ctrlk ~ line, type = "response", ref = 1)
+line.vs.L76 <- tidy(line.vs.L76$contrasts)
+```
