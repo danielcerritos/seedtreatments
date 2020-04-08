@@ -35,52 +35,44 @@ rps.greenhouse <- rps.greenhouse %>%
   filter(dai == "dai.10",            
          !isolate == "OH28", # similar pathotype with OH25
          !is.na(dead_seedlings), 
-         !is.na(total_seedlings)) %>% 
+         !is.na(total_seedlings), 
+         !dead_seedlings == 0 & !total_seedlings == 0) 
+
+
+rps.greenhouse <- rps.greenhouse%>% 
   mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
   group_by(isolate, line) %>% 
-  summarise(mean_incidence = mean(incidence)) %>% 
+  summarise(mean_incidence = round(mean(incidence))) %>% 
   mutate(reaction = case_when(
-    mean_incidence >= 75 ~ "Susceptible", 
-    mean_incidence <= 25 ~ "Resistant", 
-    TRUE ~ "Intermediate")
+    mean_incidence >= 75 ~ "S", # susceptible reaction
+    mean_incidence <= 25 ~ "R", # resistant
+    TRUE ~ "I") # intermediate 
     )
 
 rps.greenhouse %>% 
   ggplot(aes(x = reaction, fill = reaction)) +
   geom_bar(alpha = 0.7 ) +
   theme_classic() +
-  facet_wrap(~isolate) # to many intermediate reactions for OH7
-
-
-controls <- c("harlon", "harosoy", "williams79", 
-              "williams82", "williams", "harosoy62xx", "harosoy13xx")
-
-rps.greenhouse %>% 
-  filter(line %in% controls) %>% 
-  ggplot(aes(x = line, fill = reaction)) +
-  geom_bar(position = "dodge") +
-  facet_grid(~isolate, space = "free", scales = "free_x")
-
-
-
+  facet_wrap(~isolate) # to many intermediate reactions for OH1
 ```
 
 ```{r rps discovery}
 # many susceptible reactions, seems most lines don't have a resistance gene
 # some intermediate reactions, probably contamination
+
+controls <- c("harlon", "harosoy", "williams79", 
+              "williams82", "williams", "harosoy62xx", 
+              "harosoy13xx", "sloan", "L83-570")
+
 prueba <- rps.greenhouse %>% 
-  filter(!reaction == "Intermediate") %>% 
   select(-mean_incidence)
 
-prueba %>% 
+prueba <- prueba %>% 
   spread(isolate, reaction) %>% 
-  select(line, OH1, OH3, OH4, OH7, OH25)
+  select(line, OH1, OH3, OH4, OH7, OH25) 
 
-
-
-prueba %>% view()
-
-
+prueba %>% 
+  filter(line %in% controls)
 ```
 
 
