@@ -165,31 +165,36 @@ rps.inc <- rps.inc %>%
 (rps.final <- bind_cols(rps.gh, rps.inc))
 ```
 
-Most of the results form the two trials match, with the exception of Rps1a  
+Most of the results form the two trials match, with the exception of Rps 1a  
 Lest check the intermediate results of those lines 
 
-```{r}
+```{r check rps1a}
+rps1a.lines <- rps.final %>% 
+  select(line, Rps) %>% 
+  filter(Rps == "Rps1a")
+
+inc.incidence %>% 
+  filter(line %in% rps1a.lines)
+```
+
+all lines have mix reactions that look like no rps or other gene, except LD12-8677
+reaction to OH3 is close to a susceptible reaction so I will assign Rps1a to this line
+
+```{r final rps}
+rps.final <- rps.final %>% 
+  mutate(rps = case_when(
+    Rps == "Rps1k" & Rps1 == "Rps 1k" ~ "Rps1k", 
+    Rps == "Rps1c" & Rps1 == "Rps 1c" ~ "Rps1c", 
+    line == "LD12-8677" ~ "Rps1a", 
+    TRUE ~ "rps")
+    )
+
+
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Partial resistance screening
+### Layer test
 
 ```{r layer test scores}
 str(layer.test)
