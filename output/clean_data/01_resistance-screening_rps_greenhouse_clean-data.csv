@@ -185,7 +185,6 @@ williams,rep1,dai.10,6,8,OH1
 williams,rep1,dai.5,6,8,OH1
 williams,rep2,dai.10,5,7,OH1
 williams,rep2,dai.5,5,7,OH1
-williams,rep3,dai.10,NA,8,OH1
 williams,rep3,dai.5,7,8,OH1
 harlon,rep2,dai.5,3,10,OH3
 harlon,rep3,dai.10,8,8,OH3
@@ -380,7 +379,6 @@ harlon,rep3,dai.10,6,6,OH4
 harlon,rep3,dai.5,3,6,OH4
 harosoy,rep1,dai.10,5,8,OH4
 harosoy,rep1,dai.5,4,8,OH4
-harosoy,rep3,dai.10,0,0,OH4
 LD02-4485,rep1,dai.10,7,10,OH4
 LD02-4485,rep1,dai.5,8,10,OH4
 LD02-4485,rep2,dai.10,6,8,OH4
@@ -575,7 +573,6 @@ harosoy,rep3,dai.10,10,10,OH7
 harosoy,rep3,dai.5,10,10,OH7
 harosoy62xx,rep2,dai.10,9,9,OH7
 harosoy62xx,rep2,dai.5,8,9,OH7
-harosoy62xx,rep3,dai.10,NA,0,OH7
 L83-570,rep2,dai.10,9,9,OH7
 L83-570,rep2,dai.5,9,9,OH7
 L83-570,rep3,dai.10,10,10,OH7
@@ -762,7 +759,6 @@ LD13-14071R2,rep3,dai.10,5,10,OH7
 LD13-14071R2,rep3,dai.5,5,10,OH7
 sloan,rep1,dai.10,6,6,OH7
 sloan,rep1,dai.5,5,6,OH7
-sloan,rep3,dai.10,NA,0,OH7
 harlon,rep1,dai.10,8,8,OH25
 harlon,rep1,dai.5,8,8,OH25
 harlon,rep2,dai.10,5,6,OH25
