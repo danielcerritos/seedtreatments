@@ -51,21 +51,21 @@ incidence.results <- rps.greenhouse %>%
   spread(isolate, mean_incidence) %>% 
   select(line, OH1, OH3, OH4, OH7, OH25, OH28) 
 
-controls <- c("harlon", "harosoy", "williams79", 
+gh.controls <- c("harlon", "harosoy", "williams79", 
               "williams82", "williams", "harosoy62xx", 
               "harosoy13xx", "sloan", "L83-570")
 
 reaction.results %>% 
-  filter(line %in% controls) 
+  filter(line %in% gh.controls) 
 ```
 
 overrall, checks are having a susceptible reaction
 OHR1 and OH28 resistant check was included and had the expected reaction
 
-```{r Rps discovery}
+```{r GH Rps discovery}
 # all lines are susceptible to OH25 (1a, 1b, 1c, 1k)
 (assign.rps <- reaction.results %>% 
-  filter(!line %in% controls) %>% 
+  filter(!line %in% gh.controls) %>% 
   mutate(Rps = case_when(
     OH1 == "S" ~ "rps",
     OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") ~ "Rps1c", 
@@ -83,7 +83,7 @@ with the exception of LD09-30224 and LD12-15129
 
 - Lets look the lines with a R reactions and no gene was asign 
 
-```{r rps discovery 2.0}
+```{r gh rps discovery 2.0}
 lines.R.OH1 <- assign.rps %>% 
   filter(OH1 == "R", is.na(Rps)) %>%
   select(line)
@@ -96,26 +96,81 @@ incidence.results %>%
 
 Although no consistent R reactions to assign a gene, I will asign one based on what is closer
 
-```{r final Rps genes}
-
+```{r gh final Rps genes}
 rps1a <- c("LD09-30224", "LD11-2170", "LD12-15246R2a")
-rps1c <- c("LD12-15129", "LD13-13334R1a")
+rps1c <- c("LD13-13334R1a", "LD12-15129R1a")
 rps1k <- c("LD11-13802R2", "LD11-7311")
 
-(final.gh.resutls <- reaction.results %>% 
-  filter(!line %in% controls) %>% 
+(rps.gh <- reaction.results %>% 
+  filter(!line %in% gh.controls) %>% 
   mutate(Rps = case_when(
-    OH1 == "S" | OH1 == "I" ~ "rps" ,
     OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") | line %in% rps1c ~ "Rps1c", 
     OH1 == "R" & (OH3 == "S" | OH4 == "S" | OH7 == "S") | line %in% rps1a ~ "Rps1a", 
+    OH1 == "S" | OH1 == "I" ~ "rps" ,
     line %in% rps1k ~ "Rps1k"))
 )
 ```
 
 ### Incubator trial: rag rolls 
 
+- Isolates 0H1, OH3 and OH4 were used to confirm presence of gene.
+- lines that were susceptible to OH1 were not inoculated with OH3 and OH4
 
+```{r incubator trial}
+rps.incubator <- rps.incubator %>% 
+  mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
+  group_by(isolate, line) %>% 
+  summarise(mean_incidence = round(mean(incidence))) %>% 
+  mutate(reaction = case_when(
+    mean_incidence >= 75 ~ "S", 
+    mean_incidence <= 25 ~ "R", 
+    TRUE ~ "I"
+  ))
 
+inc.reaction <- rps.incubator %>% 
+  select(-mean_incidence) %>% 
+  spread(isolate, reaction)
+
+inc.incidence <- rps.incubator %>% 
+  select(-reaction) %>% 
+  spread(isolate, mean_incidence)
+
+inc.controls <- c("Harlon (Rps1a)", "Harosoy (Rps7)", "Harosoy 13x (Rps1b)", 
+              "Harosoy 62XX (Rps6)", "Williams (rps)", "Williams 79 (Rps1c)")
+
+rps.inc <- inc.reaction %>%
+  filter(!line %in% inc.controls) %>% 
+  mutate(Rps = case_when(
+    OH1 == "R" & OH3 == "R" & (OH4 == "S" | OH4 == "I") ~ "Rps 1c", 
+    OH1 == "R" & OH3 == "S" & OH4 == "S" ~ "Rps 1a", 
+    OH1 == "R" & OH3 == "R" & OH4 == "R" ~ "Rps 1k", 
+    OH1 == "S" ~ "rps", 
+    TRUE ~ "rps")
+    )
+
+```
+
+Lets compare results from both trials and assign final Rps
+
+```{r compare rps trials }
+
+rps.gh <- rps.gh %>% 
+  select(line, Rps) %>% 
+  filter(!line %in% gh.controls)
+
+rps.inc <- rps.inc %>% 
+  select(line, Rps) %>% 
+  filter(!line %in% inc.controls)
+
+(rps.final <- bind_cols(rps.gh, rps.inc))
+```
+
+Most of the results form the two trials match, with the exception of Rps1a  
+Lest check the intermediate results of those lines 
+
+```{r}
+
+```
 
 
 
