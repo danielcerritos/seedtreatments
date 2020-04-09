@@ -36,7 +36,7 @@ rps.rolls.path <- here("data", "Hypocotyl_Ragdolls.xlsx") # rag rolls in incubat
 rps.rolls <- rps.rolls.path %>% 
   excel_sheets() %>% 
   set_names() %>% 
-  map_df(~ read_excel (path = rps.rolls.path), .id = "sheet")
+  map(read_excel, path = rps.rolls.path)
 
 
 # Partial resistance 
@@ -113,6 +113,11 @@ rps.gh$line <- str_replace_all(rps.gh$line,
                                  "williams 82" = "williams82", 
                                  "wiliams79" = "williams79")
                                )
+rps.gh <- rps.gh %>% 
+  filter(!is.na(dead_seedlings), 
+         !is.na(total_seedlings), 
+         !(dead_seedlings == 0 & total_seedlings == 0))
+
 
 write_csv(rps.gh, path = here("output", 
                               "clean_data", 
@@ -122,30 +127,48 @@ write_csv(rps.gh, path = here("output",
 
 ```{r rps incubator}
 # second experiment: Rag rolls in incubator 
+rolls.race1 <- rps.rolls$`Race 1` %>% 
+  mutate(isolate = "OH1") %>% 
+  select(isolate, REP, LINE, DEAD, TOTAL) %>% 
+  filter(!is.na(REP))
+
+lines.race1 <- rolls.race1 %>% 
+  filter(!is.na(LINE))
+
+lines.race1 <- lines.race1$LINE
+
+lines.race1 <- rep(lines.race1, each = 3) # only the first rep has the line name
+
+rolls.race1$LINE <- lines.race1
+
+rolls.race4 <- rps.rolls$`Race 4` %>% 
+  mutate(isolate = "OH4") %>% 
+  select(isolate, REP, LINE, DEAD, TOTAL)
+
+rolls.race3 <- rps.rolls$`Race 3` %>% 
+  mutate(isolate = "OH3") %>% 
+  select(isolate, REP, LINE, DEAD, TOTAL) %>% 
+  filter(!is.na(DEAD))
+
+rps.rolls <- rbind(rolls.race3, rolls.race4)
+
+lines <- rps.rolls %>% 
+  filter(!is.na(LINE))
+
+lines <- lines$LINE
+
+lines <- rep(lines, each = 3)
+
+rps.rolls$LINE <- lines
+
+rps.rolls <- rbind(rolls.race1, rps.rolls)
+
 rps.rolls <- rps.rolls %>% 
-  select(isolate_pathotype = sheet, 
-         rep = REP, 
+  rename(rep = REP, 
          line = LINE, 
          dead_seedlings = DEAD, 
          total_seedlings = TOTAL) %>% 
-  filter(!is.na(rep))
-
-lines <- rps.rolls %>% 
-  filter(!is.na(line)) %>% 
-  select(line)
-
-lines <- lines$line
-
-lines <- rep(lines, each = 3) # only the first rep has the line name
-
-rps.rolls$line <- lines
-
-rps.rolls <- rps.rolls %>% 
-  mutate(isolate_pathotype = case_when(
-     isolate_pathotype == "Race 1" ~ "OH1", 
-    isolate_pathotype == "Race 3" ~ "OH3", 
-    isolate_pathotype == "Race 4" ~ "OH4")
-    )
+  filter(!is.na(dead_seedlings))
 
 write_csv(rps.rolls, path = here("output", 
                               "clean_data", 
