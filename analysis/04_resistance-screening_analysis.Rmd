@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r library}
+```{r library, warning=FALSE, message=FALSE}
 library(here)
 library(tidyverse)
 ```
@@ -18,8 +18,7 @@ library(tidyverse)
 
 ```{r import screening data}
 (screening.data <- list.files(path = here("output", "clean_data"), 
-                         full.names = TRUE, pattern = "screening")
- )
+                         full.names = TRUE, pattern = "screening"))
 
 layer.test <- read.csv(screening.data[1])
 tray.test <- read.csv(screening.data[2])
@@ -29,51 +28,105 @@ rps.incubator <- read.csv(screening.data[4])
 
 ## Resistance gene (Rps) screening 
 
+### Greenhouse trial
+
 ```{r greenhouse trial}
-
 rps.greenhouse <- rps.greenhouse %>% 
-  filter(dai == "dai.10",            
-         !isolate == "OH28", # similar pathotype with OH25
-         !is.na(dead_seedlings), 
-         !is.na(total_seedlings), 
-         !dead_seedlings == 0 & !total_seedlings == 0) 
-
-
-rps.greenhouse <- rps.greenhouse%>% 
+  filter(dai == "dai.10") %>% 
   mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
   group_by(isolate, line) %>% 
   summarise(mean_incidence = round(mean(incidence))) %>% 
   mutate(reaction = case_when(
     mean_incidence >= 75 ~ "S", # susceptible reaction
     mean_incidence <= 25 ~ "R", # resistant
-    TRUE ~ "I") # intermediate 
-    )
+    TRUE ~ "I")) # intermediate 
 
-rps.greenhouse %>% 
-  ggplot(aes(x = reaction, fill = reaction)) +
-  geom_bar(alpha = 0.7 ) +
-  theme_classic() +
-  facet_wrap(~isolate) # to many intermediate reactions for OH1
-```
+reaction.results <- rps.greenhouse %>% 
+  select(-mean_incidence) %>% 
+  spread(isolate, reaction) %>% 
+  select(line, OH1, OH3, OH4, OH7, OH25, OH28) 
 
-```{r rps discovery}
-# many susceptible reactions, seems most lines don't have a resistance gene
-# some intermediate reactions, probably contamination
+incidence.results <- rps.greenhouse %>% 
+  select(-reaction) %>% 
+  spread(isolate, mean_incidence) %>% 
+  select(line, OH1, OH3, OH4, OH7, OH25, OH28) 
 
 controls <- c("harlon", "harosoy", "williams79", 
               "williams82", "williams", "harosoy62xx", 
               "harosoy13xx", "sloan", "L83-570")
 
-prueba <- rps.greenhouse %>% 
-  select(-mean_incidence)
-
-prueba <- prueba %>% 
-  spread(isolate, reaction) %>% 
-  select(line, OH1, OH3, OH4, OH7, OH25) 
-
-prueba %>% 
-  filter(line %in% controls)
+reaction.results %>% 
+  filter(line %in% controls) 
 ```
+
+overrall, checks are having a susceptible reaction
+OHR1 and OH28 resistant check was included and had the expected reaction
+
+```{r Rps discovery}
+# all lines are susceptible to OH25 (1a, 1b, 1c, 1k)
+(assign.rps <- reaction.results %>% 
+  filter(!line %in% controls) %>% 
+  mutate(Rps = case_when(
+    OH1 == "S" ~ "rps",
+    OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") ~ "Rps1c", 
+    OH1 == "R" & OH3 == "R" & OH4 == "R" & OH7 == "R" ~ "Rps1k", 
+    OH1 == "R" & (OH3 == "S" | OH4 == "S" | OH7 == "S") ~ "Rps1a")
+    ))
+```
+
+- many intermediate reactions to be able to assign a Rps gene  
+
+- most lines with an intermediate reaction to OH1 are susceptible to at least 3 other isolates  
+with the exception of LD09-30224 and LD12-15129
+
+- I will assign no resistance gene to these lines except to the mention above
+
+- Lets look the lines with a R reactions and no gene was asign 
+
+```{r rps discovery 2.0}
+lines.R.OH1 <- assign.rps %>% 
+  filter(OH1 == "R", is.na(Rps)) %>%
+  select(line)
+
+lines.R.OH1 <- lines.R.OH1$line
+
+incidence.results %>% 
+  filter(line %in% lines.R.OH1)
+```
+
+Although no consistent R reactions to assign a gene, I will asign one based on what is closer
+
+```{r final Rps genes}
+
+rps1a <- c("LD09-30224", "LD11-2170", "LD12-15246R2a")
+rps1c <- c("LD12-15129", "LD13-13334R1a")
+rps1k <- c("LD11-13802R2", "LD11-7311")
+
+(final.gh.resutls <- reaction.results %>% 
+  filter(!line %in% controls) %>% 
+  mutate(Rps = case_when(
+    OH1 == "S" | OH1 == "I" ~ "rps" ,
+    OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") | line %in% rps1c ~ "Rps1c", 
+    OH1 == "R" & (OH3 == "S" | OH4 == "S" | OH7 == "S") | line %in% rps1a ~ "Rps1a", 
+    line %in% rps1k ~ "Rps1k"))
+)
+```
+
+### Incubator trial: rag rolls 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
