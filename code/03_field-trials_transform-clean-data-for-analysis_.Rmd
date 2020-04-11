@@ -17,18 +17,20 @@ library(here)
 ## Load data
 
 ```{r load data}
-(files <- list.files(path = here("output", "clean_data"), full.names = TRUE))
+files <- list.files(path = here("output", "clean_data"), 
+                     full.names = TRUE, 
+                     pattern = "field-trials")
 
-multilocation_2017 <- read_csv(files[4])
-urbana_2018 <- read_csv(files[5])
-iowa <- read_csv(files[3])
+multilocation_2017 <- read_csv(files[2])
+urbana_2018 <- read_csv(files[3])
+iowa <- read_csv(files[1])
 ```
 
 ## Eliminate observations
 
 ```{r wrong observations}
 # eliminate data because they had weigth errors
-multilocation_2017[c(12, 20), c(11, 12)] <- NA
+multilocation_2017[c(76, 84), c(12, 13)] <- NA
 iowa[1, 18] <- NA
 
 # no other 1a variety for comparison and we did not used in 2018 either 
@@ -40,7 +42,7 @@ multilocation_2017 <- multilocation_2017 %>%
 # there are to high, probably error when writing
 multilocation_2017[which(multilocation_2017$variety == "LD10-10219" & 
                            multilocation_2017$location == "Monmouth"), 
-                   c("stand.VC_row2", "stand.V2_row2") ] <- NA
+                   c("vc_row2", "v2_row2") ] <- NA
 
 ```
 
@@ -57,11 +59,15 @@ multilocation_2017[which(multilocation_2017$variety == "LD10-10219" &
 multilocation_2017 <- multilocation_2017 %>% 
   rowwise() %>% 
   mutate(vc_plants.m2 = mean(c(vc_row1, vc_row2), na.rm = TRUE),
-         v2_plants.m2 = mean(c(v2_row1, v2_row2), na.rm = TRUE)
+         v2_plants.m2 = mean(c(v2_row1, v2_row2), na.rm = TRUE,), 
+         r8_plants.m2 = mean(c(r8_row1, r8_row2))
          ) %>% 
   mutate(vc_plants.m2 = round((vc_plants.m2/0.762)), 
-         v2_plants.m2 = round((v2_plants.m2/0.762))
+         v2_plants.m2 = round((v2_plants.m2/0.762)), 
+         r8_plants.m2 = round((r8_plants.m2/0.762))
          )
+
+multilocation_2017
 
 # yield for Monmouth and Urbana, they both had 5.1 m (17 ft) long rows
 mon.urb.yield <- multilocation_2017 %>%
