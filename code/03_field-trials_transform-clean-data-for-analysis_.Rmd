@@ -14,8 +14,6 @@ library(tidyverse)
 library(here)
 ```
 
-## Load data
-
 ```{r load data}
 files <- list.files(path = here("output", "clean_data"), 
                      full.names = TRUE, 
@@ -29,7 +27,7 @@ iowa <- read_csv(files[1])
 ## Eliminate observations
 
 ```{r wrong observations}
-# eliminate data because they had weigth errors
+# weigth errors
 multilocation_2017[c(76, 84), c(12, 13)] <- NA
 iowa[1, 18] <- NA
 
@@ -38,7 +36,7 @@ iowa[1, 18] <- NA
 multilocation_2017 <- multilocation_2017 %>% 
   filter(!variety == "LD12-8677")
 
-# eliminate row 2 from variety LD10-10219 in Monmouth because the stand counts in those rows are strange
+# stand counts in those rows are strange
 # there are to high, probably error when writing
 multilocation_2017[which(multilocation_2017$variety == "LD10-10219" & 
                            multilocation_2017$location == "Monmouth"), 
@@ -47,8 +45,7 @@ multilocation_2017[which(multilocation_2017$variety == "LD10-10219" &
 ```
 
 ## Transform multilocation 2017 data
-- Stand count from multilocation field trials in 2017 was measured in 1 m segments in the two central rows
-- I would transform stand count into plants/m2 by averaging the number of plants in the two rows and then divide by the area
+- transform into plants/m2 by averaging the number of plants in the two rows and then divide by the area
 - row width was 0.76 m and segment measured was 1 m for 2017 data, area = 0.76 m2  
 - yield (bu/acre) would be calculated based on the moisture and weight (lb) 
 - formula comes from one of the combines 
@@ -66,8 +63,6 @@ multilocation_2017 <- multilocation_2017 %>%
          v2_plants.m2 = round((v2_plants.m2/0.762)), 
          r8_plants.m2 = round((r8_plants.m2/0.762))
          )
-
-multilocation_2017
 
 # yield for Monmouth and Urbana, they both had 5.1 m (17 ft) long rows
 mon.urb.yield <- multilocation_2017 %>%
@@ -87,7 +82,7 @@ multilocation_2017 <- rbind(mon.urb.yield, orr.yield)
 ```
 
 ## Transform Urbana and Iowa 2018 data
-- Urbana and Boone 2018 stand count was measured in 3.048 m segments (10 ft were flagged). 
+- stand count was measured in 3.048 m segments (10 ft were flagged). 
 - row width was 0.76 m and segment measured was 3.048 m for 2018 
 - area = 2.31648
 - results from combine for 2018 already had yield (bu/acre) so I multiplied by 62.77 to transform to kg/ha
