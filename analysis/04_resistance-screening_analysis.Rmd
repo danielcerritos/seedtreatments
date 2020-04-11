@@ -252,5 +252,3 @@ screening.final <- bind_cols(rps.final, mean.score, lesion.cm) %>%
 write_csv(screening.final, path = here("output", "results", 
                                        "04_resistance-screening_final-results.csv"))
 ```
-
-
