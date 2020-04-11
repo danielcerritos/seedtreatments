@@ -143,7 +143,7 @@ iowa <- whole.plot(iowa)
 ```
 
 ```{r select columns fro analysis}
-multilocation <- multilocation_2017 %>% 
+multilocation_2017 <- multilocation_2017 %>% 
   select(location, whole_plot, block, 
          variety, treatment, vc_plants.m2,
          v2_plants.m2, r8_plants.m2, yield_kg.ha)
