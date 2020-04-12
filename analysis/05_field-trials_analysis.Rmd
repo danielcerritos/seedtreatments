@@ -145,6 +145,7 @@ varieties.
 emmeans(fm.mon.yield, ~ variety) %>% 
   cld.emmGrid()
 ```
+
 ```{r add resistance info, fig.width=11, fig.height=4}
 #function to add resistance information (Rps and partial resistance levels) for figures
 resistance_info <- function(dataf) {
@@ -201,7 +202,6 @@ custom_contrasts <- function(lsmeans){
     "t.Moderate - c.Moderate" = c(0, rep(-0.25, 4), rep(0, 3), rep(0.25, 4), 0, 0), 
     "t.Low - c.Low" = c(rep(0, 5), -1, rep(0, 6), 1, 0)
   )
-    
   cus.con1 <- contrast(lsmeans, cons.1, adjust = "mvt") # adjustment for mutiple testing
   cus.con2 <- contrast(lsmeans, cons.2, adjust = "mvt") 
   l <- c(cus.con1, cus.con2)
@@ -227,89 +227,21 @@ I would do another contrast comparing yields between levels of PR. Rps
 didn't seem to perform better than rps, but high PR seem to perform better.
 
 ```{r pr level monmouth}
+pr_contrast <- function(lsmean){
+  cons.3 <- list(
+  "High - Low" = c(0.5, 0, 0, 0, 0, -1, 0.5),
+  "High - Moderate" = c(0.5, -0.25, -0.25, -0.25, -0.25, 0, 0.5),
+  "Moderate - Low" = c(0, 0.25, 0.25, 0.25, 0.25, -1, 0)
+  )
+  cus.con.3 <- contrast(lsmean, cons.3, adjust = "mvt")
+  conf_con <- summary(cus.con.3, infer = TRUE)
+  df_con <- as.data.frame(conf_con)
+  df_con
+}
 
-
-
+emmeans(fm.mon.yield, ~ variety) %>% 
+  pr_contrast()
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Treatment effect by Rps
-```{r monmouth contrasts}
-# estimate means 
-m.mon.vc <- emmeans(fm.mon.vc, ~ variety:treatment) 
-m.mon.yield <- emmeans(fm.mon.yield, ~ variety:treatment)
-
-# make vectors that represent each specific contrasts 
-cons.1 <- list(
-  "t.rps - c.rps" = c(-0.5, -0.5, rep(0, 5), 0.5, 0.5, rep(0, 5)),
-  "t.Rps1c - c.Rps1c" = c(0, 0, -1/3, 0, 0, -1/3, -1/3, 0, 0, 1/3, 0, 0, 1/3, 1/3),
-  "t.Rps1k - c.Rps1k" = c(rep(0, 3), -0.5, -0.5, rep(0, 5), 0.5, 0.5, 0, 0)
-)
-
-
-
-
-
-
-
-rps.mon.vc <- contrast(m.mon.vc, cons.1, adjust = "mvt") %>%
-  summary(infer = TRUE) %>%  # get confidence intervals and p-values
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "VC")
-
-rps.mon.yield <- contrast(m.mon.yield, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>%  
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "Yield")
-
-
-
-
-
-
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #### Orr
 
