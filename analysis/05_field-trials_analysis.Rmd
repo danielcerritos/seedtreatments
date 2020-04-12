@@ -9,9 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, 
                       fig.align = "center",
                       dev = "png",
-                      cache = FALSE,
-                      fig_width = 8,
-                      fig_height = 6)
+                      cache = FALSE, 
+                      message = FALSE)
+
+theme_set(theme_bw())
 ```
 
 ```{r library, message=FALSE}
@@ -24,52 +25,84 @@ library(multcompView)
 library(broom) 
 library(cowplot) 
 library(ggResidpanel)
-library(readxl)
-library(MASS)
-library(ggpubr)
 ```
 
 ## Import data files  
-
 ```{r import field trials data}
 (seed.treatments.data <- list.files(path = here("output", "transform_data"), 
-                         full.names = TRUE)
-  )
-multilocation_2017 <- read.csv(seed.treatments.data[[2]]) 
-urbana_2018 <- read.csv(seed.treatments.data[[3]])
+                         full.names = TRUE))
+  
+illinois.2017 <- read.csv(seed.treatments.data[[2]]) 
+urbana.2018 <- read.csv(seed.treatments.data[[3]])
 iowa <- read.csv(seed.treatments.data[[1]])
 ```
 
 ## Multilocation field trials 2017 
-- Fit mixed model for 2017 field trials
 
-```{r fit model 2017}
+Fit mixed model for 2017 field trials
 
-
+```{r model vc 2017, results='asis'}
 illinois.2017$block <- as.factor(illinois.2017$block) # set block as factor
 
-fm.illinois.vc <- lmer(stand.vc ~ location*variety*treatment + (1|block:location) + (1|whole_plot), data = illinois.2017)
-fm.illinois.v2 <- lmer(stand.v2 ~ location*variety*treatment + (1|block:location) + (1|whole_plot), data = illinois.2017)
-fm.illinois.yield <- lmer(yield.kg_ha ~ location*variety*treatment + (1|block:location) + (1|whole_plot), data = illinois.2017)
+fm.illinois.vc <- lmer(vc_plants.m2 ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
+                       data = illinois.2017)
+anova(fm.illinois.vc) %>% 
+  knitr::kable(digits = 4)
 
-anova(fm.illinois.vc) 
-a.2 <- anova(fm.illinois.v2) %>% 
-  tidy()
-a.3 <- anova(fm.illinois.yield)%>% 
-  tidy()
 ```
 
-```{r treatment means}
-emmeans(fm.illinois.vc, pairwise ~ treatment) # increase of 12.88%
-emmeans(fm.illinois.v2, pairwise ~ treatment) # increase of 8.22%
-emmeans(fm.illinois.yield, pairwise ~ treatment) # increase of 0.56%
+The treatment effect is significant and no interaction between the seed treatment and varieties.
+
+```{r vc means, fig.height=2, fig.width=6}
+emmeans(fm.illinois.vc,  ~ treatment) %>% # increase of 12.88%
+  plot(comparisons = TRUE)
 ```
+
+There is a significant difference in stand at VC between the seed treatment (intego) and the untreatreated control.  
+Bars are confidence intervals and arrows are for comparisons. Arrows that overlap are not significant different. 
+
+```{r model v2 2017, message=F}
+fm.illinois.v2 <- lmer(v2_plants.m2 ~ location*variety*treatment + (1|block:location) + (1|whole_plot), data = illinois.2017)
+anova(fm.illinois.v2)%>% 
+  knitr::kable(digits = 4)
+```
+
+```{r v2 means 2017, fig.height=2, fig.width=6}
+emmeans(fm.illinois.v2, pairwise ~ treatment) %>%   # increase of 8.22%
+  plot(comparisons = TRUE)
+
+```
+
+Stand is also significantly increased with the seed treatment at V2. 
+
+```{r model yield 2017}
+fm.illinois.yield <- lmer(yield_kg.ha ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
+                          data = illinois.2017)
+anova(fm.illinois.yield) %>% 
+  knitr::kable(digits = 4)
+```
+
+Yield was not significantly increased with the seed treatment.
+
+```{r yield mean 2017, fig.height=2, fig.width=6}
+
+emmeans(fm.illinois.yield, pairwise ~ treatment) %>% 
+  plot(comparisons = TRUE)
+```
+
+Location and variety by location interaction were significant factors in the three varibles measured.  
+An analysis by location would be made to see if the location favors specific varieties.
 
 ```{r 2017 data by location}
-# analysis by location 
+# change whole_plot column by removing location nested in block
+whole.plot <- function(data){
+  data %>% 
+    mutate(whole_plot = paste(block, variety, sep = ":"))
+}
+
 monmouth <- illinois.2017 %>% 
   filter(location == "Monmouth") %>% 
-  whole.plot() # change whole_plot column by removing location nested in block
+  whole.plot() 
 
 orr <- illinois.2017 %>% 
   filter(location == "Orr") %>% 
@@ -81,36 +114,54 @@ urbana <- illinois.2017 %>%
 ```
 
 ```{r fit models monmouth}
-fm.mon.vc <- lmer(stand.vc ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
-fm.mon.v2 <- lmer(stand.v2 ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
-fm.mon.yield <- lmer(yield.kg_ha ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.vc <- lmer(vc_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.v2 <- lmer(v2_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), data = monmouth)
 
-anova(fm.mon.vc)  
-anova(fm.mon.v2) 
-anova(fm.mon.yield) 
+anova(fm.mon.vc) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at VC in Monmouth")
+anova(fm.mon.v2)  %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at V2 in Monmouth")
+anova(fm.mon.yield)  %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for yield in Monmouth")
 ```
+
+Similar results in Monmouth as the multilocation analysis. Seed treatment increased stand at VC and V2, but  
+no effect on yield. Variety is a significant factor for VC and yield, but nor for stand at V2.
 
 ```{r fit models orr}
-fm.orr.vc <- lmer(stand.vc ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
-fm.orr.v2 <- lmer(stand.v2 ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
-fm.orr.yield <- lmer(yield.kg_ha ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.vc <- lmer(vc_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.v2 <- lmer(v2_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), data = orr)
 
-anova(fm.orr.vc) 
-anova(fm.orr.v2) 
-anova(fm.orr.yield) 
+anova(fm.orr.vc) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at VC in Orr")
+anova(fm.orr.v2) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at V2 in Orr")
+anova(fm.orr.yield) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for yield in Orr")
 ```
 
+Same as Monmouth, the seed treatment is significant for stand, but not for yield.  
+Variety is significant for VC and yield.
+ 
 ```{r fit models urbana}
-fm.urb.vc <- lmer(stand.vc ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
-fm.urb.v2 <- lmer(stand.v2 ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
-fm.urb.yield <- lmer(yield.kg_ha ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.vc <- lmer(vc_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.v2 <- lmer(v2_plants.m2 ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), data = urbana)
 
-anova(fm.urb.vc) 
-anova(fm.urb.v2) 
-anova(fm.urb.yield) 
+anova(fm.urb.vc)%>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at VC in Urbana")
+anova(fm.urb.v2) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for stand at V2 in Urbana")
+anova(fm.urb.yield) %>% 
+  knitr::kable(digits = 4, caption = "ANOVA for yield in Monmouth")
 ```
 
-```{r diagnostic plots}
+Significant interaction between seed treatment and variety at VC.  
+Variety is significant for VC and yield.
+
+```{r diagnostic plots, results= "hide"}
 # diagnostic plots to check on model assumptions 
 models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
                     fm.orr.vc, fm.orr.v2, fm.orr.yield,
@@ -118,49 +169,121 @@ models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield,
 map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance
 ```
 
-## Estimate marginal means for fitted models
-- will focus on VC and 
--response of varieties to seed treatmet at VC and Yield 
+## Estimate marginal means (LS means) for fitted models
 
-```{r means monmouth}
-#monmouth 
-#VC
-emmeans(fm.mon.vc, pairwise~treatment) # 10.23%
+I will focus in VC and yield because variety was significant for these two variables  
+and a significant interaction was observed at VC for Urbana.
+
+### Monmouth 
+
+Seed treatment was significant factor for stant at VC. Lets look what varieties had  
+a significant variety.
+```{r vc monmouth, fig.height= 9.5, fig.width=6}
 emmeans(fm.mon.vc, ~ treatment|variety) %>% 
-  cld.emmGrid() # only one variety had significant increas in stand
-
-#Yield
-emmeans(fm.mon.yield, pairwise~treatment) # 0.13%
-emmeans(fm.mon.yield, ~ treatment|variety) %>% 
-  cld.emmGrid() 
+  plot(comparisons =TRUE) 
 ```
 
-```{r means orr}
-#orr
-#VC
-emmeans(fm.orr.vc, pairwise~ treatment) # 18.14%
+Only one variety (LD11-10069) had significant difference bewteen the seed treatment and the control in Monmouth.
+
+```{r add resistance info}
+#function to add resistance information (Rps and partial resistance levels) for figures
+resistance_info <- function(dataf) {
+  rps <- c("LD07-3395bf","LD10-10219","LD13-13478R1a")
+  rps1k <- c("LD11-13802R2", "LD11-7311", "H2512NX", "H2862NX")
+  low <- c("LD12-15064R1a", "LD12-15129R1a", "LD13-13478R1a", "LD12-15156R1a")
+  high <- c("LD07-3395bf", "LD13-14071R2", "C2888RX", "C3140RX")
+  
+  dataf %>% 
+    mutate(
+      rps = case_when(
+        variety %in% rps ~ "rps",
+        variety %in% rps1k ~ "Rps1k",
+        TRUE ~ "Rps1c"),
+      pr_level = case_when(
+        variety %in% low ~ "Low",
+        variety %in% high  ~ "High",
+        TRUE ~ "Moderate"))
+}
+```
+
+No effect of seed treatment was observed for yield, but a significant effect of variety was observed.
+Lets look what varieties had higher yield. No significant interaction was observed so combine  
+yield means from both would be included. 
+```{r yield monmouth, fig.width=11, fig.height=4}
+m.mon.yield <- emmeans(fm.mon.yield, ~ variety)
+m.mon.yield %>% 
+  cld.emmGrid()
+
+m.mon.yield %>% 
+  tidy() %>% 
+  resistance_info() %>% 
+  ggplot(aes(x = variety, y = estimate, color = pr_level)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
+  facet_grid(~ rps, scales = "free_x") 
+```
+Varieties with no resistance gene (rps) have higher yields in Monmouth.  
+Variety with low levels of partial resistance has lower yield.
+
+### Orr
+
+```{r vc orr, fig.height= 9.5, fig.width=6}
 emmeans(fm.orr.vc, ~ treatment|variety) %>% 
-  cld.emmGrid() # only one variety
-
-#Yield
-emmeans(fm.orr.yield, pairwise ~ treatment) # 0.85%
-emmeans(fm.orr.yield, ~ treatment|variety) %>% 
-  cld.emmGrid() 
+  plot(comparisons =TRUE) 
 ```
 
-```{r means Urbana}
-# urbana
-# VC
-emmeans(fm.urb.vc, pairwise ~ treatment) # 11.18
-emmeans(fm.urb.vc, ~ treatment|variety) %>% 
-  cld.emmGrid() # most varieties, except two 1c varieties
+Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.
 
+No significant seed treatment effect for yield. Interaction was also non-significant.
+```{r yield orr, fig.width=11, fig.height=4}
+m.orr.yield <- emmeans(fm.orr.yield, ~ variety) 
+m.orr.yield %>% 
+  cld.emmGrid()
+
+m.orr.yield %>% 
+  tidy() %>% 
+  resistance_info() %>% 
+  ggplot(aes(x = variety, y = estimate, color = pr_level)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width =0) +
+  facet_grid(~ rps, scales = "free_x")
+```
+A variety with no resistance gene had the higher yield in Orr.  
+Varieties with higher levels have higher yields.
+
+### Urbana
+
+A significant interaction was observed for VC in Urbana.
+```{r interaction urbana, fig.width=8, fig.height=4}
+emmip(fm.urb.vc, treatment ~ variety)
+```
+
+
+
+
+
+
+
+
+
+
+
+```{r vc urbana}
+emmeans(fm.urb.vc, ~ treatment|variety) %>% 
+  plot(comparisons =)
+
+
+```
+
+
+
+```{r yield urbana}
 # Yield
 emmeans(fm.urb.yield, pairwise ~ treatment) # 0.61%
 emmeans(fm.urb.yield, ~ treatment|variety) %>% 
   cld.emmGrid()
-
 ```
+
 
 ## Custom contrasts 
 - group varieties by type of resistance gene(rps/1c/1k) and partial resistance level
@@ -550,24 +673,6 @@ write_csv(contrasts.2018, path = here("Results", "Contrasts_2018.csv"))
 
 ## Figures
 
-```{r add resistance info}
-#function to add resistance information (Rps and partial resistance levels) for figures
-resistance <- function(st) {
-  st %>% 
-    mutate(
-      Rps =case_when(
-        variety %in% c("LD07-3395bf","LD10-10219","LD13-13478R1a") ~ "rps",
-        variety %in% c("LD11-13802R2", "LD11-7311", "H2512NX", "H2862NX") ~ "Rps1k",
-        TRUE ~ "Rps1c"
-      ),
-      PR = case_when(
-        variety %in% c("LD12-15064R1a", "LD12-15129R1a", "LD13-13478R1a", "LD12-15156R1a") ~ "Low",
-        variety %in% c("LD07-3395bf", "LD13-14071R2", "C2888RX", "C3140RX") ~ "High",
-        TRUE ~ "Moderate"
-      )
-    )
-}
-```
 
 ```{r stand means figure}
 # figure to see stand means by variety
