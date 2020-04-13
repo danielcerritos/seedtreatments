@@ -118,7 +118,6 @@ fm.mon.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
                   data = monmouth)
 fm.mon.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
                      data = monmouth)
-
 anova(fm.mon.vc) 
 anova(fm.mon.v2)
 anova(fm.mon.yield) 
@@ -144,35 +143,6 @@ varieties.
 ```{r yield monmouth}
 emmeans(fm.mon.yield, ~ variety) %>% 
   cld.emmGrid()
-```
-
-```{r add resistance info, fig.width=11, fig.height=4}
-#function to add resistance information (Rps and partial resistance levels) for figures
-resistance_info <- function(dataf) {
-  rps <- c("LD07-3395bf","LD10-10219","LD13-13478R1a")
-  rps1k <- c("LD11-13802R2", "LD11-7311", "H2512NX", "H2862NX")
-  low <- c("LD12-15064R1a", "LD12-15129R1a", "LD13-13478R1a", "LD12-15156R1a")
-  high <- c("LD07-3395bf", "LD13-14071R2", "C2888RX", "C3140RX")
-  
-  dataf %>% 
-    mutate(
-      rps = case_when(
-        variety %in% rps ~ "rps",
-        variety %in% rps1k ~ "Rps1k",
-        TRUE ~ "Rps1c"),
-      pr_level = case_when(
-        variety %in% low ~ "Low",
-        variety %in% high  ~ "High",
-        TRUE ~ "Moderate"))
-}
-
-emmeans(fm.mon.yield, ~ variety) %>% 
-  tidy() %>% 
-  resistance_info() %>% 
-  ggplot(aes(x = variety, y = estimate, color = pr_level)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
-  facet_grid(~ rps, scales = "free_x") 
 ```
 
 Varieties with Rps don't seem to perform better than varieties with no  
@@ -215,7 +185,7 @@ custom_contrasts <- function(lsmeans){
 
 Keep focusing only in stand VC and yield.
 
-```{r contrast monmouth}
+```{r effect monmouth}
 custom_contrasts(m.mon.vc)
 custom_contrasts(m.mon.yield)
 ```
@@ -243,8 +213,7 @@ emmeans(fm.mon.yield, ~ variety) %>%
   pr_contrast()
 ```
 
-#### Orr
-
+### Orr
 
 ```{r fit models orr}
 fm.orr.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
@@ -253,11 +222,50 @@ fm.orr.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
                   data = orr)
 fm.orr.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
                      data = orr)
-
 anova(fm.orr.vc) 
 anova(fm.orr.v2) 
 anova(fm.orr.yield) 
 ```
+
+#### Treatment comparison by variety 
+
+```{r vc orr, fig.height = 9.5, fig.width = 6}
+emmeans(fm.orr.vc, ~ treatment|variety) %>% 
+  plot(comparisons =TRUE) 
+```
+
+Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.
+
+#### Yield by variety
+
+```{r yield orr}
+emmeans(fm.orr.yield, ~ variety) %>% 
+  cld.emmGrid() 
+```
+
+Same as Monmouth, variety with no resistance gene has the higher yield.
+
+#### Contrasts
+
+```{r effect orr}
+emmeans(fm.orr.vc, ~ variety:treatment) %>% 
+  custom_contrasts()
+
+emmeans(fm.orr.yield, ~ variety:treatment) %>% 
+  custom_contrasts()
+```
+
+Rps1k had a significant difference at VC and differences for moderate and low.  
+No significant differences for yield.
+
+```{r pr level orr}
+emmeans(fm.orr.yield, ~ variety) %>% 
+  pr_contrast()
+```
+
+High PR has higher yields than both moderate and low. 
+
+### Urbana
 
 ```{r fit models urbana}
 fm.urb.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
@@ -266,50 +274,22 @@ fm.urb.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
                   data = urbana)
 fm.urb.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot),
                      data = urbana)
-
 anova(fm.urb.vc)
 anova(fm.urb.v2) 
 anova(fm.urb.yield) 
 ```
 
-```{r diagnostic plots, results= "hide"}
-# diagnostic plots to check on model assumptions 
-models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
-                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
-                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
-map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance
-```
 
 
 
 
 ### Orr
 
-```{r vc orr, fig.height= 9.5, fig.width=6}
-emmeans(fm.orr.vc, ~ treatment|variety) %>% 
-  plot(comparisons =TRUE) 
-```
 
-Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.
 
-No significant seed treatment effect for yield. Interaction was also non-significant.
-```{r yield orr, fig.width=11, fig.height=4}
-m.orr.yield <- emmeans(fm.orr.yield, ~ variety) 
-m.orr.yield %>% 
-  cld.emmGrid()
 
-m.orr.yield %>% 
-  tidy() %>% 
-  resistance_info() %>% 
-  ggplot(aes(x = variety, y = estimate, color = pr_level)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width =0) +
-  facet_grid(~ rps, scales = "free_x")
-```
-A variety with no resistance gene had the higher yield in Orr.  
-Varieties with higher levels have higher yields.
 
-### Urbana
+
 
 A significant interaction was observed for VC in Urbana.
 ```{r interaction urbana, fig.width=8, fig.height=4}
@@ -513,6 +493,10 @@ contrasts.2017 <- rbind(contrasts.rps.2017,
 contrasts.2017
 write_csv(contrasts.2017, path = here("Results", "Contrasts_2017.csv"))
 ```
+
+
+####Urbana and Boone field trials in 2018
+
 
 ## Urbana 2018
 
