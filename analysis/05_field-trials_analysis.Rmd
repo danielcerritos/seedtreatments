@@ -279,24 +279,12 @@ anova(fm.urb.v2)
 anova(fm.urb.yield) 
 ```
 
-
-
-
-
-### Orr
-
-
-
-
-
-
-
 A significant interaction was observed for VC in Urbana.
 ```{r interaction urbana, fig.width=8, fig.height=4}
 emmip(fm.urb.vc, treatment ~ variety)
 ```
 
-
+Seems thatsenly varieties with Rps1k and no gene are ha
 
 
 
