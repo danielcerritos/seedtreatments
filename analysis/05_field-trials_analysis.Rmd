@@ -24,6 +24,7 @@ library(multcompView)
 library(broom) 
 library(cowplot) 
 library(ggResidpanel)
+library(ggsignif)
 theme_set(theme_bw())
 ```
 
@@ -123,7 +124,7 @@ anova(fm.mon.v2)
 anova(fm.mon.yield) 
 ```
 
-#### Treatment comparisons by variety 
+#### Treatment comparisons 
 
 I will focus in VC because both treatment and variety were significant. 
 
@@ -227,7 +228,7 @@ anova(fm.orr.v2)
 anova(fm.orr.yield) 
 ```
 
-#### Treatment comparison by variety 
+#### Treatment comparison  
 
 ```{r vc orr, fig.height = 9.5, fig.width = 6}
 emmeans(fm.orr.vc, ~ treatment|variety) %>% 
@@ -236,7 +237,7 @@ emmeans(fm.orr.vc, ~ treatment|variety) %>%
 
 Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.
 
-#### Yield by variety
+#### Yield comparison
 
 ```{r yield orr}
 emmeans(fm.orr.yield, ~ variety) %>% 
@@ -284,206 +285,237 @@ A significant interaction was observed for VC in Urbana.
 emmip(fm.urb.vc, treatment ~ variety)
 ```
 
-Seems thatsenly varieties with Rps1k and no gene are ha
+Seems that seed treatment is having an effect in both rps and Rps1k. 
 
+#### Treatment comparison 
 
-
-
-
-
-
-
-
-```{r vc urbana}
+```{r vc urbana, fig.height = 9.5, fig.width = 6}
 emmeans(fm.urb.vc, ~ treatment|variety) %>% 
-  plot(comparisons =)
-
-
+  plot(comparisons =TRUE) 
 ```
 
+No significant difference for two of the the three Rps1c varieties. 
 
+#### Yield comparison
 
 ```{r yield urbana}
-# Yield
-emmeans(fm.urb.yield, pairwise ~ treatment) # 0.61%
-emmeans(fm.urb.yield, ~ treatment|variety) %>% 
+emmeans(fm.urb.vc, ~ variety) %>% 
   cld.emmGrid()
 ```
 
+A Rps1c variety has the highest yield.
 
-## Custom contrasts 
-- group varieties by type of resistance gene(rps/1c/1k) and partial resistance level
-- see effect size by type of resistance 
+#### Contrasts
 
-```{r emmeans variety:treatment}
-# estimate emmeans to see effect size by resistance gene
-#monmouth
-m.mon.vc <- emmeans(fm.mon.vc, ~ variety:treatment) 
-m.mon.yield <- emmeans(fm.mon.yield, ~ variety:treatment)
-#orr
-m.orr.vc <- emmeans(fm.orr.vc, ~ variety:treatment)
-m.orr.yield <- emmeans(fm.orr.yield, ~ variety:treatment)
-#urbana
-m.urb.vc <- emmeans(fm.urb.vc, ~ variety:treatment)
-m.urb.yield <- emmeans(fm.urb.yield, ~ variety:treatment)
+```{r per level urbana}
+emmeans(fm.urb.vc, ~ variety:treatment) %>% 
+  custom_contrasts
+emmeans(fm.urb.yield, ~ variety:treatment) %>% 
+  custom_contrasts()
 ```
 
-```{r Rps contrasts }
-# compare effect size for each Rps 
-cons.1 <- list(
-  "t.rps - c.rps" = c(-0.5, -0.5, rep(0, 5), 0.5, 0.5, rep(0, 5)),
-  "t.Rps1c - c.Rps1c" = c(0, 0, -1/3, 0, 0, -1/3, -1/3, 0, 0, 1/3, 0, 0, 1/3, 1/3),
-  "t.Rps1k - c.Rps1k" = c(rep(0, 3), -0.5, -0.5, rep(0, 5), 0.5, 0.5, 0, 0)
-)
+Significant differences for rps and Rps1k for VC and for all pr levels at VC.  
+No significant differences for yield
 
-# monmouth 
-rps.mon.vc <- contrast(m.mon.vc, cons.1, adjust = "mvt") %>%
-  summary(infer = TRUE) %>%  # get confidence intervals and p-values
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "VC")
-
-rps.mon.yield <- contrast(m.mon.yield, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>%  
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "Yield")
-# orr
-rps.orr.vc <- contrast(m.orr.vc, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Orr", 
-         variable = "VC")
-
-rps.orr.yield <- contrast(m.orr.yield, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>%  
-  as.data.frame() %>% 
-  mutate(location = "Orr", 
-         variable = "Yield")
-#urbana
-rps.urb.vc <- contrast(m.urb.vc, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>%  
-  as.data.frame() %>% 
-  mutate(location = "Urbana", 
-         variable = "VC")
-
-rps.urb.yield <-contrast(m.urb.yield, cons.1, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>%  
-  as.data.frame() %>% 
-  mutate(location = "Urbana", 
-         variable = "Yield")
-
-contrasts.rps.2017 <- rbind(rps.mon.vc, rps.mon.yield, 
-                            rps.orr.vc, rps.orr.yield, 
-                            rps.urb.vc, rps.urb.yield)
+```{r pr level urbana}
+emmeans(fm.urb.yield, ~ variety) %>% 
+  pr_contrast()
 ```
 
-```{r PR levels contrasts}
-# seed treatment effect by levels of PR
-cons.2 <- list(
-  "t.High - c.High" = c(-0.5, rep(0, 5), -0.5, 0.5, rep(0, 5), 0.5), 
-  "t.Moderate - c.Moderate" = c(0, rep(-0.25, 4), rep(0, 3), rep(0.25, 4), 0, 0), 
-  "t.Low - c.Low" = c(rep(0, 5), -1, rep(0, 6), 1, 0)
-)
+### Model assumptions
 
-# monmouth 
-pr.mon.vc <- contrast(m.mon.vc, cons.2, adjust = "mvt")%>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "VC")
-
-pr.mon.yield <- contrast(m.mon.yield, cons.2, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "Yield")
-# orr
-pr.orr.vc <-contrast(m.orr.vc, cons.2, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Orr", 
-         variable = "VC")
-
-pr.orr.yield <-contrast(m.orr.yield, cons.2, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Orr", 
-         variable = "Yield")
-#urbana
-pr.urb.vc <-contrast(m.urb.vc, cons.2, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Urbana", 
-         variable = "VC")
-
-pr.urb.yield <- contrast(m.urb.yield, cons.2, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Urbana", 
-         variable = "Yield")
-
-contrasts.PR.2017 <- rbind(pr.mon.vc, pr.mon.yield, 
-                            pr.orr.vc, pr.orr.yield, 
-                            pr.urb.vc, pr.urb.yield)
+```{r assumptions, results = "hide"}
+# diagnostic plots to check on model assumptions 
+models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
+                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
+                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
+map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance
 ```
 
-```{r yields between PR levels}
-# compare yields between PR levels 
-m.mon.yield.var <- emmeans(fm.mon.yield, ~ variety)
-m.orr.yield.var <- emmeans(fm.orr.yield, ~ variety)
-m.urb.yield.var <- emmeans(fm.urb.yield, ~ variety)
+### Figure 1
 
-cons.3 <- list(
-  "High - Low" = c(0.5, 0, 0, 0, 0, -1, 0.5),
-  "High - Moderate" = c(0.5, -0.25, -0.25, -0.25, -0.25, 0, 0.5),
-  "Moderate - Low" = c(0, 0.25, 0.25, 0.25, 0.25, -1, 0)
-  )
-# monmouth
-m.mon.yield.var %>% 
-  cld.emmGrid() # pairwise comparisons
-
-pr.mon.yield.2 <- contrast(m.mon.yield.var, cons.3, adjust ="mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Monmouth", 
-         variable = "Yield")
-
-# orr
-m.orr.yield.var %>% 
-  cld.emmGrid()
-
-pr.orr.yield.2 <- contrast(m.orr.yield.var, cons.3) %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Orr", 
-         variable = "Yield")
-
-# urbana
-m.urb.yield.var %>% 
-  cld.emmGrid() 
-
-pr.urb.yield.2 <- contrast(m.urb.yield.var, cons.3)%>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Urbana", 
-         variable = "Yield")
-
-contrasts.PR.2.2017 <- rbind(pr.mon.yield.2, pr.orr.yield.2, pr.urb.yield.2)
-contrasts.PR.2.2017
+```{r add resistance info}
+# add resistance information (Rps and partial resistance levels) for figures
+resistance_info <- function(dataf) {
+  rps <- c("LD07-3395bf","LD10-10219","LD13-13478R1a")
+  rps1k <- c("LD11-13802R2", "LD11-7311", "H2512NX", "H2862NX")
+  low <- c("LD12-15064R1a", "LD12-15129R1a", "LD13-13478R1a", "LD12-15156R1a")
+  high <- c("LD07-3395bf", "LD13-14071R2", "C2888RX", "C3140RX")
+  
+  dataf %>% 
+    mutate(
+      rps = case_when(
+        variety %in% rps ~ "rps",
+        variety %in% rps1k ~ "Rps1k",
+        TRUE ~ "Rps1c"),
+      pr_level = case_when(
+        variety %in% low ~ "Low",
+        variety %in% high  ~ "High",
+        TRUE ~ "Moderate"))
+}
 ```
 
-```{r save contrasts}
-contrasts.2017 <- rbind(contrasts.rps.2017, 
-                        contrasts.PR.2017, 
-                        contrasts.PR.2.2017)
+```{r fig 1 labels}
+# treatment comparisons 
+lab.fig.1 <- data.frame(variety = c("LD11-10069", "LD12-15156R1a",
+                                "LD07-3395bf", "LD10-10219", 
+                                "LD12-15156R1a", "LD11-13802R2",
+                                "LD11-7311"), 
+                    rps= c("Rps1c", "Rps1c", "rps", "rps", "Rps1c", 
+                           "Rps1k", "Rps1k"),
+                    location = c("Monmouth", "Orr", "Urbana", "Urbana", 
+                                 "Urbana", "Urbana", "Urbana"),
+                    label = c("*", "*", "*", "*", "*", "*", "*"), 
+                    vc_plants.m2 = c(28, 29, 35, 36, 34, 34, 32), 
+                    treatment = c("intego", "intego", "intego", "intego",
+                                  "intego", "intego","intego")) 
+# contrasts
+con.fig.1 <- data.frame(location = c("Monmouth", "Orr", 
+                                     "Urbana", "Urbana"), 
+                        rps = c("Rps1c", "Rps1k", 
+                                "rps", "Rps1k"), 
+                        start = c("LD11-10069", "LD11-13802R2", 
+                                  "LD07-3395bf", "LD11-13802R2"), 
+                        end = c("LD13-14071R2", "LD11-7311", 
+                                "LD10-10219", "LD11-7311"), 
+                          y = c(34, 34, 41, 39), 
+                        label = c("* *", "* *", "* *", "* *"), 
+                        treatment = c("intego", "intego", 
+                                      "intego", "intego"))
+# shorter varieties names
+short.names <- c("LD10-10219" = "LD10-10", 
+                 "LD13-13478R1a" = "LD13-13",
+                 "LD07-3395bf" = "LD07-33", 
+                 "LD12-15064R1a" = "LD12-150",
+                 "LD12-15129R1a" = "LD12-151a",
+                 "LD11-10069" = "LD11-10",
+                 "LD13-14071R2" = "LD13-14",
+                 "LD12-15156R1a" = "LD12-151", 
+                 "LD11-13802R2" = "LD11-13",
+                 "LD11-7311" = "LD11-73") 
 
-contrasts.2017
-write_csv(contrasts.2017, path = here("Results", "Contrasts_2017.csv"))
+```
+
+```{r fig 1, warning = FALSE, fig.width = 7, fig.height = 6}
+illinois.2017 %>% 
+  resistance_info() %>% 
+  ggplot(aes(x = variety, y = vc_plants.m2)) +
+    geom_point(aes(color = treatment), 
+               position = position_jitterdodge(dodge.width = 0.5), 
+               alpha = 0.2) +
+    stat_summary(fun.data = "mean_cl_boot", 
+                 position = position_dodge(width = 0.5),
+                 aes(color = treatment), alpha = 0.7) + 
+  facet_grid(location ~ rps, scales = "free", space = "free_x") +
+  labs(y = expression('Stand (plants m'^-2*')')) +
+  theme_cowplot() +
+  panel_border() +
+  theme(panel.grid.major.y = element_line(linetype = "dotted", 
+                                          color = "grey80"), 
+        legend.position = "bottom") +
+  scale_color_manual(values = c("#D55E00", "#0072B2"), 
+                     labels = c("NTC", "ST"), 
+                     name = element_blank()) +
+  scale_x_discrete("Variety", labels = short.names) +
+  geom_text(data = lab.fig.1, aes(label=label), 
+            size = 5, color = "black") +
+  geom_signif(data = con.fig.1, 
+              aes(xmin = start, xmax = end, annotations=label, y_position = y),
+              textsize = 5, vjust = -0.2, 
+              manual = TRUE) +
+  scale_y_continuous(limits = c(15, 45))
+```
+
+#
+
+```{r fig 2}
+
 ```
 
 
-####Urbana and Boone field trials in 2018
+
+
+
+
+
+
+
+### Figure 2
+
+
+```{r stand means figure}
+# figure to see stand means by variety
+fig_means <- function(data, y, label.data){
+  ggplot(data = data, aes(x = variety, y = y, color = treatment)) +
+    geom_point(position = position_jitterdodge(dodge.width = 0.5), alpha = 0.2)+
+    stat_summary(fun.data = "mean_cl_boot", 
+                 position = position_dodge(width = 0.5),
+                 aes(color = treatment), alpha = 0.7) +
+    scale_color_manual(values = c("#D55E00", "#0072B2"), 
+                       labels = c("NTC", "ST"), 
+                       name = element_blank()
+    ) +
+    scale_x_discrete("Variety", labels = c("LD10-10219" = "LD10-10", "LD13-13478R1a" = "LD13-13",
+                                           "LD07-3395bf" = "LD07-33", "LD12-15064R1a" = "LD12-150",
+                                           "LD12-15129R1a" = "LD12-151a",
+                                           "LD11-10069" = "LD11-10","LD13-14071R2" = "LD13-14",
+                                           "LD12-15156R1a" = "LD12-151", "LD11-13802R2" = "LD11-13",
+                                           "LD11-7311" = "LD11-73") # shorter lines names to fit them 
+    ) +
+    geom_text(data = label.data, aes(label=label), 
+              size = 6.5, color = "black")
+}
+```
+
+```{r theme 2017}
+# theme for 2017 data
+theme_stand.17 <- function (base_size = 11, base_family = "") {
+    theme_bw() %+replace% 
+    theme_cowplot() +
+    panel_border() +
+    theme(
+      strip.text = element_text(size = rel(1.2)),
+      axis.title.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.y = element_text(size = rel(1.2)),
+      axis.text.y = element_text(size = rel(1.2)),
+      panel.grid.major.y = element_line(linetype = "dotted", 
+                                        color = "grey80")
+    ) 
+}
+```
+
+```{r resistance info}
+
+```
+
+
+```{r figure 1, fig.height=6, fig.width=8}
+#figure 1
+illinois.2017 <- resistance(illinois.2017)
+
+#label data
+lab.1 <- data.frame(variety = c("LD11-10069", "LD12-15156R1a",
+                              "LD07-3395bf", "LD10-10219", 
+                              "LD12-15156R1a", "LD11-13802R2",
+                              "LD11-7311"), 
+                  Rps= c("Rps1c", "Rps1c", "rps", "rps", "Rps1c", 
+                         "Rps1k", "Rps1k"),
+                  location = c("Monmouth", "Orr", "Urbana", "Urbana", 
+                               "Urbana", "Urbana", "Urbana"),
+                  label = c("*", "*", "*", "*", "*", "*", "*"), 
+                  y = c(27, 26, 31, 33, 31.5, 31.5, 31), 
+                  treatment = c("intego", "intego", "intego", "intego",
+                                "intego", "intego","intego")) 
+
+# stand means by variety in 2017 multilocation field trials
+fig_means(illinois.2017, illinois.2017$stand.vc, lab.1) 
+```
+
+
+
+
+# Urbana and Boone field trials in 2018
 
 
 ## Urbana 2018
@@ -511,7 +543,7 @@ write_csv(anovas.2, path = here("Results", "anovas_18.csv"))
 
 ```
 
-## Estimate emmeans Urbana 2018
+### Estimate emmeans Urbana 2018
 
 ```{r treatment means urbana 18}
 # overrall treatment effect
@@ -536,7 +568,7 @@ m.urb18.yield.var %>%
   cld.emmGrid() 
 ```
 
-## Constrasts Urbana 2018
+### Constrasts Urbana 2018
 
 ```{r effect size Rps urb 18}
 # compare effect size for each Rps 
@@ -599,6 +631,7 @@ m.urb18.yield.var %>%
   cld.emmGrid() 
 ```
 
+### Figure 3
 ## Boone, Iowa 2018
 
 ```{r boone fit models}
@@ -634,7 +667,7 @@ emmeans(fm.iowa.yield, ~ treatment|variety) %>%
   cld.emmGrid() #one variety
 ```
 
-## Custom contrasts Boone, IA 
+### Custom contrasts Boone, IA 
 - no sig variety effect, but still going to do comparisons to be consistant with analysis
 
 ```{r Rps contrast IA}
@@ -701,76 +734,13 @@ write_csv(contrasts.2018, path = here("Results", "Contrasts_2018.csv"))
 ```
 
 
-## Figures
+### Figure 4
 
 
-```{r stand means figure}
-# figure to see stand means by variety
-fig_means <- function(data, y, label.data){
-  ggplot(data = data, aes(x = variety, y = y, color = treatment)) +
-    geom_point(position = position_jitterdodge(dodge.width = 0.5), alpha = 0.2)+
-    stat_summary(fun.data = "mean_cl_boot", 
-                 position = position_dodge(width = 0.5),
-                 aes(color = treatment), alpha = 0.7) +
-    scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                       labels = c("NTC", "ST"), 
-                       name = element_blank()
-    ) +
-    scale_x_discrete("Variety", labels = c("LD10-10219" = "LD10-10", "LD13-13478R1a" = "LD13-13",
-                                           "LD07-3395bf" = "LD07-33", "LD12-15064R1a" = "LD12-150",
-                                           "LD12-15129R1a" = "LD12-151a",
-                                           "LD11-10069" = "LD11-10","LD13-14071R2" = "LD13-14",
-                                           "LD12-15156R1a" = "LD12-151", "LD11-13802R2" = "LD11-13",
-                                           "LD11-7311" = "LD11-73") # shorter lines names to fit them 
-    ) +
-    geom_text(data = label.data, aes(label=label), 
-              size = 6.5, color = "black")
-}
-```
 
-```{r theme 2017}
-# theme for 2017 data
-theme_stand.17 <- function (base_size = 11, base_family = "") {
-    theme_bw() %+replace% 
-    theme_cowplot() +
-    panel_border() +
-    theme(
-      strip.text = element_text(size = rel(1.2)),
-      axis.title.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_text(size = rel(1.2)),
-      axis.text.y = element_text(size = rel(1.2)),
-      panel.grid.major.y = element_line(linetype = "dotted", 
-                                        color = "grey80")
-    ) 
-}
-```
 
-```{r figure 1, fig.height=6, fig.width=8}
-#figure 1
-illinois.2017 <- resistance(illinois.2017)
 
-#label data
-lab.1 <- data.frame(variety = c("LD11-10069", "LD12-15156R1a",
-                              "LD07-3395bf", "LD10-10219", 
-                              "LD12-15156R1a", "LD11-13802R2",
-                              "LD11-7311"), 
-                  Rps= c("Rps1c", "Rps1c", "rps", "rps", "Rps1c", 
-                         "Rps1k", "Rps1k"),
-                  location = c("Monmouth", "Orr", "Urbana", "Urbana", 
-                               "Urbana", "Urbana", "Urbana"),
-                  label = c("*", "*", "*", "*", "*", "*", "*"), 
-                  y = c(27, 26, 31, 33, 31.5, 31.5, 31), 
-                  treatment = c("intego", "intego", "intego", "intego",
-                                "intego", "intego","intego")) 
 
-# stand means by variety in 2017 multilocation field trials
-fig_means(illinois.2017, illinois.2017$stand.vc, lab.1) + 
-  facet_grid(location ~ Rps, scales = "free_x", space = "free") +
-  labs(y = expression('Stand (plants m'^-2*')')
-       ) +
-  theme_stand.17()
-```
 
 ```{r yield distribution PR figure}
 # boxplots for yield by PR levels
