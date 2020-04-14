@@ -1,7 +1,7 @@
 name: seedtreatments
 output_dir: ../docs
 navbar:
-  title: seedtreatments
+  title: seedtreatments on ethaboxam
   left:
   - text: Home
     href: index.html
