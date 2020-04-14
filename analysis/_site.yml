@@ -9,6 +9,8 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  - text: Screening section
+    href: 04_resistance-screening_analysis.html
   right:
   - icon: fa-github
     text: Source code
