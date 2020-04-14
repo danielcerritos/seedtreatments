@@ -246,7 +246,7 @@ lesion.cm <- mean.lesion %>%
   filter(!line %in% c("L76-1988", "Sloan", "Williams")) %>% 
   dplyr::select(line, lesion_cm = response)
   
-screening.final <- bind_cols(rps.final, mean.score, lesion.cm) %>% 
+screening.final <- bind_cols(rps.final, mean.scores, lesion.cm) %>% 
   dplyr::select(line, rps, pr_level, mean_score, lesion_cm)
 
 write_csv(screening.final, path = here("output", "results", 

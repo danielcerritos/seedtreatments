@@ -337,7 +337,7 @@ map(models.2017, resid_panel) #residuals normally distributed and homogenicity o
 
 ## Figure 1
 
-```{r add resistance info}
+```{r add resistance info, echo=FALSE}
 # add resistance information (Rps and partial resistance levels) for figures
 resistance_info <- function(dataf) {
   rps <- c("LD07-3395bf","LD10-10219","LD13-13478R1a")
@@ -360,7 +360,7 @@ resistance_info <- function(dataf) {
 illinois.2017 <- resistance_info(illinois.2017)
 ```
 
-```{r fig 1 labels}
+```{r fig 1 labels, echo=FALSE}
 # treatment comparisons 
 lab.fig.1 <- data.frame(variety = c("LD11-10069", "LD12-15156R1a",
                                 "LD07-3395bf", "LD10-10219", 
@@ -401,7 +401,7 @@ short.names <- c("LD10-10219" = "LD10-10",
 
 ```
 
-```{r fig 1, warning = FALSE, fig.width = 7, fig.height = 6}
+```{r fig 1, warning = FALSE, fig.width = 7, fig.height = 6, echo=FALSE}
 illinois.2017 %>% 
   ggplot(aes(x = variety, y = vc_plants.m2)) +
   geom_point(aes(color = treatment), 
@@ -432,7 +432,7 @@ illinois.2017 %>%
 
 ## Figure 2
 
-```{r fig 2, warning = FALSE, fig.width = 6.5, fig.height = 5.5}
+```{r fig 2, warning = FALSE, fig.width = 6.5, fig.height = 5.5, echo = FALSE}
 illinois.2017$pr_level <- factor(illinois.2017$pr_level, 
                                  levels = c("High", 
                                             "Moderate", 
@@ -574,7 +574,7 @@ emmeans(fm.urb18.yield, ~ variety) %>%
 
 ## Figure 3
 
-```{r fig 3A, warning=FALSE}
+```{r fig 3A, warning=FALSE, echo=FALSE}
 urbana.2018 <- resistance_info(urbana.2018)
 
 lab.fig.3A <- data.frame(variety = c("LD07-3395bf", "LD11-7311"), 
@@ -622,7 +622,7 @@ fig.3A <- urbana.2018 %>%
   scale_y_continuous(limits = c(10, 40))
 ```
 
-```{r fig 3B}
+```{r fig 3B, echo=FALSE, warning=FALSE}
 
 lab.fig.3B <- data.frame(variety = c("LD07-3395bf", "LD13-14071R2"), 
                          rps= c("rps", "Rps1c"),
@@ -646,12 +646,16 @@ fig.3B <- urbana.2018  %>%
   stat_summary(fun.data = "mean_cl_boot", 
                position = position_dodge(width = 0.5),
                aes(color = treatment), alpha = 0.7) +
-  labs(y = expression('Stand (plants m'^-2*')')) +
+  labs(y = expression('Yield (kg ha'^-1*')')) +
   theme_cowplot() +
   panel_border() +
   theme(legend.position = "bottom",
+    legend.box.margin=margin(-10,-10,-10,-10),
+  axis.title.x = element_blank(),
+        strip.text = element_blank(),
         panel.grid.major.y = element_line(linetype = "dotted", 
-                                          color = "grey80")) +
+                                          color = "grey80"), 
+        ) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
                      labels = c("NTC", "ST"), 
                      name = element_blank()) +
@@ -661,88 +665,61 @@ fig.3B <- urbana.2018  %>%
               aes(xmin = start, xmax = end, annotations=label, y_position = y),
               textsize = 5, vjust = -0.2, 
               manual = TRUE) +
-  scale_x_discrete("Variety", labels = short.names)+
+  scale_x_discrete(labels = short.names)+
   scale_y_continuous(limits = c(2000, 5500))
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r fig 3A, warning=FALSE }
-fig.3A <- urbana.2018 %>% 
-  ggplot(aes(x = variety, y = vc_plants.m2)) +
-  geom_point(aes(color = treatment), 
-             position = position_jitterdodge(dodge.width = 0.5), 
-             alpha = 0.2) +
-  stat_summary(fun.data = "mean_cl_boot", 
-               position = position_dodge(width = 0.5),
-               aes(color = treatment), alpha = 0.7) +
-  facet_grid(. ~ rps, scales = "free", space = "free_x") +
-  labs(y = expression('Stand (plants m'^-2*')')) +
+```{r fig 3C, echo=FALSE}
+fig.3C <- urbana.2018 %>% 
+  ggplot(aes(x = reorder(variety, -yield_kg.ha), 
+             y = yield_kg.ha, fill= pr_level)) +
+  geom_jitter(alpha= 0.2, width = 0.4) +
+  geom_boxplot(alpha = 0.5) +
+  scale_fill_manual(values = c("#E69F00", "#56B4E9", "#009E73"), 
+                    name = element_blank()) +
   theme_cowplot() +
   panel_border() +
-  theme(legend.position = "none",
-        axis.text.x = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(), 
+  theme(legend.position = "bottom",
         panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80")) +
-  scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("NTC", "ST"), 
-                     name = element_blank()) +
-  geom_text(data = lab.fig.3A, aes(label=label), 
-            size = 5, color = "black") +
-  geom_signif(data = con.fig.3A, 
-              aes(xmin = start, xmax = end, annotations=label, y_position = y),
-              textsize = 5, vjust = -0.2, 
-              manual = TRUE) +
-  scale_y_continuous(limits = c(10, 40))
+  labs(y = expression('Yield (kg ha'^-1*')'),
+         x = "Variety") +
+  scale_x_discrete("Variety", labels = short.names) +
+  stat_summary(fun.y="mean", geom="point", size=1.2,
+                 position=position_dodge(width=0.75), color="black")
 ```
 
-```{r fig 3B labels}
-
+```{r figure 3, warning=FALSE, fig.width = 7, fig.height = 7}
+cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
+                   ncol = 1, 
+                   align = "v", 
+                   labels = "AUTO", 
+                   axis = "lr", 
+                   rel_heights = c(1, 1, 1.3))
 ```
-
-
-
-
-
-
 
 ## Boone, Iowa 2018
 
 ```{r boone fit models}
 iowa$block <- as.factor(iowa$block)
 
-fm.iowa.vc <- lmer(stand.vc ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
-fm.iowa.v1<- lmer(stand.v1 ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
-fm.iowa.r2 <- lmer(stand.v2 ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
-fm.iowa.r8 <- lmer(stand.r8 ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
-fm.iowa.yield <- lmer(yield.kg_ha ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
+                   data = iowa)
+fm.iowa.v1<- lmer(v1_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
+                  data = iowa)
+fm.iowa.r2 <- lmer(r2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
+                   data = iowa)
+fm.iowa.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
+                   data = iowa)
+fm.iowa.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), 
+                      data = iowa)
 
 anova(fm.iowa.vc) 
 anova(fm.iowa.v1)
 anova(fm.iowa.r2)  
 anova(fm.iowa.r8) 
 anova(fm.iowa.yield)
+
 ```
 
 ```{r emmeans boone treatment}
@@ -751,314 +728,4 @@ emmeans(fm.iowa.v1, pairwise ~ treatment) #9.62
 emmeans(fm.iowa.r2, pairwise ~ treatment) #11.10
 emmeans(fm.iowa.r8, pairwise ~ treatment) #12.01
 emmeans(fm.iowa.yield, pairwise ~ treatment) #8.1
-```
-
-```{r emmeans var}
-# variety effect was not significant, see vc and yield like in other locations
-emmeans(fm.iowa.vc, ~ treatment|variety) %>% 
-  cld.emmGrid() #one variety
-
-emmeans(fm.iowa.yield, ~ treatment|variety) %>% 
-  cld.emmGrid() #one variety
-```
-
-### Custom contrasts Boone, IA 
-- no sig variety effect, but still going to do comparisons to be consistant with analysis
-
-```{r Rps contrast IA}
-m.iowa.vc <- emmeans(fm.iowa.vc, ~ variety:treatment)
-(m.iowa.yield <- emmeans(fm.iowa.yield, ~ variety:treatment))
-# compare effect of seed treatment by Rps
-cons.1.iw <- list(
-  "t.Rps1c - c.Rps1c" = c(-0.2, -0.2, -0.2, 0, 0, -0.2, -0.2, 0.2, 0.2, 0.2, 0, 0, 0.2, 0.2),
-  "t.Rps1k - c.Rps1k" = c(0, 0, 0, -0.5, -0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0)
-)
-rps.iw.vc <- contrast(m.iowa.vc, cons.1.iw, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Iowa", 
-         variable = "VC")
-rps.iw.yield <- contrast(m.iowa.yield, cons.1.iw, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Iowa", 
-         variable = "Yield")
-```
-
-```{r contrasts PR level IA}
-cons.2.iw <- list(
-  "t.High - c.High" = c(0, 0, -0.5, 0, 0, 0, -0.5, 0, 0, 0.5, 0, 0, 0, 0.5), 
-  "t.Moderate - c.Moderate" = c(-1/5, -1/5, 0, -1/5, -1/5, -1/5, 0, 1/5, 1/5, 0, 1/5, 1/5, 1/5, 0)
-)
-
-pr.iw.vc <- contrast(m.iowa.vc, cons.2.iw, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Iowa", 
-         variable = "VC")
-pr.iw.yield <- contrast(m.iowa.yield, cons.2.iw, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Iowa", 
-         variable = "Yield")
-```
-
-```{r contrast b/w PR level IA}
-m.iowa.yield.var <- emmeans(fm.iowa.yield, ~ variety)
-cons.3.iw <- list(
-  "High - Moderate" = c(-1/5, -1/5, 0.5, -1/5, -1/5, -1/5, 0.5)
-)
-pr.iw.yield.2 <- contrast(m.iowa.yield.var, cons.3.iw, adjust = "mvt") %>% 
-  summary(infer = TRUE) %>% 
-  as.data.frame() %>% 
-  mutate(location = "Iowa", 
-         variable = "Yield")
-
-m.iowa.yield.var %>% 
-  cld.emmGrid() 
-```
-
-```{r save 2018 contrasts}
-
-contrasts.2018 <- rbind(rps.urb18.vc, rps.urb18.yield, 
-                        pr.urb18.vc, pr.urb18.yield, pr.urb18.yield.2, 
-                        rps.iw.vc, rps.iw.yield, 
-                        pr.iw.vc, pr.iw.yield, pr.iw.yield.2)
-
-write_csv(contrasts.2018, path = here("Results", "Contrasts_2018.csv"))
-```
-
-
-### Figure 4
-
-
-
-
-
-
-
-```{r yield distribution PR figure}
-# boxplots for yield by PR levels
-fig_box.plot <- function(data){
-  ggplot(data = data, aes(x = variety, y = yield.kg_ha, fill= PR)
-  ) +
-    geom_jitter(alpha= 0.2, width = 0.4
-    ) +
-    theme_cowplot() +
-    panel_border() +
-    theme( 
-          strip.text = element_text(size = rel(1.2)),
-          axis.ticks.x = element_blank(),
-          axis.title.x = element_blank(),
-          axis.title.y = element_text(size = rel(1.2)),
-          axis.text.y = element_text(size = rel(1.2)),
-          panel.grid.major.y = element_line(linetype = "dotted", 
-                                            color = "grey80")
-    ) +
-    labs(y = expression('Yield (kg ha'^-1*')'),
-         x = "Variety") +
-    scale_x_discrete("Variety", labels = c("LD10-10219" = "LD10-10", "LD13-13478R1a" = "LD13-13",
-                                           "LD07-3395bf" = "LD07-33", "LD12-15064R1a" = "LD12-150",
-                                           "LD12-15129R1a" = "LD12-151a",
-                                           "LD11-10069" = "LD11-10","LD13-14071R2" = "LD13-14",
-                                           "LD12-15156R1a" = "LD12-151", "LD11-13802R2" = "LD11-13",
-                                           "LD11-7311" = "LD11-73")
-    ) +
-    scale_fill_manual(values = c("#E69F00", "#56B4E9", "#009E73" ), 
-                      name = element_blank(),
-                      )+
-    geom_boxplot(alpha = 0.5) +
-  stat_summary(fun.y="mean", geom="point", size=1.2,
-               position=position_dodge(width=0.75), color="black")
-  
-}
-```
-
-```{r figure 2, fig.height= 7, fig.width=10}
-# Figure 2 
-illinois.2017$PR <- factor(illinois.2017$PR, levels = c("High", 
-                                                        "Moderate", 
-                                                        "Low")
-                           ) # change order for figure
-# label data
-lab.2 <- data.frame(variety = c("LD07-3395bf", "LD10-10219",
-                                "LD11-10069", "LD12-15156R1a", "LD13-14071R2",
-                               "LD07-3395bf", "LD10-10219", 
-                               "LD11-10069", "LD12-15156R1a", "LD13-14071R2",
-                               "LD11-13802R2", "LD11-7311"), 
-                  Rps= c("rps", "rps", 
-                         "Rps1c", "Rps1c", "Rps1c", 
-                         "rps", "rps", 
-                         "Rps1c", "Rps1c", "Rps1c", 
-                         "Rps1k", "Rps1k"),
-                  location = c("Orr", "Orr", 
-                               "Orr", "Orr", "Orr", 
-                               "Urbana", "Urbana", 
-                               "Urbana", "Urbana","Urbana", 
-                               "Urbana", "Urbana"),
-                  label = c("a", "b",
-                            "a", "b", "a",
-                            "a", "b", 
-                            "a", "b", "a",
-                            "b", "a"), 
-                  yield.kg_ha = c(6000, 5700, 
-                                 5700, 5350, 5600, 
-                                 6000, 5550, 
-                                 5955, 5300, 5850, 
-                                 5450, 5900), 
-                  PR = c("High", "Moderate", 
-                         "Moderate", "Low", "High", 
-                         "High", "Moderate", 
-                         "Moderate", "Low", "High",
-                         "Moderate", "Moderate")
-                  ) 
-
-# yield by PR levels for 2017 data
-fig_box.plot(illinois.2017) +
-  facet_grid(location ~ Rps, scales = "free_x", space = "free") +
-  geom_text(data = lab.2, aes(label=label), 
-            size = 5, color = "black")
-```
-
-```{r themes 2018}
-# theme 2018 stand data
-theme_stand.18 <- function (base_size = 11, base_family = "") {
-    theme_bw() %+replace% 
-    theme_cowplot() +
-    panel_border() +
-    theme( legend.position = "none", 
-      strip.text = element_text(size = rel(1.2)),
-      axis.title.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_text(size = rel(1.2)),
-      axis.text.y = element_text(size = rel(1.2)),
-      axis.text.x = element_blank(), 
-      panel.grid.major.y = element_line(linetype = "dotted", 
-                                        color = "grey80")
-    ) 
-  }
-
-# theme 2018 yield data
-theme_yield.18 <- function (base_size = 11, base_family = "") {
-    theme_bw() %+replace% 
-    theme_cowplot() +
-    panel_border() +
-    theme(legend.justification = "top", 
-      strip.text = element_blank(),
-      axis.title.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_text(size = rel(1.2)),
-      axis.text.y = element_text(size = rel(1.2)),
-      panel.grid.major.y = element_line(linetype = "dotted", 
-                                        color = "grey80")
-    ) 
-}
-```
-
-```{r Figure 3, fig.height= 7.5, fig.width=10.5}
-# Urbana 2018 data
-urbana.2018 <- resistance(urbana.2018)
-
-# label Fig 3A
-lab.u.1 <- data.frame(variety = c("LD07-3395bf", "LD11-7311"), 
-                  Rps= c("rps", "Rps1k"),
-                  label = c("*", "*"), 
-                  y = c(27, 27), 
-                  treatment = c("intego", "intego")
-                  ) 
-
-# figure 3A: stands
-u.1 <- fig_means(urbana.2018, urbana.2018$stand.vc, lab.u.1) + 
-  facet_grid(. ~ Rps, scales = "free_x", space = "free") +
-  labs(y = expression('Stand (plants m'^-2*')')
-       ) +
-  theme_stand.18()
-
-# label Fig 3B
-lab.u.2 <- data.frame(variety = c("LD07-3395bf", "LD13-14071R2"), 
-                      Rps= c("rps", "Rps1c"),
-                      label = c("*", "*"), 
-                      y = c(4000, 4400), 
-                      treatment = c("intego", "intego")
-                      ) 
-# figure 3B: yields 
-# showing yields for 2018 data because seed treatmnet was significant for yield
-u.2 <- fig_means(urbana.2018, urbana.2018$yield.kg_ha, lab.u.2) + 
-  facet_grid(. ~ Rps, scales = "free_x", space = "free") +
-  labs(y = expression('Yield (kg ha'^-1*')')
-       ) +
-  theme_yield.18()
-
-# label Figure 3C
-lab.u.3 <- data.frame(variety = c("LD12-15064R1a", "LD12-15129R1a", "LD12-15156R1a", 
-                                    "LD13-14071R2"), 
-                        Rps= c("Rps1c", "Rps1c", "Rps1c", "Rps1c"),
-                        label = c("c", "bc",
-                                  "b", "a"), 
-                        yield.kg_ha = c(3550, 3200, 3600, 4500  
-                        ), 
-                        PR = c("Low", "Low", "Low", "High")
-                        )
-
-# Figure 3C: Yields by PR
-urbana.2018$PR <- factor(urbana.2018$PR, levels = c("High", 
-                                                    "Moderate", 
-                                                    "Low")
-                         )
-
-u.3 <- fig_box.plot(urbana.2018) +
-  facet_grid(. ~ Rps, scales = "free_x", space = "free")  +
-  geom_text(data = lab.u.3 , aes(label=label), 
-            size = 5, color = "black")
-
-# Figure 3 combine
-cowplot::plot_grid(u.1, u.2, u.3,
-                   ncol = 1, 
-                   align = "v", 
-                   labels = "AUTO", 
-                   axis = "lr" )
-```
-
-```{r Figure 4, fig.height= 7.5, fig.width=10.5}
-# Boone, Iowa 2018 data
-iowa <- resistance(iowa)
-
-# label Fig 4A
-lab.iw.1 <- data.frame(variety = c("C3140RX"), 
-                      Rps= c("Rps1c"),
-                      label = c("*"), 
-                      y = c(12.6), 
-                      treatment = c("intego")
-                     ) 
-# Fig 4A
-iw.1 <- fig_means(iowa, iowa$stand.vc, lab.iw.1) + 
-  facet_grid(. ~ Rps, scales = "free_x", space = "free") +
-  labs(y = expression('Stand (plants m'^-2*')')
-       ) +
-  theme_stand.18()
-
-# label Fig 4B
-lab.iw.2 <- data.frame(variety = c("C3140RX"), 
-                     Rps= c("Rps1c"),
-                     label = c("*"), 
-                     y = c(3100), 
-                     treatment = c("intego")
-                     ) 
-# Fig 4B
-iw.2 <- fig_means(iowa, iowa$yield.kg_ha, lab.iw.2) + 
-  facet_grid(. ~ Rps, scales = "free_x", space = "free") +
-  labs(y = expression('Yield (kg ha'^-1*')')
-       ) +
-  theme_yield.18()
-
-# Figure 4C
-iw.3 <- fig_box.plot(iowa) +
-  facet_grid(. ~ Rps, scales = "free_x", space = "free")
-
-# Figure 4 combine
-cowplot::plot_grid(iw.1, iw.2, iw.3,
-                   ncol = 1, 
-                   align = "v", 
-                   labels = "AUTO", 
-                   axis = "lr" )
 ```
