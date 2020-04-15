@@ -1,16 +1,14 @@
 name: seedtreatments
 output_dir: ../docs
 navbar:
-  title: seedtreatments on ethaboxam
+  title: Ethaboxam + metalaxyl for P. sojae management
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
-  - text: Screening section
+  - text: Resistance screening
     href: 04_resistance-screening_analysis.html
+  - text: Field trials
+    href: 05_field-trials_analysis.html
   right:
   - icon: fa-github
     text: Source code
@@ -19,5 +17,5 @@ output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
-    theme: darkly
+    theme: litera
     highlight: textmate
