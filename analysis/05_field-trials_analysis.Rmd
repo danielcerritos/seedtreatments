@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.align = "center",
                       dev = "png",
                       cache = FALSE, 
-                      message = FALSE)
+                      message = FALSE, 
+                      warning = FALSE)
 
 ```
 
@@ -29,66 +30,74 @@ theme_set(theme_bw())
 ```
 
 # Import data files  
+
+
 ```{r import field trials data}
-(seed.treatments.data <- list.files(path = here("output", "transform_data"), 
-                         full.names = TRUE))
+seed.treatments.data <- list.files(path = here("output", "transform_data"), 
+                         full.names = TRUE)
   
 illinois.2017 <- read.csv(seed.treatments.data[[2]]) 
 urbana.2018 <- read.csv(seed.treatments.data[[3]])
 iowa <- read.csv(seed.treatments.data[[1]])
 ```
 
+
+
 # Multilocation field trials 2017 
 
-## Multilocation Analysis 
 
-Fit mixed model for 2017 field trials
+Fit mixed model for 2017 field trials. The experimental design was a split-plot so the whole-plot error is  
+included in model. 
 
-```{r model vc 2017, results='asis'}
+```{r model vc 2017}
 illinois.2017$block <- as.factor(illinois.2017$block) # set block as factor
 
-fm.illinois.vc <- lmer(vc_plants.m2 ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
-                       data = illinois.2017)
+fm.illinois.vc <- lmer(vc_plants.m2 ~ location*variety * treatment + (1|block:location) + 
+                         (1|whole_plot), data = illinois.2017)
 anova(fm.illinois.vc) 
 ```
 
 ```{r vc means, fig.height=2, fig.width=6}
-emmeans(fm.illinois.vc,  ~ treatment) %>% 
-  plot(comparisons = TRUE) # increase of 12.88%
+emmeans(fm.illinois.vc, ~ treatment) # increase of 12.9%
+emmeans(fm.illinois.vc, ~ treatment) %>% 
+  plot(comparisons = TRUE) 
 ```
 
-Bars are confidence intervals and arrows are for comparisons. Arrows that overlap are not significant different. 
+Dots represent means and bars are the confidence intervals. Arrows are for comparisons, arrows that overlap are not significant different. 
 
-```{r model v2 2017, message=F}
-fm.illinois.v2 <- lmer(v2_plants.m2 ~ location*variety*treatment + (1|block:location) + (1|whole_plot), 
-                       data = illinois.2017)
+
+```{r model v2 2017}
+fm.illinois.v2 <- lmer(v2_plants.m2 ~ location*variety*treatment + (1|block:location) + 
+                         (1|whole_plot), data = illinois.2017)
 anova(fm.illinois.v2)
 ```
 
 ```{r v2 means 2017, fig.height=2, fig.width=6}
-emmeans(fm.illinois.v2, pairwise ~ treatment) %>%   
-  plot(comparisons = TRUE) # increase of 8.22%
+emmeans(fm.illinois.v2, ~ treatment)# increase of 8.2%
+emmeans(fm.illinois.v2, ~ treatment) %>%   
+  plot(comparisons = TRUE) 
 ```
 
 ```{r model yield 2017}
-fm.illinois.yield <- lmer(yield_kg.ha ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
-                          data = illinois.2017)
-anova(fm.illinois.yield) 
+fm.illinois.yield <- lmer(yield_kg.ha ~ location * variety * treatment + (1|block:location) +
+                            (1|whole_plot), data = illinois.2017)
+anova(fm.illinois.yield)
 ```
 
 ```{r yield mean 2017, fig.height=2, fig.width=6}
-emmeans(fm.illinois.yield, pairwise ~ treatment) %>% 
+emmeans(fm.illinois.yield, ~ treatment) # 0.6 %
+emmeans(fm.illinois.yield, ~ treatment) %>% 
   plot(comparisons = TRUE)
 ```
 
-The seed treatment significantly increased early stands (VC and V2), but no effect was  
-observed for yield. 
+The seed treatment significantly increased early stands (VC and V2), but no effect was  observed for yield. 
+
+
 
 ## Analysis by location 
 
-Location and location by variety were significant for all varibles. An analysis by  
-location would be perform to see if specific varieties perform better in a  
-particular environment.
+Location was significant for all variables measured. Location by variety was significant for stand at VC and yield.   
+An analysis by location would be perform to see if specific varieties perform better in a particular location.
 
 ```{r 2017 data by location}
 # change whole_plot column by removing location nested in block
@@ -110,50 +119,51 @@ urbana <- illinois.2017 %>%
   whole.plot()
 ```
 
-### Monmouth 
+
+
+## Monmouth 
+
 
 ```{r fit models monmouth}
-fm.mon.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = monmouth)
-fm.mon.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = monmouth)
-fm.mon.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                     data = monmouth)
+fm.mon.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+
 anova(fm.mon.vc) 
 anova(fm.mon.v2)
 anova(fm.mon.yield) 
 ```
 
-#### Treatment comparisons 
+Treatment effect on stand (VC and V2), but not on yield. Variety is significant for VC and yield.
+
+
+### Treatment comparisons 
 
 I will focus in VC because both treatment and variety were significant. 
 
-```{r vc monmouth, fig.height= 9, fig.width=6}
+```{r vc monmouth}
 emmeans(fm.mon.vc, ~ treatment|variety) %>% 
-  plot(comparisons =TRUE) 
+  cld.emmGrid()
 ```
 
-LD11-10069 (Rps1c, moderate) is the only variety with significant differences  
-between control and treatment.
+LD11-10069 (Rps1c, moderate) is the only variety with significant differences between control and treatment.
 
-#### Yield comparisons
 
-No effect of seed treatment on yield so I would only compare yield between  
-varieties.
+### Yield comparisons
+
+No effect of seed treatment on yield so I would only compare yield between varieties.
 
 ```{r yield monmouth}
 emmeans(fm.mon.yield, ~ variety) %>% 
   cld.emmGrid()
 ```
 
-Varieties with Rps don't seem to perform better than varieties with no  
-gene (rps). High to moderate levels have higher yields than low level.
+Varieties with Rps don't seem to perform better than varieties with no gene (rps). The variety with low levels of paritial resistance (LD12-15156R1a) has the lowest yield.  
 
-#### Contrasts
 
-I will group varieties by gene and by levels of partial resistance.  
-Then do some contrasts betweem the seed treatment and control  
-to see the overrall effect of the seed treatment by type of resistance.
+### Contrasts
+
+I will group varieties by gene and by levels of partial resistance. Then do some contrasts betweem the seed treatment and untreated control to see the overrall effect of the seed treatment by type of resistance.
 
 ```{r means monmouth}
 m.mon.vc <- emmeans(fm.mon.vc, ~ variety:treatment) 
@@ -175,27 +185,37 @@ custom_contrasts <- function(lsmeans){
   )
   cus.con1 <- contrast(lsmeans, cons.1, adjust = "mvt") # adjustment for mutiple testing
   cus.con2 <- contrast(lsmeans, cons.2, adjust = "mvt") 
-  l <- c(cus.con1, cus.con2)
-  l.m <- map(l, summary, infer = TRUE) # confidence intervals
-  df_1 <- as.data.frame(l.m[[1]])
-  df_2 <- as.data.frame(l.m[[2]])
+  con.both <- c(cus.con1, cus.con2)
+  confi_con <- map(con.both, summary, infer = TRUE) # confidence intervals
+  df_1 <- as.data.frame(confi_con[[1]])
+  df_2 <- as.data.frame(confi_con[[2]])
   df_all <- rbind(df_1, df_2)
   df_all
 }
 ```
 
-Keep focusing only in stand VC and yield.
 
-```{r effect monmouth}
-custom_contrasts(m.mon.vc)
-custom_contrasts(m.mon.yield)
+I will keep focusing only in stand VC and yield.
+
+```{r effect VC monmouth}
+custom_contrasts(m.mon.vc) %>% 
+  knitr::kable()
 ```
 
-Significant differences for Rps1c at VC, no differences for levels of partial resistance (PR).  
-At yield, differences for Rps1k and no differences for PR levels.
+Significant differences for Rps1c.
 
-I would do another contrast comparing yields between levels of PR. Rps  
-didn't seem to perform better than rps, but high PR seem to perform better.
+
+```{r effect yield monmouth}
+custom_contrasts(m.mon.yield) %>% 
+    knitr::kable()
+```
+
+No significant differences found for yield. The control for varieties with high levels of partial resistance had
+higher yield.
+
+
+I would do another contrast comparing yields between levels of partial resistance (PR). Rps didn't seem to perform 
+better than rps, but high PR seem to perform better.
 
 ```{r pr level monmouth}
 pr_contrast <- function(lsmean){
@@ -211,33 +231,39 @@ pr_contrast <- function(lsmean){
 }
 
 emmeans(fm.mon.yield, ~ variety) %>% 
-  pr_contrast()
+  pr_contrast() %>% 
+  knitr::kable()
 ```
 
-### Orr
+High level PR have higher yield than low, but no difference with moderate. No difference between moderate and low.
+
+
+
+## Orr
 
 ```{r fit models orr}
-fm.orr.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = orr)
-fm.orr.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = orr)
-fm.orr.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                     data = orr)
+fm.orr.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
 anova(fm.orr.vc) 
 anova(fm.orr.v2) 
 anova(fm.orr.yield) 
 ```
 
-#### Treatment comparison  
 
-```{r vc orr, fig.height = 9.5, fig.width = 6}
+### Treatment comparison  
+
+
+```{r vc orr}
 emmeans(fm.orr.vc, ~ treatment|variety) %>% 
-  plot(comparisons =TRUE) 
+  cld.emmGrid()
 ```
 
 Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.
 
-#### Yield comparison
+
+### Yield comparison
+
 
 ```{r yield orr}
 emmeans(fm.orr.yield, ~ variety) %>% 
@@ -246,60 +272,78 @@ emmeans(fm.orr.yield, ~ variety) %>%
 
 Same as Monmouth, variety with no resistance gene has the higher yield.
 
-#### Contrasts
 
-```{r effect orr}
+### Contrasts
+
+
+```{r effect vc orr}
 emmeans(fm.orr.vc, ~ variety:treatment) %>% 
-  custom_contrasts()
-
-emmeans(fm.orr.yield, ~ variety:treatment) %>% 
-  custom_contrasts()
+  custom_contrasts() %>% 
+  knitr::kable()
 ```
 
-Rps1k had a significant difference at VC and differences for moderate and low.  
-No significant differences for yield.
+Significant differences for Rps1k. Moderate and low levels also have a significant differences.
+
+
+```{r}
+emmeans(fm.orr.yield, ~ variety:treatment) %>% 
+  custom_contrasts() %>% 
+  knitr::kable()
+```
+
+No significant differences for yield, but again the untreated control has higher yield for varieties with high levels of partial resistance.
+
 
 ```{r pr level orr}
 emmeans(fm.orr.yield, ~ variety) %>% 
-  pr_contrast()
+  pr_contrast() %>% 
+  knitr::kable()
 ```
 
-High PR has higher yields than both moderate and low. 
+High partial reistance varieties have higher yields than both moderate and low.
 
-### Urbana
+
+
+## Urbana
+
 
 ```{r fit models urbana}
-fm.urb.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = urbana)
-fm.urb.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                  data = urbana)
-fm.urb.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                  data = urbana)
-fm.urb.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot),
-                     data = urbana)
+fm.urb.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+
 anova(fm.urb.vc)
 anova(fm.urb.v2)
 anova(fm.urb.r8) 
 anova(fm.urb.yield) 
 ```
 
+Treatment is significant for the final stand at R8.
+
+
+
 A significant interaction was observed for VC in Urbana.
+
 ```{r interaction urbana, fig.width=8, fig.height=4}
 emmip(fm.urb.vc, treatment ~ variety)
 ```
 
 Seems that seed treatment is having an effect in both rps and Rps1k. 
 
-#### Treatment comparison 
 
-```{r vc urbana, fig.height = 9.5, fig.width = 6}
+### Treatment comparison 
+
+
+```{r vc urbana}
 emmeans(fm.urb.vc, ~ treatment|variety) %>% 
-  plot(comparisons =TRUE) 
+  cld.emmGrid()
 ```
 
 No significant difference for two of the the three Rps1c varieties. 
 
-#### Yield comparison
+
+### Yield comparison
 
 ```{r yield urbana}
 emmeans(fm.urb.vc, ~ variety) %>% 
@@ -308,34 +352,45 @@ emmeans(fm.urb.vc, ~ variety) %>%
 
 A Rps1c variety has the highest yield.
 
-#### Contrasts
 
-```{r per level urbana}
+### Contrasts
+
+
+```{r effect vc urbana}
 emmeans(fm.urb.vc, ~ variety:treatment) %>% 
-  custom_contrasts
-emmeans(fm.urb.yield, ~ variety:treatment) %>% 
-  custom_contrasts()
+  custom_contrasts %>% 
+  knitr::kable()
 ```
 
-Significant differences for rps and Rps1k for VC and for all pr levels at VC.  
-No significant differences for yield
+Significatn effect for rps and Rps1k. Moderate and low also had a significant difference.e
+
+
+```{r effect yield urbana}
+emmeans(fm.urb.yield, ~ variety:treatment) %>% 
+  custom_contrasts() %>% 
+  knitr::kable()
+```
+
+No difference for yield, but the untreated control for Rps1c and high levels of partial had higher yields.
+
 
 ```{r pr level urbana}
 emmeans(fm.urb.yield, ~ variety) %>% 
-  pr_contrast()
+  pr_contrast() %>% 
+  knitr::kable()
 ```
 
-### Model assumptions
+High and moderate partial resistance have higher yields than low levels. No difference between high and moderate.
 
-```{r assumptions, results = "hide"}
-# diagnostic plots to check on model assumptions 
-models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
-                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
-                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
-map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance
-```
+
+
 
 ## Figure 1
+
+Effect of seed treatment (ST) on stand for multilocation field trials in 2017. Dots represent mean stands at VC and 
+vertical lines their confidence interval. Means with an asterick are significantly different. Panels with two asteriks
+represent a significant difference in the contrast between the untreated control and the seed treatment.
+
 
 ```{r add resistance info, echo=FALSE}
 # add resistance information (Rps and partial resistance levels) for figures
@@ -432,13 +487,18 @@ illinois.2017 %>%
 
 ## Figure 2
 
+Box plots of the distribution of yield of varieties with different levels of partial resistance in multilocation field
+experiment in Illinois 2017. The center lines show the medians and box limits indicate the 25th and 75th percentiles
+and whiskers extend 1.5 times the interquartile range (IQR). Outliers are represented by black solid dots
+
+
 ```{r fig 2, warning = FALSE, fig.width = 6.5, fig.height = 5.5, echo = FALSE}
 illinois.2017$pr_level <- factor(illinois.2017$pr_level, 
                                  levels = c("High", 
                                             "Moderate", 
                                             "Low"))
 illinois.2017 %>% 
-  ggplot(aes(x = reorder(variety, yield_kg.ha), 
+  ggplot(aes(x = fct_reorder(variety, -yield_kg.ha), 
              y = yield_kg.ha, fill= pr_level)) +
   geom_jitter(alpha= 0.2, width = 0.4) +
   geom_boxplot(alpha = 0.5) +
@@ -457,23 +517,22 @@ illinois.2017 %>%
                  position=position_dodge(width=0.75), color="black")
 ```
 
+
+
 # Urbana and Boone field trials in 2018
 
-## Urbana 2018
+
+## Urbana, IL
 
 ```{r fit models urbana 2018}
 urbana.2018$block <- as.factor(urbana.2018$block)
 
-fm.urb18.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.v4 <- lmer(v4_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                       data = urbana.2018)
+fm.urb18.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.v2 <- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.v4 <- lmer(v4_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.yield <- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+
 anova(fm.urb18.vc)
 anova(fm.urb18.v2) 
 anova(fm.urb18.v4)  
@@ -481,48 +540,61 @@ anova(fm.urb18.r8)
 anova(fm.urb18.yield)
 ```
 
-Treatment effect significant in all variables and variety significant  
-for stand at VC and yield.
+Treatment effect significant in the four stand counts and also for yield. Variety is only significant for stand at VC
+and yield.
+
 
 ### Treatment comparison 
 
-```{r treatment urbana 18}
+```{r treatment urbana 18, fig.height=2, fig.width=6}
 # overrall treatment effect
-emmeans(fm.urb18.vc, ~ treatment) #17.82%
-emmeans(fm.urb18.v2, ~ treatment) #18.61
-emmeans(fm.urb18.v4, ~ treatment) #18.35
-emmeans(fm.urb18.r8, ~ treatment) #15.6
-emmeans(fm.urb18.yield,  ~ treatment) #7.84
+emmeans(fm.urb18.vc, ~ treatment) %>% #17.82%
+  plot(comparison = TRUE)
+emmeans(fm.urb18.v2, ~ treatment) %>% #18.61
+  plot(comparison = TRUE)
+emmeans(fm.urb18.v4, ~ treatment) %>% #18.35
+    plot(comparison = TRUE)
+emmeans(fm.urb18.r8, ~ treatment) %>% #15.6
+    plot(comparison = TRUE)
+emmeans(fm.urb18.yield,  ~ treatment) %>% #7.84
+    plot(comparison = TRUE)
 ```
+
 
 I will focus in VC and yield like in 2017 analysis. 
 
-```{r vc urbana 18, fig.height= 9, fig.width=6}
+```{r vc urbana 18}
 # seed treatment effect within variety
 emmeans(fm.urb18.vc, ~ treatment|variety) %>% 
-  plot(comparisons = TRUE)
-
+  cld.emmGrid()
 ```
 
-Varieties LD07-3395bf(rps, High) and LD11-7311 (1k, moderate)   have significant differences 
+Varieties LD07-3395bf(rps, High) and LD11-7311 (1k, moderate) have significant differences.
 
-```{r yield trt urb18, fig.height= 9, fig.width=6}
+
+```{r yield trt urb18}
 emmeans(fm.urb18.yield, ~ treatment|variety) %>% 
-  plot(comparisons = TRUE)
+  cld.emmGrid()
 ```
 
 The two varieties with high moderate levels, LD07-3395bf(rps) and LD13-14071R2 (1c)  
 have significant differences 
 
+
 ### Yield comparison
+
 ```{r yield var}
 emmeans(fm.urb18.yield, ~ variety) %>% 
   cld.emmGrid()
 ```
 
-High level partial resistance varieties have higher yields.
+High level partial resistance varieties have higher yields. A Rps1c variety had the highest yield.
+
 
 ### Constrasts 
+
+Same contrasts between untreated control and seed treatment by each type of resistance (resistance gene or partial resistance level).
+
 
 ```{r contrasts urb18}
 custom_contrast18 <- function(lsmeans){
@@ -538,22 +610,33 @@ custom_contrast18 <- function(lsmeans){
   "t.Moderate - c.Moderate" = c(0, rep(-1/3, 3), rep(0, 6), rep(1/3, 3), rep(0, 5)), 
   "t.Low - c.Low" = c(rep(0, 4), rep(-1/4, 4), rep(0, 5), rep(1/4, 4), 0)
 )
-  cus.con1 <- contrast(lsmeans, cons.1.18, adjust = "mvt")  
+  cus.con1 <- contrast(lsmeans, cons.1.18, adjust = "mvt") 
   cus.con2 <- contrast(lsmeans, cons.2.18, adjust = "mvt") 
-  l <- c(cus.con1, cus.con2)
-  l.m <- map(l, summary, infer = TRUE) 
-  df_1 <- as.data.frame(l.m[[1]])
-  df_2 <- as.data.frame(l.m[[2]])
+  con.both <- c(cus.con1, cus.con2)
+  confi_con <- map(con.both, summary, infer = TRUE) 
+  df_1 <- as.data.frame(confi_con[[1]])
+  df_2 <- as.data.frame(confi_con[[2]])
   df_all <- rbind(df_1, df_2)
   df_all
 }
+```
 
+```{r effect vc urb18}
 emmeans(fm.urb18.vc, ~ variety:treatment) %>% 
-  custom_contrast18()
+  custom_contrast18() %>% 
+  knitr::kable()
+```
 
+Significant differences for rps and Rps1k. Significant differences for moderate levels.
+
+
+```{r effect yield urb18}
 emmeans(fm.urb18.yield, ~ variety:treatment) %>% 
   custom_contrast18()
 ```
+
+Significant differences for rps and Rps1c. Significant differences for high levels of partial resistance.
+
 
 ```{r pr level urb18}
 pr_contrast18 <- function(lsmean){
@@ -567,15 +650,34 @@ pr_contrast18 <- function(lsmean){
   df_con <- as.data.frame(conf_con)
   df_con
 }
+```
 
+```{r pr level yield urb18}
 emmeans(fm.urb18.yield, ~ variety) %>% 
   pr_contrast18
 ```
 
+High level partial resistnace has higher yields than both moderate and low levels.
+
+
+
 ## Figure 3
+
+Effect of seed treatment and varieties with no resistance gene (rps), Rps1c or Rps1k on stand count at VC (A) and 
+yield (B) in 2018 field trial in Urbana, IL. Dots represent the mean stand of seed treatment (ST) plots and untreated 
+control (NTC) plots. Vertical bars show confidence intervals of means. Varieties with a significant difference between
+the untreated control and seed treatment are indicated with an asterisk. (C) Box plots of the distribution of yield of
+varieties with different levels of partial resistance in 2018 field trial in Urbana, IL. The center lines show the
+medians and box limits indicate the 25th and 75th percentiles and whiskers extend 1.5 times the interquartile range
+(IQR). Outliers are represented by black solid dots. 
+
+
 
 ```{r fig 3A, warning=FALSE, echo=FALSE}
 urbana.2018 <- resistance_info(urbana.2018)
+urbana.2018$pr_level <- factor(urbana.2018$pr_level, levels = c("High", 
+                                                                "Moderate", 
+                                                                "Low"))
 
 lab.fig.3A <- data.frame(variety = c("LD07-3395bf", "LD11-7311"), 
                          rps= c("rps", "Rps1k"),
@@ -651,9 +753,10 @@ fig.3B <- urbana.2018  %>%
   panel_border() +
   theme(legend.position = "bottom",
     legend.box.margin=margin(-10,-10,-10,-10),
-  axis.title.x = element_blank(),
-        strip.text = element_blank(),
-        panel.grid.major.y = element_line(linetype = "dotted", 
+    axis.title.x = element_blank(),
+    strip.text = element_blank(),
+    axis.text.x = element_text(size = 8),
+    panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80"), 
         ) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
@@ -671,7 +774,7 @@ fig.3B <- urbana.2018  %>%
 
 ```{r fig 3C, echo=FALSE}
 fig.3C <- urbana.2018 %>% 
-  ggplot(aes(x = reorder(variety, -yield_kg.ha), 
+  ggplot(aes(x = fct_reorder(variety, -yield_kg.ha), 
              y = yield_kg.ha, fill= pr_level)) +
   geom_jitter(alpha= 0.2, width = 0.4) +
   geom_boxplot(alpha = 0.5) +
@@ -681,7 +784,8 @@ fig.3C <- urbana.2018 %>%
   panel_border() +
   theme(legend.position = "bottom",
         panel.grid.major.y = element_line(linetype = "dotted", 
-                                          color = "grey80")) +
+                                          color = "grey80"), 
+        axis.text.x = element_text(size = 10)) +
   labs(y = expression('Yield (kg ha'^-1*')'),
          x = "Variety") +
   scale_x_discrete("Variety", labels = short.names) +
@@ -689,7 +793,7 @@ fig.3C <- urbana.2018 %>%
                  position=position_dodge(width=0.75), color="black")
 ```
 
-```{r figure 3, warning=FALSE, fig.width = 7, fig.height = 7}
+```{r figure 3, echo=FALSE, fig.width = 7, fig.height = 7}
 cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
                    ncol = 1, 
                    align = "v", 
@@ -698,21 +802,18 @@ cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
                    rel_heights = c(1, 1, 1.3))
 ```
 
-## Boone, Iowa 2018
+
+
+## Boone, Iowa 
 
 ```{r boone fit models}
 iowa$block <- as.factor(iowa$block)
 
-fm.iowa.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                   data = iowa)
-fm.iowa.v1<- lmer(v1_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = iowa)
-fm.iowa.r2 <- lmer(r2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                   data = iowa)
-fm.iowa.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                   data = iowa)
-fm.iowa.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), 
-                      data = iowa)
+fm.iowa.vc <- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.v1<- lmer(v1_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.r2 <- lmer(r2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.r8 <- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.yield <- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
 
 anova(fm.iowa.vc) 
 anova(fm.iowa.v1)
@@ -722,10 +823,204 @@ anova(fm.iowa.yield)
 
 ```
 
-```{r emmeans boone treatment}
-emmeans(fm.iowa.vc, pairwise ~ treatment) #12.25
-emmeans(fm.iowa.v1, pairwise ~ treatment) #9.62
-emmeans(fm.iowa.r2, pairwise ~ treatment) #11.10
-emmeans(fm.iowa.r8, pairwise ~ treatment) #12.01
-emmeans(fm.iowa.yield, pairwise ~ treatment) #8.1
+Treatment was significant for all stands and yield. Variety was not significant for 
+
+
+### Treatment effect
+
+```{r emmeans boone treatment, fig.height=2, fig.width=6}
+emmeans(fm.iowa.vc, ~ treatment) %>%  #12.25
+  plot(comparisons = TRUE)
+emmeans(fm.iowa.v1,  ~ treatment) %>% #9.62
+  plot(comparisons = TRUE)
+emmeans(fm.iowa.r2,  ~ treatment) %>%  #11.10
+    plot(comparisons = TRUE)
+emmeans(fm.iowa.r8,  ~ treatment) %>% #12.01
+    plot(comparisons = TRUE)
+emmeans(fm.iowa.yield,  ~ treatment) %>%  #8.1
+    plot(comparisons = TRUE)
 ```
+
+All stand counts and yield are significanlty increased with the seed treatment.
+
+
+### Yield comparisons
+
+
+```{r yield iowa}
+emmeans(fm.iowa.yield, ~ variety) %>% 
+  cld.emmGrid()
+```
+
+No difference between varieties for yield.
+
+
+### Contrasts
+
+```{r iowa contrasts}
+custom_contrastiw <- function(lsmeans){
+  # compare effect of seed treatment by Rps
+cons.1.iw <- list(
+  "t.Rps1c - c.Rps1c" = c(-0.2, -0.2, -0.2, 0, 0, -0.2, -0.2, 0.2, 0.2, 0.2, 0, 0, 0.2, 0.2),
+  "t.Rps1k - c.Rps1k" = c(0, 0, 0, -0.5, -0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0)
+)
+  cons.2.iw <- list(
+  "t.High - c.High" = c(0, 0, -0.5, 0, 0, 0, -0.5, 0, 0, 0.5, 0, 0, 0, 0.5), 
+  "t.Moderate - c.Moderate" = c(-1/5, -1/5, 0, -1/5, -1/5, -1/5, 0, 1/5, 1/5, 0, 1/5, 1/5, 1/5, 0)
+)
+  
+  cus.con1 <- contrast(lsmeans, cons.1.iw, adjust = "mvt") 
+  cus.con2 <- contrast(lsmeans, cons.2.iw, adjust = "mvt") 
+  con.both <- c(cus.con1, cus.con2)
+  confi_con <- map(con.both, summary, infer = TRUE) 
+  df_1 <- as.data.frame(confi_con[[1]])
+  df_2 <- as.data.frame(confi_con[[2]])
+  df_all <- rbind(df_1, df_2)
+  df_all
+}
+```
+
+```{r iowa means}
+emmeans(fm.iowa.vc, ~ variety:treatment) %>% 
+  custom_contrastiw() %>% 
+  knitr::kable()
+```
+
+Difference for Rps1c and high levels of partial resistance
+
+```{r effect vc}
+emmeans(fm.iowa.yield, ~ variety:treatment) %>% 
+  custom_contrastiw() %>% 
+  knitr::kable()
+```
+
+Difference for Rps1c and high levels of partial resistance
+
+```{r pr levels iowa}
+pr_contrastiw <- function(lsmean){
+ cons.3.iw <- list(
+  "High - Moderate" = c(-1/5, -1/5, 0.5, -1/5, -1/5, -1/5, 0.5)
+)
+  cus.con.3 <- contrast(lsmean, cons.3.iw, adjust = "mvt")
+  conf_con <- summary(cus.con.3, infer = TRUE)
+  df_con <- as.data.frame(conf_con)
+  df_con
+}
+```
+
+```{r con pr iowa}
+emmeans(fm.iowa.yield, ~ variety) %>% 
+  pr_contrastiw() %>% 
+  knitr::kable()
+```
+
+No difference between high and moderate.
+
+
+## Figure 4
+
+
+
+```{r fig 4A, echo=FALSE}
+lab.fig.4A <- data.frame(rps = "Rps1c", 
+                         variety = "C3140RX", 
+                         vc_plants.m2 = 13.5, 
+                         label = "*", 
+                         treatment = "intego")
+con.fig.4A <- data.frame(rps = "Rps1c", 
+                         start = "AG28x7",
+                         end = "NK3195X",  
+                         y = 15.5, 
+                         label = "* *", 
+                         treatment = "intego")
+
+fig.4A <- iowa %>% 
+  ggplot(aes(x = variety, y = vc_plants.m2)) +
+  geom_point(aes(color = treatment), 
+             position = position_jitterdodge(dodge.width = 0.5), 
+             alpha = 0.2) +
+  stat_summary(fun.data = "mean_cl_boot", 
+               position = position_dodge(width = 0.5),
+               aes(color = treatment), alpha = 0.7) +
+  facet_grid(. ~ rps, scales = "free", space = "free_x") +
+  labs(y = expression('Stand (plants m'^-2*')')) +
+  theme_cowplot() +
+  panel_border() +
+  theme(axis.text.x = element_text(size = 10),
+        panel.grid.major.y = element_line(linetype = "dotted", 
+                                          color = "grey80"), 
+        axis.title.x = element_blank()) +
+  scale_color_manual(values = c("#D55E00", "#0072B2"), 
+                     labels = c("NTC", "ST"), 
+                     name = element_blank()) +
+  geom_text(data = lab.fig.4A, aes(label=label), 
+            size = 5, color = "black") +
+  geom_signif(data = con.fig.4A, 
+              aes(xmin = start, xmax = end, annotations=label, y_position = y),
+              textsize = 5, vjust = -0.2, 
+              manual = TRUE) +
+  scale_y_continuous(limits = c(8, 16))
+```
+
+```{r fig 4B, echo=FALSE}
+iowa <- resistance_info(iowa)
+iowa <- iowa %>% 
+  mutate(pr_level = forcats::fct_inorder(pr_level))
+
+fig.4b <- iowa %>% 
+  ggplot(aes(x = fct_reorder(variety, -yield_kg.ha), 
+             y = yield_kg.ha, fill= pr_level)) +
+  geom_jitter(alpha= 0.2, width = 0.4) +
+  geom_boxplot(alpha = 0.5) +
+  scale_fill_manual(values = c("#E69F00", "#56B4E9", "#009E73"), 
+                    name = element_blank()) +
+  theme_cowplot() +
+  panel_border() +
+  theme(
+        panel.grid.major.y = element_line(linetype = "dotted", 
+                                          color = "grey80"), 
+        axis.text.x = element_text(size = 10)) +
+  labs(y = expression('Yield (kg ha'^-1*')'),
+         x = "Variety") +
+  scale_x_discrete("Variety", labels = short.names) +
+  stat_summary(fun.y="mean", geom="point", size=1.2,
+                 position=position_dodge(width=0.75), color="black")
+```
+
+```{r fig 4, fig.width = 7, fig.height = 4.4, echo=FALSE}
+cowplot::plot_grid(fig.4A, fig.4b,
+                   ncol = 1, 
+                   align = "v", 
+                   labels = "AUTO", 
+                   axis = "lr" )
+
+```
+
+
+
+
+## Model assumptions
+
+
+Diagnostic plots to check on model assumptions 
+
+
+```{r assumptions models 2017}
+# 2017
+models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
+                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
+                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
+map(models.201, resid_panel) #residuals normally distributed and homogenicity of variance
+```
+
+```{r assumptions mmodels 2018}
+# 2018
+models.2018 <- list(fm.urb18.vc, fm.urb18.v2, fm.urb18.v4, 
+                    fm.urb18.r8, fm.urb18.yield, 
+                    fm.iowa.vc, fm.iowa.v1, fm.iowa.r2, 
+                    fm.iowa.r8, fm.iowa.yield)
+map(models.2018, resid_panel) #residuals normally distributed and homogenicity of variance
+```
+
+
+
