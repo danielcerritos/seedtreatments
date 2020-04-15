@@ -1010,7 +1010,7 @@ Diagnostic plots to check on model assumptions
 models.2017 <- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
                     fm.orr.vc, fm.orr.v2, fm.orr.yield,
                     fm.urb.vc, fm.urb.v2, fm.urb.yield)
-map(models.201, resid_panel) #residuals normally distributed and homogenicity of variance
+map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance
 ```
 
 ```{r assumptions mmodels 2018}

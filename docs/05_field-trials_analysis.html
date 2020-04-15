@@ -18,7 +18,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -349,7 +349,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">seedtreatments</a>
+      <a class="navbar-brand" href="index.html">Ethaboxam + metalaxyl for P. sojae management</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -357,13 +357,10 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="04_resistance-screening_analysis.html">Resistance screening</a>
 </li>
 <li>
-  <a href="license.html">License</a>
-</li>
-<li>
-  <a href="04_resistance-screening_analysis.html">Screening section</a>
+  <a href="05_field-trials_analysis.html">Field trials</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -392,7 +389,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -401,7 +398,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -410,10 +407,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-14
+<strong>Last updated:</strong> 2020-04-15
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>seedtreatments/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -429,12 +426,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -501,16 +498,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstreeaf3c74fb4b7739476a0c8e366b8b50a92bedac6atargetblankaf3c74fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/danielcerritos/seedtreatments/tree/af3c74fb4b7739476a0c8e366b8b50a92bedac6a" target="_blank">af3c74f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree3ac3842cc013c1f63186be2322f5f3b68a5f6869targetblank3ac3842a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/danielcerritos/seedtreatments/tree/3ac3842cc013c1f63186be2322f5f3b68a5f6869" target="_blank">3ac3842</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstreeaf3c74fb4b7739476a0c8e366b8b50a92bedac6atargetblankaf3c74fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree3ac3842cc013c1f63186be2322f5f3b68a5f6869targetblank3ac3842a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/danielcerritos/seedtreatments/tree/af3c74fb4b7739476a0c8e366b8b50a92bedac6a" target="_blank">af3c74f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/danielcerritos/seedtreatments/tree/3ac3842cc013c1f63186be2322f5f3b68a5f6869" target="_blank">3ac3842</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -518,6 +515,13 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/figure/
+
+Unstaged changes:
+    Modified:   analysis/05_field-trials_analysis.Rmd
+    Modified:   analysis/_site.yml
 
 </code></pre>
 <p>
@@ -556,6 +560,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/danielcerritos/seedtreatments/blob/d9b473e44edc87238c45ea3a78dd09563e279f42/analysis/05_field-trials_analysis.Rmd" target="_blank">d9b473e</a>
+</td>
+<td>
+Daniel Guillermo Cerritos
+</td>
+<td>
+2020-04-15
+</td>
+<td>
+final figure revisions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/danielcerritos/seedtreatments/d64badcac37e95cb57c86fda1f69f959822f9397/docs/05_field-trials_analysis.html" target="_blank">d64badc</a>
+</td>
+<td>
+Daniel Guillermo Cerritos
+</td>
+<td>
+2020-04-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -746,36 +784,55 @@ library(ggsignif)
 theme_set(theme_bw())</code></pre>
 <div id="import-data-files" class="section level1">
 <h1>Import data files</h1>
-<pre class="r"><code>(seed.treatments.data &lt;- list.files(path = here(&quot;output&quot;, &quot;transform_data&quot;), 
-                         full.names = TRUE))</code></pre>
-<pre><code>[1] &quot;C:/Users/danie/Documents/masters_projects/seedtreatments/output/transform_data/03_field-trials_iowa-2018_transformed-data.csv&quot;         
-[2] &quot;C:/Users/danie/Documents/masters_projects/seedtreatments/output/transform_data/03_field-trials_multilocation-2017_transformed-data.csv&quot;
-[3] &quot;C:/Users/danie/Documents/masters_projects/seedtreatments/output/transform_data/03_field-trials_urbana-2018_transformed-data.csv&quot;       </code></pre>
-<pre class="r"><code>illinois.2017 &lt;- read.csv(seed.treatments.data[[2]]) 
+<pre class="r"><code>seed.treatments.data &lt;- list.files(path = here(&quot;output&quot;, &quot;transform_data&quot;), 
+                         full.names = TRUE)
+  
+illinois.2017 &lt;- read.csv(seed.treatments.data[[2]]) 
 urbana.2018 &lt;- read.csv(seed.treatments.data[[3]])
 iowa &lt;- read.csv(seed.treatments.data[[1]])</code></pre>
 </div>
 <div id="multilocation-field-trials-2017" class="section level1">
 <h1>Multilocation field trials 2017</h1>
-<div id="multilocation-analysis" class="section level2">
-<h2>Multilocation Analysis</h2>
-<p>Fit mixed model for 2017 field trials</p>
+<p>Fit mixed model for 2017 field trials. The experimental design was a split-plot so the whole-plot error is<br />
+included in model.</p>
 <pre class="r"><code>illinois.2017$block &lt;- as.factor(illinois.2017$block) # set block as factor
 
-fm.illinois.vc &lt;- lmer(vc_plants.m2 ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
-                       data = illinois.2017)
+fm.illinois.vc &lt;- lmer(vc_plants.m2 ~ location*variety * treatment + (1|block:location) + 
+                         (1|whole_plot), data = illinois.2017)
 anova(fm.illinois.vc) </code></pre>
-<p>Type III Analysis of Variance Table with Satterthwaite’s method Sum Sq Mean Sq NumDF DenDF F value Pr(&gt;F) location 1074.33 537.17 2 8.999 64.2178 4.710e-06 variety 313.09 52.18 6 54.061 6.2384 5.028e-05 treatment 366.10 366.10 1 63.064 43.7664 9.265e-09 location:variety 284.71 23.73 12 54.061 2.8364 0.004373 location:treatment 15.51 7.76 2 63.064 0.9272 0.400979 variety:treatment 80.15 13.36 6 63.064 1.5971 0.162780 location:variety:treatment 132.24 11.02 12 63.064 1.3174 0.231470</p>
-<p>location <strong><em> variety </em></strong> treatment *<strong> location:variety </strong> location:treatment<br />
-variety:treatment<br />
-location:variety:treatment<br />
-— Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 ‘.’ 0.1 ’ ’ 1</p>
-<pre class="r"><code>emmeans(fm.illinois.vc,  ~ treatment) %&gt;% 
-  plot(comparisons = TRUE) # increase of 12.88%</code></pre>
+<pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
+                            Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)
+location                   1074.33  537.17     2  8.999 64.2178 4.710e-06
+variety                     313.09   52.18     6 54.061  6.2384 5.028e-05
+treatment                   366.10  366.10     1 63.064 43.7664 9.265e-09
+location:variety            284.71   23.73    12 54.061  2.8364  0.004373
+location:treatment           15.51    7.76     2 63.064  0.9272  0.400979
+variety:treatment            80.15   13.36     6 63.064  1.5971  0.162780
+location:variety:treatment  132.24   11.02    12 63.064  1.3174  0.231470
+                              
+location                   ***
+variety                    ***
+treatment                  ***
+location:variety           ** 
+location:treatment            
+variety:treatment             
+location:variety:treatment    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>emmeans(fm.illinois.vc, ~ treatment) # increase of 12.9%</code></pre>
+<pre><code> treatment emmean    SE   df lower.CL upper.CL
+ control     22.9 0.383 19.8     22.1     23.7
+ intego      25.8 0.383 19.8     25.0     26.6
+
+Results are averaged over the levels of: location, variety 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+<pre class="r"><code>emmeans(fm.illinois.vc, ~ treatment) %&gt;% 
+  plot(comparisons = TRUE) </code></pre>
 <p><img src="figure/05_field-trials_analysis.Rmd/vc%20means-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>Bars are confidence intervals and arrows are for comparisons. Arrows that overlap are not significant different.</p>
-<pre class="r"><code>fm.illinois.v2 &lt;- lmer(v2_plants.m2 ~ location*variety*treatment + (1|block:location) + (1|whole_plot), 
-                       data = illinois.2017)
+<p>Dots represent means and bars are the confidence intervals. Arrows are for comparisons, arrows that overlap are not significant different.</p>
+<pre class="r"><code>fm.illinois.v2 &lt;- lmer(v2_plants.m2 ~ location*variety*treatment + (1|block:location) + 
+                         (1|whole_plot), data = illinois.2017)
 anova(fm.illinois.v2)</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                            Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)
@@ -796,12 +853,20 @@ variety:treatment
 location:variety:treatment    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>emmeans(fm.illinois.v2, pairwise ~ treatment) %&gt;%   
-  plot(comparisons = TRUE) # increase of 8.22%</code></pre>
+<pre class="r"><code>emmeans(fm.illinois.v2, ~ treatment)# increase of 8.2%</code></pre>
+<pre><code> treatment emmean   SE df lower.CL upper.CL
+ control     24.8 0.32 25     24.1     25.4
+ intego      26.8 0.32 25     26.1     27.4
+
+Results are averaged over the levels of: location, variety 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+<pre class="r"><code>emmeans(fm.illinois.v2, ~ treatment) %&gt;%   
+  plot(comparisons = TRUE) </code></pre>
 <p><img src="figure/05_field-trials_analysis.Rmd/v2%20means%202017-1.png" width="576" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>fm.illinois.yield &lt;- lmer(yield_kg.ha ~ location * variety * treatment + (1|block:location) + (1|whole_plot), 
-                          data = illinois.2017)
-anova(fm.illinois.yield) </code></pre>
+<pre class="r"><code>fm.illinois.yield &lt;- lmer(yield_kg.ha ~ location * variety * treatment + (1|block:location) +
+                            (1|whole_plot), data = illinois.2017)
+anova(fm.illinois.yield)</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                              Sum Sq Mean Sq NumDF  DenDF  F value
 location                   13335298 6667649     2  9.072 101.3837
@@ -821,17 +886,22 @@ variety:treatment          0.1882714
 location:variety:treatment 0.6544569    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>emmeans(fm.illinois.yield, pairwise ~ treatment) %&gt;% 
+<pre class="r"><code>emmeans(fm.illinois.yield, ~ treatment) # 0.6 %</code></pre>
+<pre><code> treatment emmean   SE   df lower.CL upper.CL
+ control     4847 39.9 16.1     4762     4931
+ intego      4874 39.5 15.6     4790     4958
+
+Results are averaged over the levels of: location, variety 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+<pre class="r"><code>emmeans(fm.illinois.yield, ~ treatment) %&gt;% 
   plot(comparisons = TRUE)</code></pre>
 <p><img src="figure/05_field-trials_analysis.Rmd/yield%20mean%202017-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>The seed treatment significantly increased early stands (VC and V2), but no effect was<br />
-observed for yield.</p>
-</div>
+<p>The seed treatment significantly increased early stands (VC and V2), but no effect was observed for yield.</p>
 <div id="analysis-by-location" class="section level2">
 <h2>Analysis by location</h2>
-<p>Location and location by variety were significant for all varibles. An analysis by<br />
-location would be perform to see if specific varieties perform better in a<br />
-particular environment.</p>
+<p>Location was significant for all variables measured. Location by variety was significant for stand at VC and yield.<br />
+An analysis by location would be perform to see if specific varieties perform better in a particular location.</p>
 <pre class="r"><code># change whole_plot column by removing location nested in block
 whole.plot &lt;- function(data){
   data %&gt;% 
@@ -849,14 +919,13 @@ orr &lt;- illinois.2017 %&gt;%
 urbana &lt;- illinois.2017 %&gt;% 
   filter(location == &quot;Urbana&quot;) %&gt;% 
   whole.plot()</code></pre>
-<div id="monmouth" class="section level3">
-<h3>Monmouth</h3>
-<pre class="r"><code>fm.mon.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = monmouth)
-fm.mon.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = monmouth)
-fm.mon.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                     data = monmouth)
+</div>
+<div id="monmouth" class="section level2">
+<h2>Monmouth</h2>
+<pre class="r"><code>fm.mon.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+fm.mon.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = monmouth)
+
 anova(fm.mon.vc) </code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                    Sum Sq Mean Sq NumDF DenDF F value   Pr(&gt;F)   
@@ -881,19 +950,55 @@ treatment             410     410     1 20.847  0.0040 0.950224
 variety:treatment  606566  101094     6 20.722  0.9843 0.460840   
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div id="treatment-comparisons" class="section level4">
-<h4>Treatment comparisons</h4>
+<p>Treatment effect on stand (VC and V2), but not on yield. Variety is significant for VC and yield.</p>
+<div id="treatment-comparisons" class="section level3">
+<h3>Treatment comparisons</h3>
 <p>I will focus in VC because both treatment and variety were significant.</p>
 <pre class="r"><code>emmeans(fm.mon.vc, ~ treatment|variety) %&gt;% 
-  plot(comparisons =TRUE) </code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/vc%20monmouth-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>LD11-10069 (Rps1c, moderate) is the only variety with significant differences<br />
-between control and treatment.</p>
+  cld.emmGrid()</code></pre>
+<pre><code>variety = LD07-3395bf:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     21.0 1.54 38.5     17.9     24.1  1    
+ intego      22.5 1.54 38.5     19.4     25.6  1    
+
+variety = LD10-10219:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ intego      19.8 1.54 38.5     16.6     22.9  1    
+ control     21.8 1.54 38.5     18.6     24.9  1    
+
+variety = LD11-10069:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     20.5 1.54 38.5     17.4     23.6  1    
+ intego      25.5 1.54 38.5     22.4     28.6   2   
+
+variety = LD11-13802R2:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     17.8 1.54 38.5     14.6     20.9  1    
+ intego      20.8 1.54 38.5     17.6     23.9  1    
+
+variety = LD11-7311:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     23.8 1.54 38.5     20.6     26.9  1    
+ intego      24.2 1.54 38.5     21.1     27.4  1    
+
+variety = LD12-15156R1a:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     21.8 1.54 38.5     18.6     24.9  1    
+ intego      25.5 1.54 38.5     22.4     28.6  1    
+
+variety = LD13-14071R2:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     19.8 1.54 38.5     16.6     22.9  1    
+ intego      23.0 1.54 38.5     19.9     26.1  1    
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+significance level used: alpha = 0.05 </code></pre>
+<p>LD11-10069 (Rps1c, moderate) is the only variety with significant differences between control and treatment.</p>
 </div>
-<div id="yield-comparisons" class="section level4">
-<h4>Yield comparisons</h4>
-<p>No effect of seed treatment on yield so I would only compare yield between<br />
-varieties.</p>
+<div id="yield-comparisons" class="section level3">
+<h3>Yield comparisons</h3>
+<p>No effect of seed treatment on yield so I would only compare yield between varieties.</p>
 <pre class="r"><code>emmeans(fm.mon.yield, ~ variety) %&gt;% 
   cld.emmGrid()</code></pre>
 <pre><code> variety       emmean  SE   df lower.CL upper.CL .group
@@ -910,14 +1015,11 @@ Degrees-of-freedom method: kenward-roger
 Confidence level used: 0.95 
 P value adjustment: tukey method for comparing a family of 7 estimates 
 significance level used: alpha = 0.05 </code></pre>
-<p>Varieties with Rps don’t seem to perform better than varieties with no<br />
-gene (rps). High to moderate levels have higher yields than low level.</p>
+<p>Varieties with Rps don’t seem to perform better than varieties with no gene (rps). The variety with low levels of paritial resistance (LD12-15156R1a) has the lowest yield.</p>
 </div>
-<div id="contrasts" class="section level4">
-<h4>Contrasts</h4>
-<p>I will group varieties by gene and by levels of partial resistance.<br />
-Then do some contrasts betweem the seed treatment and control<br />
-to see the overrall effect of the seed treatment by type of resistance.</p>
+<div id="contrasts" class="section level3">
+<h3>Contrasts</h3>
+<p>I will group varieties by gene and by levels of partial resistance. Then do some contrasts betweem the seed treatment and untreated control to see the overrall effect of the seed treatment by type of resistance.</p>
 <pre class="r"><code>m.mon.vc &lt;- emmeans(fm.mon.vc, ~ variety:treatment) 
 m.mon.yield &lt;- emmeans(fm.mon.yield, ~ variety:treatment)</code></pre>
 <pre class="r"><code>custom_contrasts &lt;- function(lsmeans){
@@ -934,48 +1036,173 @@ m.mon.yield &lt;- emmeans(fm.mon.yield, ~ variety:treatment)</code></pre>
   )
   cus.con1 &lt;- contrast(lsmeans, cons.1, adjust = &quot;mvt&quot;) # adjustment for mutiple testing
   cus.con2 &lt;- contrast(lsmeans, cons.2, adjust = &quot;mvt&quot;) 
-  l &lt;- c(cus.con1, cus.con2)
-  l.m &lt;- map(l, summary, infer = TRUE) # confidence intervals
-  df_1 &lt;- as.data.frame(l.m[[1]])
-  df_2 &lt;- as.data.frame(l.m[[2]])
+  con.both &lt;- c(cus.con1, cus.con2)
+  confi_con &lt;- map(con.both, summary, infer = TRUE) # confidence intervals
+  df_1 &lt;- as.data.frame(confi_con[[1]])
+  df_2 &lt;- as.data.frame(confi_con[[2]])
   df_all &lt;- rbind(df_1, df_2)
   df_all
 }</code></pre>
-<p>Keep focusing only in stand VC and yield.</p>
-<pre class="r"><code>custom_contrasts(m.mon.vc)</code></pre>
-<pre><code>                 contrast estimate       SE df   lower.CL upper.CL
-1           t.rps - c.rps   -0.250 1.469625 21 -4.0478599 3.547860
-2       t.Rps1c - c.Rps1c    4.000 1.199944 21  0.8990604 7.100940
-3       t.Rps1k - c.Rps1k    1.750 1.469625 21 -2.0478599 5.547860
-4         t.High - c.High    2.375 1.469625 21 -1.4198184 6.169818
-5 t.Moderate - c.Moderate    1.625 1.039182 21 -1.0583419 4.308342
-6           t.Low - c.Low    3.750 2.078364 21 -1.6166837 9.116684
-     t.ratio     p.value
-1 -0.1701114 0.997456422
-2  3.3334884 0.009228371
-3  1.1907796 0.561224365
-4  1.6160580 0.312093394
-5  1.5637297 0.338625932
-6  1.8043035 0.228737128</code></pre>
-<pre class="r"><code>custom_contrasts(m.mon.yield)</code></pre>
-<pre><code>                 contrast   estimate       SE       df  lower.CL upper.CL
-1           t.rps - c.rps -17.100000 160.2380 19.24754 -434.6116 400.4116
-2       t.Rps1c - c.Rps1c  22.668751 136.1238 20.21208 -330.5229 375.8604
-3       t.Rps1k - c.Rps1k   2.605047 169.8637 20.66346 -437.7106 442.9207
-4         t.High - c.High -53.512500 160.2380 19.24754 -471.0494 364.0244
-5 t.Moderate - c.Moderate  18.233774 116.7582 19.97885 -284.9371 321.4046
-6           t.Low - c.Low  73.106252 253.1052 21.90538 -578.0090 724.2215
-      t.ratio   p.value
-1 -0.10671628 0.9993632
-2  0.16653046 0.9976056
-3  0.01533611 0.9999981
-4 -0.33395643 0.9815531
-5  0.15616702 0.9980217
-6  0.28883739 0.9879318</code></pre>
-<p>Significant differences for Rps1c at VC, no differences for levels of partial resistance (PR).<br />
-At yield, differences for Rps1k and no differences for PR levels.</p>
-<p>I would do another contrast comparing yields between levels of PR. Rps<br />
-didn’t seem to perform better than rps, but high PR seem to perform better.</p>
+<p>I will keep focusing only in stand VC and yield.</p>
+<pre class="r"><code>custom_contrasts(m.mon.vc) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">-0.250</td>
+<td align="right">1.469626</td>
+<td align="right">21</td>
+<td align="right">-4.0478599</td>
+<td align="right">3.547860</td>
+<td align="right">-0.1701114</td>
+<td align="right">0.9974564</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">4.000</td>
+<td align="right">1.199944</td>
+<td align="right">21</td>
+<td align="right">0.8990604</td>
+<td align="right">7.100940</td>
+<td align="right">3.3334884</td>
+<td align="right">0.0092284</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">1.750</td>
+<td align="right">1.469626</td>
+<td align="right">21</td>
+<td align="right">-2.0478599</td>
+<td align="right">5.547860</td>
+<td align="right">1.1907796</td>
+<td align="right">0.5612244</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">2.375</td>
+<td align="right">1.469626</td>
+<td align="right">21</td>
+<td align="right">-1.4198184</td>
+<td align="right">6.169818</td>
+<td align="right">1.6160580</td>
+<td align="right">0.3120934</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">1.625</td>
+<td align="right">1.039182</td>
+<td align="right">21</td>
+<td align="right">-1.0583419</td>
+<td align="right">4.308342</td>
+<td align="right">1.5637297</td>
+<td align="right">0.3386259</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">3.750</td>
+<td align="right">2.078364</td>
+<td align="right">21</td>
+<td align="right">-1.6166837</td>
+<td align="right">9.116684</td>
+<td align="right">1.8043035</td>
+<td align="right">0.2287371</td>
+</tr>
+</tbody>
+</table>
+<p>Significant differences for Rps1c.</p>
+<pre class="r"><code>custom_contrasts(m.mon.yield) %&gt;% 
+    knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">-17.100000</td>
+<td align="right">160.2380</td>
+<td align="right">19.24754</td>
+<td align="right">-434.6116</td>
+<td align="right">400.4116</td>
+<td align="right">-0.1067163</td>
+<td align="right">0.9993632</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">22.668751</td>
+<td align="right">136.1238</td>
+<td align="right">20.21208</td>
+<td align="right">-330.5229</td>
+<td align="right">375.8604</td>
+<td align="right">0.1665305</td>
+<td align="right">0.9976056</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">2.605047</td>
+<td align="right">169.8637</td>
+<td align="right">20.66346</td>
+<td align="right">-437.7106</td>
+<td align="right">442.9207</td>
+<td align="right">0.0153361</td>
+<td align="right">0.9999981</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">-53.512500</td>
+<td align="right">160.2380</td>
+<td align="right">19.24754</td>
+<td align="right">-471.0494</td>
+<td align="right">364.0244</td>
+<td align="right">-0.3339564</td>
+<td align="right">0.9815531</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">18.233774</td>
+<td align="right">116.7582</td>
+<td align="right">19.97885</td>
+<td align="right">-284.9371</td>
+<td align="right">321.4046</td>
+<td align="right">0.1561670</td>
+<td align="right">0.9980217</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">73.106252</td>
+<td align="right">253.1052</td>
+<td align="right">21.90538</td>
+<td align="right">-578.0090</td>
+<td align="right">724.2215</td>
+<td align="right">0.2888374</td>
+<td align="right">0.9879318</td>
+</tr>
+</tbody>
+</table>
+<p>No significant differences found for yield. The control for varieties with high levels of partial resistance had higher yield.</p>
+<p>I would do another contrast comparing yields between levels of partial resistance (PR). Rps didn’t seem to perform better than rps, but high PR seem to perform better.</p>
 <pre class="r"><code>pr_contrast &lt;- function(lsmean){
   cons.3 &lt;- list(
   &quot;High - Low&quot; = c(0.5, 0, 0, 0, 0, -1, 0.5),
@@ -989,25 +1216,62 @@ didn’t seem to perform better than rps, but high PR seem to perform better.</p
 }
 
 emmeans(fm.mon.yield, ~ variety) %&gt;% 
-  pr_contrast()</code></pre>
-<pre><code>         contrast estimate       SE       df    lower.CL upper.CL
-1      High - Low 491.0969 191.2908 18.82481    7.843842 974.3499
-2 High - Moderate 113.1606 130.0229 17.16800 -218.617256 444.9385
-3  Moderate - Low 377.9362 176.7774 19.36507  -68.412306 824.2848
-    t.ratio    p.value
-1 2.5672791 0.04617057
-2 0.8703133 0.66083792
-3 2.1379211 0.10588855</code></pre>
+  pr_contrast() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High - Low</td>
+<td align="right">491.0969</td>
+<td align="right">191.2908</td>
+<td align="right">18.82481</td>
+<td align="right">7.843842</td>
+<td align="right">974.3499</td>
+<td align="right">2.5672791</td>
+<td align="right">0.0461706</td>
+</tr>
+<tr class="even">
+<td align="left">High - Moderate</td>
+<td align="right">113.1606</td>
+<td align="right">130.0229</td>
+<td align="right">17.16800</td>
+<td align="right">-218.617256</td>
+<td align="right">444.9385</td>
+<td align="right">0.8703133</td>
+<td align="right">0.6608379</td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate - Low</td>
+<td align="right">377.9362</td>
+<td align="right">176.7774</td>
+<td align="right">19.36507</td>
+<td align="right">-68.412306</td>
+<td align="right">824.2848</td>
+<td align="right">2.1379211</td>
+<td align="right">0.1058885</td>
+</tr>
+</tbody>
+</table>
+<p>High level PR have higher yield than low, but no difference with moderate. No difference between moderate and low.</p>
 </div>
 </div>
-<div id="orr" class="section level3">
-<h3>Orr</h3>
-<pre class="r"><code>fm.orr.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = orr)
-fm.orr.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = orr)
-fm.orr.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                     data = orr)
+<div id="orr" class="section level2">
+<h2>Orr</h2>
+<pre class="r"><code>fm.orr.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
+fm.orr.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = orr)
 anova(fm.orr.vc) </code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                   Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
@@ -1032,15 +1296,52 @@ treatment           27444   27444     1    42  0.6427    0.4272
 variety:treatment  127857   21310     6    42  0.4991    0.8054    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div id="treatment-comparison" class="section level4">
-<h4>Treatment comparison</h4>
+<div id="treatment-comparison" class="section level3">
+<h3>Treatment comparison</h3>
 <pre class="r"><code>emmeans(fm.orr.vc, ~ treatment|variety) %&gt;% 
-  plot(comparisons =TRUE) </code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/vc%20orr-1.png" width="576" style="display: block; margin: auto;" /></p>
+  cld.emmGrid()</code></pre>
+<pre><code>variety = LD07-3395bf:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     20.2 1.81 42     16.6     23.9  1    
+ intego      23.5 1.81 42     19.8     27.2  1    
+
+variety = LD10-10219:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     17.5 1.81 42     13.8     21.2  1    
+ intego      21.2 1.81 42     17.6     24.9  1    
+
+variety = LD11-10069:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     26.5 1.81 42     22.8     30.2  1    
+ intego      27.0 1.81 42     23.3     30.7  1    
+
+variety = LD11-13802R2:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     15.5 1.81 42     11.8     19.2  1    
+ intego      20.8 1.81 42     17.1     24.4  1    
+
+variety = LD11-7311:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     19.2 1.81 42     15.6     22.9  1    
+ intego      24.5 1.81 42     20.8     28.2  1    
+
+variety = LD12-15156R1a:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     17.8 1.81 42     14.1     21.4  1    
+ intego      25.2 1.81 42     21.6     28.9   2   
+
+variety = LD13-14071R2:
+ treatment emmean   SE df lower.CL upper.CL .group
+ intego      22.5 1.81 42     18.8     26.2  1    
+ control     22.8 1.81 42     19.1     26.4  1    
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+significance level used: alpha = 0.05 </code></pre>
 <p>Only one variety (LD12-15156R1a) had a significant difference between seed treatment and control.</p>
 </div>
-<div id="yield-comparison" class="section level4">
-<h4>Yield comparison</h4>
+<div id="yield-comparison" class="section level3">
+<h3>Yield comparison</h3>
 <pre class="r"><code>emmeans(fm.orr.yield, ~ variety) %&gt;% 
   cld.emmGrid() </code></pre>
 <pre><code> variety       emmean   SE df lower.CL upper.CL .group
@@ -1059,65 +1360,227 @@ P value adjustment: tukey method for comparing a family of 7 estimates
 significance level used: alpha = 0.05 </code></pre>
 <p>Same as Monmouth, variety with no resistance gene has the higher yield.</p>
 </div>
-<div id="contrasts-1" class="section level4">
-<h4>Contrasts</h4>
+<div id="contrasts-1" class="section level3">
+<h3>Contrasts</h3>
 <pre class="r"><code>emmeans(fm.orr.vc, ~ variety:treatment) %&gt;% 
-  custom_contrasts()</code></pre>
-<pre><code>                 contrast estimate       SE df   lower.CL  upper.CL
-1           t.rps - c.rps 3.500000 1.814705 21 -1.1883805  8.188380
-2       t.Rps1c - c.Rps1c 2.583333 1.481701 21 -1.2447133  6.411380
-3       t.Rps1k - c.Rps1k 5.250000 1.814705 21  0.5616195  9.938380
-4         t.High - c.High 1.500000 1.814705 21 -3.1909286  6.190929
-5 t.Moderate - c.Moderate 3.687500 1.283190 21  0.3705126  7.004487
-6           t.Low - c.Low 7.500000 2.566381 21  0.8660251 14.133975
-    t.ratio    p.value
-1 1.9286880 0.18377153
-2 1.7434922 0.25365797
-3 2.8930320 0.02538152
-4 0.8265806 0.79367036
-5 2.8736969 0.02650170
-6 2.9224036 0.02386504</code></pre>
+  custom_contrasts() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">3.500000</td>
+<td align="right">1.814705</td>
+<td align="right">21</td>
+<td align="right">-1.1883805</td>
+<td align="right">8.188380</td>
+<td align="right">1.9286880</td>
+<td align="right">0.1837715</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">2.583333</td>
+<td align="right">1.481701</td>
+<td align="right">21</td>
+<td align="right">-1.2447133</td>
+<td align="right">6.411380</td>
+<td align="right">1.7434922</td>
+<td align="right">0.2536580</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">5.250000</td>
+<td align="right">1.814705</td>
+<td align="right">21</td>
+<td align="right">0.5616195</td>
+<td align="right">9.938380</td>
+<td align="right">2.8930320</td>
+<td align="right">0.0253815</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">1.500000</td>
+<td align="right">1.814705</td>
+<td align="right">21</td>
+<td align="right">-3.1909286</td>
+<td align="right">6.190929</td>
+<td align="right">0.8265806</td>
+<td align="right">0.7936704</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">3.687500</td>
+<td align="right">1.283190</td>
+<td align="right">21</td>
+<td align="right">0.3705126</td>
+<td align="right">7.004487</td>
+<td align="right">2.8736969</td>
+<td align="right">0.0265017</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">7.500000</td>
+<td align="right">2.566381</td>
+<td align="right">21</td>
+<td align="right">0.8660251</td>
+<td align="right">14.133975</td>
+<td align="right">2.9224036</td>
+<td align="right">0.0238650</td>
+</tr>
+</tbody>
+</table>
+<p>Significant differences for Rps1k. Moderate and low levels also have a significant differences.</p>
 <pre class="r"><code>emmeans(fm.orr.yield, ~ variety:treatment) %&gt;% 
-  custom_contrasts()</code></pre>
-<pre><code>                 contrast estimate        SE df   lower.CL upper.CL
-1           t.rps - c.rps  87.8250 103.31699 21 -179.01875 354.6688
-2       t.Rps1c - c.Rps1c   6.2500  84.35797 21 -211.62701 224.1270
-3       t.Rps1k - c.Rps1k  57.7625 103.31699 21 -209.08125 324.6063
-4         t.High - c.High -68.3250 103.31699 21 -335.61431 198.9643
-5 t.Moderate - c.Moderate 110.7063  73.05614 21  -78.29584 299.7083
-6           t.Low - c.Low   3.7500 146.11228 21 -374.25417 381.7542
-      t.ratio   p.value
-1  0.85005383 0.7798819
-2  0.07408903 0.9997868
-3  0.55908038 0.9226490
-4 -0.66131429 0.8802944
-5  1.51535856 0.3642599
-6  0.02566519 0.9999911</code></pre>
-<p>Rps1k had a significant difference at VC and differences for moderate and low.<br />
-No significant differences for yield.</p>
+  custom_contrasts() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">87.8250</td>
+<td align="right">103.31699</td>
+<td align="right">21</td>
+<td align="right">-179.01875</td>
+<td align="right">354.6688</td>
+<td align="right">0.8500538</td>
+<td align="right">0.7798819</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">6.2500</td>
+<td align="right">84.35797</td>
+<td align="right">21</td>
+<td align="right">-211.62701</td>
+<td align="right">224.1270</td>
+<td align="right">0.0740890</td>
+<td align="right">0.9997868</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">57.7625</td>
+<td align="right">103.31699</td>
+<td align="right">21</td>
+<td align="right">-209.08125</td>
+<td align="right">324.6063</td>
+<td align="right">0.5590804</td>
+<td align="right">0.9226490</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">-68.3250</td>
+<td align="right">103.31699</td>
+<td align="right">21</td>
+<td align="right">-335.61431</td>
+<td align="right">198.9643</td>
+<td align="right">-0.6613143</td>
+<td align="right">0.8802944</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">110.7062</td>
+<td align="right">73.05614</td>
+<td align="right">21</td>
+<td align="right">-78.29584</td>
+<td align="right">299.7083</td>
+<td align="right">1.5153586</td>
+<td align="right">0.3642599</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">3.7500</td>
+<td align="right">146.11228</td>
+<td align="right">21</td>
+<td align="right">-374.25417</td>
+<td align="right">381.7542</td>
+<td align="right">0.0256652</td>
+<td align="right">0.9999911</td>
+</tr>
+</tbody>
+</table>
+<p>No significant differences for yield, but again the untreated control has higher yield for varieties with high levels of partial resistance.</p>
 <pre class="r"><code>emmeans(fm.orr.yield, ~ variety) %&gt;% 
-  pr_contrast()</code></pre>
-<pre><code>         contrast estimate       SE df  lower.CL upper.CL  t.ratio
-1      High - Low 554.9250 89.47514 18 327.71387 782.1361 6.202002
-2 High - Moderate 221.0344 63.26848 18  60.37185 381.6969 3.493594
-3  Moderate - Low 333.8906 81.67925 18 126.47619 541.3051 4.087827
-       p.value
-1 1.827182e-05
-2 6.677541e-03
-3 2.051554e-03</code></pre>
-<p>High PR has higher yields than both moderate and low.</p>
+  pr_contrast() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High - Low</td>
+<td align="right">554.9250</td>
+<td align="right">89.47514</td>
+<td align="right">18</td>
+<td align="right">327.71387</td>
+<td align="right">782.1361</td>
+<td align="right">6.202002</td>
+<td align="right">0.0000183</td>
+</tr>
+<tr class="even">
+<td align="left">High - Moderate</td>
+<td align="right">221.0344</td>
+<td align="right">63.26848</td>
+<td align="right">18</td>
+<td align="right">60.37185</td>
+<td align="right">381.6969</td>
+<td align="right">3.493594</td>
+<td align="right">0.0066775</td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate - Low</td>
+<td align="right">333.8906</td>
+<td align="right">81.67925</td>
+<td align="right">18</td>
+<td align="right">126.47619</td>
+<td align="right">541.3051</td>
+<td align="right">4.087827</td>
+<td align="right">0.0020516</td>
+</tr>
+</tbody>
+</table>
+<p>High partial reistance varieties have higher yields than both moderate and low.</p>
 </div>
 </div>
-<div id="urbana" class="section level3">
-<h3>Urbana</h3>
-<pre class="r"><code>fm.urb.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = urbana)
-fm.urb.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                  data = urbana)
-fm.urb.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                  data = urbana)
-fm.urb.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot),
-                     data = urbana)
+<div id="urbana" class="section level2">
+<h2>Urbana</h2>
+<pre class="r"><code>fm.urb.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+fm.urb.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana)
+
 anova(fm.urb.vc)</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                    Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
@@ -1150,19 +1613,57 @@ treatment           14237   14237     1    21  0.3349 0.5689267
 variety:treatment  489030   81505     6    21  1.9174 0.1250455    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Treatment is significant for the final stand at R8.</p>
 <p>A significant interaction was observed for VC in Urbana.</p>
 <pre class="r"><code>emmip(fm.urb.vc, treatment ~ variety)</code></pre>
 <p><img src="figure/05_field-trials_analysis.Rmd/interaction%20urbana-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Seems that seed treatment is having an effect in both rps and Rps1k.</p>
-<div id="treatment-comparison-1" class="section level4">
-<h4>Treatment comparison</h4>
+<div id="treatment-comparison-1" class="section level3">
+<h3>Treatment comparison</h3>
 <pre class="r"><code>emmeans(fm.urb.vc, ~ treatment|variety) %&gt;% 
-  plot(comparisons =TRUE) </code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/vc%20urbana-1.png" width="576" style="display: block; margin: auto;" /></p>
+  cld.emmGrid()</code></pre>
+<pre><code>variety = LD07-3395bf:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     25.8 1.04 23.6     23.6     27.9  1    
+ intego      30.5 1.04 23.6     28.3     32.7   2   
+
+variety = LD10-10219:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     30.0 1.04 23.6     27.8     32.2  1    
+ intego      33.2 1.04 23.6     31.1     35.4   2   
+
+variety = LD11-10069:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     30.8 1.04 23.6     28.6     32.9  1    
+ intego      31.5 1.04 23.6     29.3     33.7  1    
+
+variety = LD11-13802R2:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     25.2 1.04 23.6     23.1     27.4  1    
+ intego      31.5 1.04 23.6     29.3     33.7   2   
+
+variety = LD11-7311:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     26.0 1.04 23.6     23.8     28.2  1    
+ intego      29.5 1.04 23.6     27.3     31.7   2   
+
+variety = LD12-15156R1a:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     27.0 1.04 23.6     24.8     29.2  1    
+ intego      30.2 1.04 23.6     28.1     32.4   2   
+
+variety = LD13-14071R2:
+ treatment emmean   SE   df lower.CL upper.CL .group
+ control     29.8 1.04 23.6     27.6     31.9  1    
+ intego      29.8 1.04 23.6     27.6     31.9  1    
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+significance level used: alpha = 0.05 </code></pre>
 <p>No significant difference for two of the the three Rps1c varieties.</p>
 </div>
-<div id="yield-comparison-1" class="section level4">
-<h4>Yield comparison</h4>
+<div id="yield-comparison-1" class="section level3">
+<h3>Yield comparison</h3>
 <pre class="r"><code>emmeans(fm.urb.vc, ~ variety) %&gt;% 
   cld.emmGrid()</code></pre>
 <pre><code> variety       emmean    SE   df lower.CL upper.CL .group
@@ -1181,89 +1682,243 @@ P value adjustment: tukey method for comparing a family of 7 estimates
 significance level used: alpha = 0.05 </code></pre>
 <p>A Rps1c variety has the highest yield.</p>
 </div>
-<div id="contrasts-2" class="section level4">
-<h4>Contrasts</h4>
+<div id="contrasts-2" class="section level3">
+<h3>Contrasts</h3>
 <pre class="r"><code>emmeans(fm.urb.vc, ~ variety:treatment) %&gt;% 
-  custom_contrasts</code></pre>
-<pre><code>                 contrast estimate        SE df   lower.CL upper.CL
-1           t.rps - c.rps 4.000000 0.8264617 21  1.8644558 6.135544
-2       t.Rps1c - c.Rps1c 1.333333 0.6748032 21 -0.4103312 3.076998
-3       t.Rps1k - c.Rps1k 4.875000 0.8264617 21  2.7394558 7.010544
-4         t.High - c.High 2.375000 0.8264617 21  0.2397845 4.510216
-5 t.Moderate - c.Moderate 3.437500 0.5843967 21  1.9276746 4.947325
-6           t.Low - c.Low 3.250000 1.1687934 21  0.2303492 6.269651
-   t.ratio      p.value
-1 4.839910 2.514842e-04
-2 1.975885 1.684695e-01
-3 5.898640 1.925441e-05
-4 2.873696 2.646309e-02
-5 5.882135 2.201956e-05
-6 2.780645 3.267593e-02</code></pre>
+  custom_contrasts %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">4.000000</td>
+<td align="right">0.8264617</td>
+<td align="right">21</td>
+<td align="right">1.8644558</td>
+<td align="right">6.135544</td>
+<td align="right">4.839910</td>
+<td align="right">0.0002515</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">1.333333</td>
+<td align="right">0.6748032</td>
+<td align="right">21</td>
+<td align="right">-0.4103312</td>
+<td align="right">3.076998</td>
+<td align="right">1.975885</td>
+<td align="right">0.1684695</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">4.875000</td>
+<td align="right">0.8264617</td>
+<td align="right">21</td>
+<td align="right">2.7394558</td>
+<td align="right">7.010544</td>
+<td align="right">5.898640</td>
+<td align="right">0.0000193</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">2.375000</td>
+<td align="right">0.8264617</td>
+<td align="right">21</td>
+<td align="right">0.2397845</td>
+<td align="right">4.510216</td>
+<td align="right">2.873696</td>
+<td align="right">0.0264631</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">3.437500</td>
+<td align="right">0.5843967</td>
+<td align="right">21</td>
+<td align="right">1.9276746</td>
+<td align="right">4.947325</td>
+<td align="right">5.882135</td>
+<td align="right">0.0000220</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">3.250000</td>
+<td align="right">1.1687934</td>
+<td align="right">21</td>
+<td align="right">0.2303492</td>
+<td align="right">6.269651</td>
+<td align="right">2.780645</td>
+<td align="right">0.0326759</td>
+</tr>
+</tbody>
+</table>
+<p>Significatn effect for rps and Rps1k. Moderate and low also had a significant difference.e</p>
 <pre class="r"><code>emmeans(fm.urb.yield, ~ variety:treatment) %&gt;% 
-  custom_contrasts()</code></pre>
-<pre><code>                 contrast  estimate        SE df   lower.CL  upper.CL
-1           t.rps - c.rps  151.6000 103.08662 21 -114.52884 417.72884
-2       t.Rps1c - c.Rps1c -161.7667  84.16988 21 -379.05995  55.52662
-3       t.Rps1k - c.Rps1k  202.6625 103.08662 21  -63.46634 468.79134
-4         t.High - c.High  -20.7000 103.08662 21 -287.26185 245.86185
-5 t.Moderate - c.Moderate  107.5813  72.89325 21  -80.90644 296.06894
-6           t.Low - c.Low -165.7000 145.78650 21 -542.67538 211.27538
-    t.ratio   p.value
-1  1.470608 0.3890769
-2 -1.921907 0.1860190
-3  1.965944 0.1716813
-4 -0.200802 0.9958421
-5  1.475874 0.3860478
-6 -1.136594 0.5968085</code></pre>
-<p>Significant differences for rps and Rps1k for VC and for all pr levels at VC.<br />
-No significant differences for yield</p>
+  custom_contrasts() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">151.6000</td>
+<td align="right">103.08662</td>
+<td align="right">21</td>
+<td align="right">-114.52884</td>
+<td align="right">417.72884</td>
+<td align="right">1.470608</td>
+<td align="right">0.3890769</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">-161.7667</td>
+<td align="right">84.16988</td>
+<td align="right">21</td>
+<td align="right">-379.05995</td>
+<td align="right">55.52662</td>
+<td align="right">-1.921907</td>
+<td align="right">0.1860190</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">202.6625</td>
+<td align="right">103.08662</td>
+<td align="right">21</td>
+<td align="right">-63.46634</td>
+<td align="right">468.79134</td>
+<td align="right">1.965944</td>
+<td align="right">0.1716813</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">-20.7000</td>
+<td align="right">103.08662</td>
+<td align="right">21</td>
+<td align="right">-287.26185</td>
+<td align="right">245.86185</td>
+<td align="right">-0.200802</td>
+<td align="right">0.9958421</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">107.5812</td>
+<td align="right">72.89325</td>
+<td align="right">21</td>
+<td align="right">-80.90644</td>
+<td align="right">296.06894</td>
+<td align="right">1.475874</td>
+<td align="right">0.3860478</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">-165.7000</td>
+<td align="right">145.78650</td>
+<td align="right">21</td>
+<td align="right">-542.67538</td>
+<td align="right">211.27538</td>
+<td align="right">-1.136594</td>
+<td align="right">0.5968085</td>
+</tr>
+</tbody>
+</table>
+<p>No difference for yield, but the untreated control for Rps1c and high levels of partial had higher yields.</p>
 <pre class="r"><code>emmeans(fm.urb.yield, ~ variety) %&gt;% 
-  pr_contrast()</code></pre>
-<pre><code>         contrast  estimate       SE df  lower.CL upper.CL   t.ratio
-1      High - Low 627.61250 145.8816 18  257.1406 998.0844 4.3022038
-2 High - Moderate  41.74062 103.1539 18 -220.2226 303.7038 0.4046442
-3  Moderate - Low 585.87187 133.1711 18  247.6789 924.0649 4.3993920
-       p.value
-1 0.0011163307
-2 0.9127581058
-3 0.0008952324</code></pre>
-</div>
-</div>
-<div id="model-assumptions" class="section level3">
-<h3>Model assumptions</h3>
-<pre class="r"><code># diagnostic plots to check on model assumptions 
-models.2017 &lt;- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
-                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
-                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
-map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance</code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/assumptions-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-8.png" width="672" style="display: block; margin: auto;" /><img src="figure/05_field-trials_analysis.Rmd/assumptions-9.png" width="672" style="display: block; margin: auto;" /></p>
+  pr_contrast() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High - Low</td>
+<td align="right">627.61250</td>
+<td align="right">145.8816</td>
+<td align="right">18</td>
+<td align="right">257.1406</td>
+<td align="right">998.0844</td>
+<td align="right">4.3022038</td>
+<td align="right">0.0011163</td>
+</tr>
+<tr class="even">
+<td align="left">High - Moderate</td>
+<td align="right">41.74063</td>
+<td align="right">103.1539</td>
+<td align="right">18</td>
+<td align="right">-220.2226</td>
+<td align="right">303.7038</td>
+<td align="right">0.4046442</td>
+<td align="right">0.9127581</td>
+</tr>
+<tr class="odd">
+<td align="left">Moderate - Low</td>
+<td align="right">585.87188</td>
+<td align="right">133.1711</td>
+<td align="right">18</td>
+<td align="right">247.6789</td>
+<td align="right">924.0649</td>
+<td align="right">4.3993920</td>
+<td align="right">0.0008952</td>
+</tr>
+</tbody>
+</table>
+<p>High and moderate partial resistance have higher yields than low levels. No difference between high and moderate.</p>
 </div>
 </div>
 <div id="figure-1" class="section level2">
 <h2>Figure 1</h2>
+<p>Effect of seed treatment (ST) on stand for multilocation field trials in 2017. Dots represent mean stands at VC and vertical lines their confidence interval. Means with an asterick are significantly different. Panels with two asteriks represent a significant difference in the contrast between the untreated control and the seed treatment.</p>
 <p><img src="figure/05_field-trials_analysis.Rmd/fig%201-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="figure-2" class="section level2">
 <h2>Figure 2</h2>
+<p>Box plots of the distribution of yield of varieties with different levels of partial resistance in multilocation field experiment in Illinois 2017. The center lines show the medians and box limits indicate the 25th and 75th percentiles and whiskers extend 1.5 times the interquartile range (IQR). Outliers are represented by black solid dots</p>
 <p><img src="figure/05_field-trials_analysis.Rmd/fig%202-1.png" width="624" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="urbana-and-boone-field-trials-in-2018" class="section level1">
 <h1>Urbana and Boone field trials in 2018</h1>
-<div id="urbana-2018" class="section level2">
-<h2>Urbana 2018</h2>
+<div id="urbana-il" class="section level2">
+<h2>Urbana, IL</h2>
 <pre class="r"><code>urbana.2018$block &lt;- as.factor(urbana.2018$block)
 
-fm.urb18.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.v4 &lt;- lmer(v4_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                    data = urbana.2018)
-fm.urb18.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), 
-                       data = urbana.2018)
+fm.urb18.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.v2 &lt;- lmer(v2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.v4 &lt;- lmer(v4_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+fm.urb18.yield &lt;- lmer(yield_kg.ha ~ variety*treatment + (1|block) + (1|whole_plot), data = urbana.2018)
+
 anova(fm.urb18.vc)</code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
                   Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
@@ -1304,60 +1959,128 @@ treatment         1056331 1056331     1    27 18.7796 0.0001822 ***
 variety:treatment  469947   58743     8    27  1.0443 0.4288715    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>Treatment effect significant in all variables and variety significant<br />
-for stand at VC and yield.</p>
+<p>Treatment effect significant in the four stand counts and also for yield. Variety is only significant for stand at VC and yield.</p>
 <div id="treatment-comparison-2" class="section level3">
 <h3>Treatment comparison</h3>
 <pre class="r"><code># overrall treatment effect
-emmeans(fm.urb18.vc, ~ treatment) #17.82%</code></pre>
-<pre><code> treatment emmean   SE   df lower.CL upper.CL
- control     20.7 1.23 3.99     17.3     24.1
- intego      24.4 1.23 3.99     21.0     27.8
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 </code></pre>
-<pre class="r"><code>emmeans(fm.urb18.v2, ~ treatment) #18.61</code></pre>
-<pre><code> treatment emmean   SE   df lower.CL upper.CL
- control     20.9 1.24 4.01     17.4     24.3
- intego      24.8 1.24 4.01     21.3     28.2
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 </code></pre>
-<pre class="r"><code>emmeans(fm.urb18.v4, ~ treatment) #18.35</code></pre>
-<pre><code> treatment emmean   SE   df lower.CL upper.CL
- control     20.1 1.22 3.86     16.6     23.5
- intego      23.8 1.22 3.86     20.3     27.2
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 </code></pre>
-<pre class="r"><code>emmeans(fm.urb18.r8, ~ treatment) #15.6</code></pre>
-<pre><code> treatment emmean    SE   df lower.CL upper.CL
- control     16.9 0.991 3.81     14.1     19.8
- intego      19.6 0.991 3.81     16.8     22.4
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 </code></pre>
-<pre class="r"><code>emmeans(fm.urb18.yield,  ~ treatment) #7.84</code></pre>
-<pre><code> treatment emmean  SE   df lower.CL upper.CL
- control     3122 106 3.47     2810     3433
- intego      3364 106 3.47     3052     3676
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 </code></pre>
+emmeans(fm.urb18.vc, ~ treatment) %&gt;% #17.82%
+  plot(comparison = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/treatment%20urbana%2018-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.urb18.v2, ~ treatment) %&gt;% #18.61
+  plot(comparison = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/treatment%20urbana%2018-2.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.urb18.v4, ~ treatment) %&gt;% #18.35
+    plot(comparison = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/treatment%20urbana%2018-3.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.urb18.r8, ~ treatment) %&gt;% #15.6
+    plot(comparison = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/treatment%20urbana%2018-4.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.urb18.yield,  ~ treatment) %&gt;% #7.84
+    plot(comparison = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/treatment%20urbana%2018-5.png" width="576" style="display: block; margin: auto;" /></p>
 <p>I will focus in VC and yield like in 2017 analysis.</p>
 <pre class="r"><code># seed treatment effect within variety
 emmeans(fm.urb18.vc, ~ treatment|variety) %&gt;% 
-  plot(comparisons = TRUE)</code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/vc%20urbana%2018-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>Varieties LD07-3395bf(rps, High) and LD11-7311 (1k, moderate) have significant differences</p>
+  cld.emmGrid()</code></pre>
+<pre><code>variety = LD07-3395bf:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     15.5 2.31 32     10.8     20.2  1    
+ intego      23.0 2.31 32     18.3     27.7   2   
+
+variety = LD10-10219:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     23.5 2.31 32     18.8     28.2  1    
+ intego      27.5 2.31 32     22.8     32.2  1    
+
+variety = LD11-13802R2:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     21.8 2.31 32     17.0     26.5  1    
+ intego      24.2 2.31 32     19.5     29.0  1    
+
+variety = LD11-7311:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     16.8 2.31 32     12.0     21.5  1    
+ intego      24.5 2.31 32     19.8     29.2   2   
+
+variety = LD12-15064R1a:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     20.8 2.31 32     16.0     25.5  1    
+ intego      24.0 2.31 32     19.3     28.7  1    
+
+variety = LD12-15129R1a:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     23.2 2.31 32     18.5     28.0  1    
+ intego      27.5 2.31 32     22.8     32.2  1    
+
+variety = LD12-15156R1a:
+ treatment emmean   SE df lower.CL upper.CL .group
+ intego      20.2 2.31 32     15.5     25.0  1    
+ control     20.5 2.31 32     15.8     25.2  1    
+
+variety = LD13-13478R1a:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     19.5 2.31 32     14.8     24.2  1    
+ intego      22.2 2.31 32     17.5     27.0  1    
+
+variety = LD13-14071R2:
+ treatment emmean   SE df lower.CL upper.CL .group
+ control     25.0 2.31 32     20.3     29.7  1    
+ intego      26.5 2.31 32     21.8     31.2  1    
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+significance level used: alpha = 0.05 </code></pre>
+<p>Varieties LD07-3395bf(rps, High) and LD11-7311 (1k, moderate) have significant differences.</p>
 <pre class="r"><code>emmeans(fm.urb18.yield, ~ treatment|variety) %&gt;% 
-  plot(comparisons = TRUE)</code></pre>
-<p><img src="figure/05_field-trials_analysis.Rmd/yield%20trt%20urb18-1.png" width="576" style="display: block; margin: auto;" /></p>
+  cld.emmGrid()</code></pre>
+<pre><code>variety = LD07-3395bf:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3300 202 27.6     2885     3714  1    
+ intego      3873 202 27.6     3458     4288   2   
+
+variety = LD10-10219:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3177 202 27.6     2762     3591  1    
+ intego      3180 202 27.6     2766     3595  1    
+
+variety = LD11-13802R2:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     2959 202 27.6     2545     3374  1    
+ intego      3105 202 27.6     2690     3520  1    
+
+variety = LD11-7311:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3160 202 27.6     2746     3575  1    
+ intego      3495 202 27.6     3081     3910  1    
+
+variety = LD12-15064R1a:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     2608 202 27.6     2194     3023  1    
+ intego      2744 202 27.6     2330     3159  1    
+
+variety = LD12-15129R1a:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     2674 202 27.6     2260     3089  1    
+ intego      2890 202 27.6     2475     3304  1    
+
+variety = LD12-15156R1a:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3161 202 27.6     2746     3576  1    
+ intego      3355 202 27.6     2940     3770  1    
+
+variety = LD13-13478R1a:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3194 202 27.6     2779     3608  1    
+ intego      3356 202 27.6     2941     3770  1    
+
+variety = LD13-14071R2:
+ treatment emmean  SE   df lower.CL upper.CL .group
+ control     3862 202 27.6     3447     4276  1    
+ intego      4277 202 27.6     3862     4691   2   
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+significance level used: alpha = 0.05 </code></pre>
 <p>The two varieties with high moderate levels, LD07-3395bf(rps) and LD13-14071R2 (1c)<br />
 have significant differences</p>
 </div>
@@ -1381,10 +2104,11 @@ Degrees-of-freedom method: kenward-roger
 Confidence level used: 0.95 
 P value adjustment: tukey method for comparing a family of 9 estimates 
 significance level used: alpha = 0.05 </code></pre>
-<p>High level partial resistance varieties have higher yields.</p>
+<p>High level partial resistance varieties have higher yields. A Rps1c variety had the highest yield.</p>
 </div>
 <div id="constrasts" class="section level3">
 <h3>Constrasts</h3>
+<p>Same contrasts between untreated control and seed treatment by each type of resistance (resistance gene or partial resistance level).</p>
 <pre class="r"><code>custom_contrast18 &lt;- function(lsmeans){
   # by Rps
   cons.1.18 &lt;- list(
@@ -1398,32 +2122,95 @@ significance level used: alpha = 0.05 </code></pre>
   &quot;t.Moderate - c.Moderate&quot; = c(0, rep(-1/3, 3), rep(0, 6), rep(1/3, 3), rep(0, 5)), 
   &quot;t.Low - c.Low&quot; = c(rep(0, 4), rep(-1/4, 4), rep(0, 5), rep(1/4, 4), 0)
 )
-  cus.con1 &lt;- contrast(lsmeans, cons.1.18, adjust = &quot;mvt&quot;)  
+  cus.con1 &lt;- contrast(lsmeans, cons.1.18, adjust = &quot;mvt&quot;) 
   cus.con2 &lt;- contrast(lsmeans, cons.2.18, adjust = &quot;mvt&quot;) 
-  l &lt;- c(cus.con1, cus.con2)
-  l.m &lt;- map(l, summary, infer = TRUE) 
-  df_1 &lt;- as.data.frame(l.m[[1]])
-  df_2 &lt;- as.data.frame(l.m[[2]])
+  con.both &lt;- c(cus.con1, cus.con2)
+  confi_con &lt;- map(con.both, summary, infer = TRUE) 
+  df_1 &lt;- as.data.frame(confi_con[[1]])
+  df_2 &lt;- as.data.frame(confi_con[[2]])
   df_all &lt;- rbind(df_1, df_2)
   df_all
-}
-
-emmeans(fm.urb18.vc, ~ variety:treatment) %&gt;% 
-  custom_contrast18()</code></pre>
-<pre><code>                 contrast estimate       SE df   lower.CL upper.CL
-1           t.rps - c.rps   4.7500 1.554315 27  0.8044347 8.695565
-2       t.Rps1c - c.Rps1c   2.1875 1.346077 27 -1.2294598 5.604460
-3       t.Rps1k - c.Rps1k   5.1250 1.903640 27  0.2926891 9.957311
-4         t.High - c.High   4.5000 1.903640 27 -0.3295748 9.329575
-5 t.Moderate - c.Moderate   4.7500 1.554315 27  0.8066687 8.693331
-6           t.Low - c.Low   2.5000 1.346077 27 -0.9150251 5.915025
-   t.ratio    p.value
-1 3.056008 0.01477959
-2 1.625093 0.30209903
-3 2.692211 0.03506020
-4 2.363893 0.07351930
-5 3.056008 0.01478431
-6 1.857249 0.20206736</code></pre>
+}</code></pre>
+<pre class="r"><code>emmeans(fm.urb18.vc, ~ variety:treatment) %&gt;% 
+  custom_contrast18() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">4.7500</td>
+<td align="right">1.554315</td>
+<td align="right">27</td>
+<td align="right">0.8044347</td>
+<td align="right">8.695565</td>
+<td align="right">3.056008</td>
+<td align="right">0.0147796</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">2.1875</td>
+<td align="right">1.346077</td>
+<td align="right">27</td>
+<td align="right">-1.2294598</td>
+<td align="right">5.604460</td>
+<td align="right">1.625093</td>
+<td align="right">0.3020990</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">5.1250</td>
+<td align="right">1.903640</td>
+<td align="right">27</td>
+<td align="right">0.2926891</td>
+<td align="right">9.957311</td>
+<td align="right">2.692211</td>
+<td align="right">0.0350602</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">4.5000</td>
+<td align="right">1.903640</td>
+<td align="right">27</td>
+<td align="right">-0.3295748</td>
+<td align="right">9.329575</td>
+<td align="right">2.363893</td>
+<td align="right">0.0735193</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">4.7500</td>
+<td align="right">1.554315</td>
+<td align="right">27</td>
+<td align="right">0.8066687</td>
+<td align="right">8.693331</td>
+<td align="right">3.056008</td>
+<td align="right">0.0147843</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">2.5000</td>
+<td align="right">1.346077</td>
+<td align="right">27</td>
+<td align="right">-0.9150251</td>
+<td align="right">5.915025</td>
+<td align="right">1.857249</td>
+<td align="right">0.2020674</td>
+</tr>
+</tbody>
+</table>
+<p>Significant differences for rps and Rps1k. Significant differences for moderate levels.</p>
 <pre class="r"><code>emmeans(fm.urb18.yield, ~ variety:treatment) %&gt;% 
   custom_contrast18()</code></pre>
 <pre><code>                 contrast estimate        SE df    lower.CL upper.CL
@@ -1440,6 +2227,7 @@ emmeans(fm.urb18.vc, ~ variety:treatment) %&gt;%
 4 4.166871 0.0008205315
 5 1.667982 0.2815048156
 6 2.109379 0.1244990768</code></pre>
+<p>Significant differences for rps and Rps1c. Significant differences for high levels of partial resistance.</p>
 <pre class="r"><code>pr_contrast18 &lt;- function(lsmean){
   cons.3.18 &lt;- list(
   &quot;High - Low&quot; = c(0.5, 0, 0, 0, -1/3, -1/3, 0, -1/3, 0.5),
@@ -1450,9 +2238,8 @@ emmeans(fm.urb18.vc, ~ variety:treatment) %&gt;%
   conf_con &lt;- summary(cus.con.3, infer = TRUE)
   df_con &lt;- as.data.frame(conf_con)
   df_con
-}
-
-emmeans(fm.urb18.yield, ~ variety) %&gt;% 
+}</code></pre>
+<pre class="r"><code>emmeans(fm.urb18.yield, ~ variety) %&gt;% 
   pr_contrast18</code></pre>
 <pre><code>         contrast estimate       SE df  lower.CL  upper.CL  t.ratio
 1      High - Low 916.8125 148.5575 24 546.36018 1287.2648 6.171433
@@ -1462,35 +2249,23 @@ emmeans(fm.urb18.yield, ~ variety) %&gt;%
 1 8.737555e-06
 2 4.570353e-04
 3 7.186129e-02</code></pre>
+<p>High level partial resistnace has higher yields than both moderate and low levels.</p>
 </div>
 </div>
 <div id="figure-3" class="section level2">
 <h2>Figure 3</h2>
-<pre class="r"><code>cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
-                   ncol = 1, 
-                   align = &quot;v&quot;, 
-                   labels = &quot;AUTO&quot;, 
-                   axis = &quot;lr&quot;, 
-                   rel_heights = c(1, 1, 1.3))</code></pre>
+<p>Effect of seed treatment and varieties with no resistance gene (rps), Rps1c or Rps1k on stand count at VC (A) and yield (B) in 2018 field trial in Urbana, IL. Dots represent the mean stand of seed treatment (ST) plots and untreated control (NTC) plots. Vertical bars show confidence intervals of means. Varieties with a significant difference between the untreated control and seed treatment are indicated with an asterisk. (C) Box plots of the distribution of yield of varieties with different levels of partial resistance in 2018 field trial in Urbana, IL. The center lines show the medians and box limits indicate the 25th and 75th percentiles and whiskers extend 1.5 times the interquartile range (IQR). Outliers are represented by black solid dots.</p>
 <p><img src="figure/05_field-trials_analysis.Rmd/figure%203-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="boone-iowa-2018" class="section level2">
-<h2>Boone, Iowa 2018</h2>
+<div id="boone-iowa" class="section level2">
+<h2>Boone, Iowa</h2>
 <pre class="r"><code>iowa$block &lt;- as.factor(iowa$block)
 
-fm.iowa.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                   data = iowa)
-fm.iowa.v1&lt;- lmer(v1_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                  data = iowa)</code></pre>
-<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-control$checkConv, : Model failed to converge with max|grad| = 0.00256529
-(tol = 0.002, component 1)</code></pre>
-<pre class="r"><code>fm.iowa.r2 &lt;- lmer(r2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot),
-                   data = iowa)
-fm.iowa.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), 
-                   data = iowa)
-fm.iowa.yield &lt;- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), 
-                      data = iowa)
+fm.iowa.vc &lt;- lmer(vc_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.v1&lt;- lmer(v1_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.r2 &lt;- lmer(r2_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.r8 &lt;- lmer(r8_plants.m2 ~ variety*treatment + (1|block) + (1|whole_plot), data = iowa)
+fm.iowa.yield &lt;- lmer(yield_kg.ha ~ variety * treatment + (1|block) + (1|whole_plot), data = iowa)
 
 anova(fm.iowa.vc) </code></pre>
 <pre><code>Type III Analysis of Variance Table with Satterthwaite&#39;s method
@@ -1532,86 +2307,302 @@ treatment         682586  682586     1 20.548  8.8240 0.007412 **
 variety:treatment 541602   90267     6 20.472  1.1669 0.361589   
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>emmeans(fm.iowa.vc, pairwise ~ treatment) #12.25</code></pre>
-<pre><code>$emmeans
- treatment emmean    SE  df lower.CL upper.CL
- control     10.2 0.337 7.9     9.47     11.0
- intego      11.5 0.337 7.9    10.72     12.3
+<p>Treatment was significant for all stands and yield. Variety was not significant for</p>
+<div id="treatment-effect" class="section level3">
+<h3>Treatment effect</h3>
+<pre class="r"><code>emmeans(fm.iowa.vc, ~ treatment) %&gt;%  #12.25
+  plot(comparisons = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/emmeans%20boone%20treatment-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.iowa.v1,  ~ treatment) %&gt;% #9.62
+  plot(comparisons = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/emmeans%20boone%20treatment-2.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.iowa.r2,  ~ treatment) %&gt;%  #11.10
+    plot(comparisons = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/emmeans%20boone%20treatment-3.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.iowa.r8,  ~ treatment) %&gt;% #12.01
+    plot(comparisons = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/emmeans%20boone%20treatment-4.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>emmeans(fm.iowa.yield,  ~ treatment) %&gt;%  #8.1
+    plot(comparisons = TRUE)</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/emmeans%20boone%20treatment-5.png" width="576" style="display: block; margin: auto;" /></p>
+<p>All stand counts and yield are significanlty increased with the seed treatment.</p>
+</div>
+<div id="yield-comparisons-1" class="section level3">
+<h3>Yield comparisons</h3>
+<pre class="r"><code>emmeans(fm.iowa.yield, ~ variety) %&gt;% 
+  cld.emmGrid()</code></pre>
+<pre><code> variety emmean  SE   df lower.CL upper.CL .group
+ H2512NX   2658 134 20.4     2379     2937  1    
+ H2862NX   2695 134 20.4     2416     2974  1    
+ C3140RX   2787 134 20.4     2508     3066  1    
+ NK2788X   2792 134 20.4     2514     3071  1    
+ AG28x7    3024 134 20.4     2746     3303  1    
+ NK3195X   3058 134 20.4     2779     3336  1    
+ C2888RX   3111 143 23.4     2816     3406  1    
 
-Results are averaged over the levels of: variety 
+Results are averaged over the levels of: treatment 
 Degrees-of-freedom method: kenward-roger 
 Confidence level used: 0.95 
-
-$contrasts
- contrast         estimate    SE df t.ratio p.value
- control - intego    -1.25 0.428 21 -2.920  0.0082 
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger </code></pre>
-<pre class="r"><code>emmeans(fm.iowa.v1, pairwise ~ treatment) #9.62</code></pre>
-<pre><code>$emmeans
- treatment emmean    SE  df lower.CL upper.CL
- control     10.8 0.348 9.3     9.97     11.5
- intego      11.8 0.348 9.3    11.00     12.6
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 
-
-$contrasts
- contrast         estimate    SE df t.ratio p.value
- control - intego    -1.04 0.471 21 -2.197  0.0394 
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger </code></pre>
-<pre class="r"><code>emmeans(fm.iowa.r2, pairwise ~ treatment) #11.10</code></pre>
-<pre><code>$emmeans
- treatment emmean    SE   df lower.CL upper.CL
- control     10.9 0.358 6.92     10.0     11.7
- intego      12.1 0.358 6.92     11.2     12.9
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 
-
-$contrasts
- contrast         estimate    SE df t.ratio p.value
- control - intego    -1.21 0.427 21 -2.846  0.0097 
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger </code></pre>
-<pre class="r"><code>emmeans(fm.iowa.r8, pairwise ~ treatment) #12.01</code></pre>
-<pre><code>$emmeans
- treatment emmean    SE   df lower.CL upper.CL
- control     10.4 0.344 6.87     9.58     11.2
- intego      11.6 0.344 6.87    10.83     12.5
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 
-
-$contrasts
- contrast         estimate    SE df t.ratio p.value
- control - intego    -1.25 0.409 21 -3.058  0.0060 
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger </code></pre>
-<pre class="r"><code>emmeans(fm.iowa.yield, pairwise ~ treatment) #8.1</code></pre>
-<pre><code>$emmeans
- treatment emmean   SE   df lower.CL upper.CL
- control     2763 62.8 6.61     2613     2913
- intego      2987 64.4 7.10     2835     3139
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger 
-Confidence level used: 0.95 
-
-$contrasts
- contrast         estimate   SE   df t.ratio p.value
- control - intego     -224 75.7 20.6 -2.963  0.0075 
-
-Results are averaged over the levels of: variety 
-Degrees-of-freedom method: kenward-roger </code></pre>
+P value adjustment: tukey method for comparing a family of 7 estimates 
+significance level used: alpha = 0.05 </code></pre>
+<p>No difference between varieties for yield.</p>
+</div>
+<div id="contrasts-3" class="section level3">
+<h3>Contrasts</h3>
+<pre class="r"><code>custom_contrastiw &lt;- function(lsmeans){
+  # compare effect of seed treatment by Rps
+cons.1.iw &lt;- list(
+  &quot;t.Rps1c - c.Rps1c&quot; = c(-0.2, -0.2, -0.2, 0, 0, -0.2, -0.2, 0.2, 0.2, 0.2, 0, 0, 0.2, 0.2),
+  &quot;t.Rps1k - c.Rps1k&quot; = c(0, 0, 0, -0.5, -0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0)
+)
+  cons.2.iw &lt;- list(
+  &quot;t.High - c.High&quot; = c(0, 0, -0.5, 0, 0, 0, -0.5, 0, 0, 0.5, 0, 0, 0, 0.5), 
+  &quot;t.Moderate - c.Moderate&quot; = c(-1/5, -1/5, 0, -1/5, -1/5, -1/5, 0, 1/5, 1/5, 0, 1/5, 1/5, 1/5, 0)
+)
+  
+  cus.con1 &lt;- contrast(lsmeans, cons.1.iw, adjust = &quot;mvt&quot;) 
+  cus.con2 &lt;- contrast(lsmeans, cons.2.iw, adjust = &quot;mvt&quot;) 
+  con.both &lt;- c(cus.con1, cus.con2)
+  confi_con &lt;- map(con.both, summary, infer = TRUE) 
+  df_1 &lt;- as.data.frame(confi_con[[1]])
+  df_2 &lt;- as.data.frame(confi_con[[2]])
+  df_all &lt;- rbind(df_1, df_2)
+  df_all
+}</code></pre>
+<pre class="r"><code>emmeans(fm.iowa.vc, ~ variety:treatment) %&gt;% 
+  custom_contrastiw() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">1.600</td>
+<td align="right">0.5065048</td>
+<td align="right">21</td>
+<td align="right">0.3833434</td>
+<td align="right">2.816657</td>
+<td align="right">3.1589037</td>
+<td align="right">0.0093774</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">0.375</td>
+<td align="right">0.8008545</td>
+<td align="right">21</td>
+<td align="right">-1.5487030</td>
+<td align="right">2.298703</td>
+<td align="right">0.4682499</td>
+<td align="right">0.8709424</td>
+</tr>
+<tr class="odd">
+<td align="left">t.High - c.High</td>
+<td align="right">2.125</td>
+<td align="right">0.8008545</td>
+<td align="right">21</td>
+<td align="right">0.2012970</td>
+<td align="right">4.048703</td>
+<td align="right">2.6534159</td>
+<td align="right">0.0292037</td>
+</tr>
+<tr class="even">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">0.900</td>
+<td align="right">0.5065048</td>
+<td align="right">21</td>
+<td align="right">-0.3166566</td>
+<td align="right">2.116657</td>
+<td align="right">1.7768833</td>
+<td align="right">0.1694878</td>
+</tr>
+</tbody>
+</table>
+<p>Difference for Rps1c and high levels of partial resistance</p>
+<pre class="r"><code>emmeans(fm.iowa.yield, ~ variety:treatment) %&gt;% 
+  custom_contrastiw() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">223.3263</td>
+<td align="right">90.1342</td>
+<td align="right">20.72085</td>
+<td align="right">6.023195</td>
+<td align="right">440.6294</td>
+<td align="right">2.477709</td>
+<td align="right">0.0434977</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">226.3750</td>
+<td align="right">139.0646</td>
+<td align="right">20.12021</td>
+<td align="right">-108.893585</td>
+<td align="right">561.6436</td>
+<td align="right">1.627841</td>
+<td align="right">0.2207261</td>
+</tr>
+<tr class="odd">
+<td align="left">t.High - c.High</td>
+<td align="right">434.1250</td>
+<td align="right">139.0646</td>
+<td align="right">20.12021</td>
+<td align="right">98.856415</td>
+<td align="right">769.3936</td>
+<td align="right">3.121751</td>
+<td align="right">0.0106322</td>
+</tr>
+<tr class="even">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">140.2263</td>
+<td align="right">90.1342</td>
+<td align="right">20.72085</td>
+<td align="right">-77.076805</td>
+<td align="right">357.5294</td>
+<td align="right">1.555750</td>
+<td align="right">0.2486747</td>
+</tr>
+</tbody>
+</table>
+<p>Difference for Rps1c and high levels of partial resistance</p>
+<pre class="r"><code>pr_contrastiw &lt;- function(lsmean){
+ cons.3.iw &lt;- list(
+  &quot;High - Moderate&quot; = c(-1/5, -1/5, 0.5, -1/5, -1/5, -1/5, 0.5)
+)
+  cus.con.3 &lt;- contrast(lsmean, cons.3.iw, adjust = &quot;mvt&quot;)
+  conf_con &lt;- summary(cus.con.3, infer = TRUE)
+  df_con &lt;- as.data.frame(conf_con)
+  df_con
+}</code></pre>
+<pre class="r"><code>emmeans(fm.iowa.yield, ~ variety) %&gt;% 
+  pr_contrastiw() %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High - Moderate</td>
+<td align="right">66.07435</td>
+<td align="right">112.4627</td>
+<td align="right">17.65221</td>
+<td align="right">-170.5352</td>
+<td align="right">302.6839</td>
+<td align="right">0.5875222</td>
+<td align="right">0.5642936</td>
+</tr>
+</tbody>
+</table>
+<p>No difference between high and moderate.</p>
+</div>
+</div>
+<div id="figure-4" class="section level2">
+<h2>Figure 4</h2>
+<p><img src="figure/05_field-trials_analysis.Rmd/fig%204-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="model-assumptions" class="section level2">
+<h2>Model assumptions</h2>
+<p>Diagnostic plots to check on model assumptions</p>
+<pre class="r"><code># 2017
+models.2017 &lt;- list(fm.mon.vc, fm.mon.v2, fm.mon.yield, 
+                    fm.orr.vc, fm.orr.v2, fm.orr.yield,
+                    fm.urb.vc, fm.urb.v2, fm.urb.yield)
+map(models.2017, resid_panel) #residuals normally distributed and homogenicity of variance</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[8]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[9]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20models%202017-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># 2018
+models.2018 &lt;- list(fm.urb18.vc, fm.urb18.v2, fm.urb18.v4, 
+                    fm.urb18.r8, fm.urb18.yield, 
+                    fm.iowa.vc, fm.iowa.v1, fm.iowa.r2, 
+                    fm.iowa.r8, fm.iowa.yield)
+map(models.2018, resid_panel) #residuals normally distributed and homogenicity of variance</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[8]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[9]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[10]]</code></pre>
+<p><img src="figure/05_field-trials_analysis.Rmd/assumptions%20mmodels%202018-10.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1647,37 +2638,38 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] TH.data_1.0-10      minqa_1.2.4         colorspace_1.4-1   
- [4] rprojroot_1.3-2     htmlTable_1.13.2    estimability_1.3   
- [7] base64enc_0.1-3     fs_1.3.1            rstudioapi_0.10    
-[10] mvtnorm_1.1-0       lubridate_1.7.4     xml2_1.2.2         
-[13] codetools_0.2-16    splines_3.6.3       robustbase_0.93-5  
-[16] knitr_1.25          zeallot_0.1.0       Formula_1.2-3      
-[19] jsonlite_1.6        workflowr_1.6.1     nloptr_1.2.1       
-[22] pbkrtest_0.4-7      cluster_2.1.0       compiler_3.6.3     
-[25] httr_1.4.1          backports_1.1.5     assertthat_0.2.1   
-[28] lazyeval_0.2.2      cli_1.1.0           later_1.0.0        
-[31] acepack_1.4.1       htmltools_0.4.0     tools_3.6.3        
-[34] coda_0.19-3         gtable_0.3.0        glue_1.3.1         
-[37] reshape2_1.4.3      Rcpp_1.0.2          cellranger_1.1.0   
-[40] vctrs_0.2.0         nlme_3.1-144        xfun_0.9           
-[43] rvest_0.3.4         lifecycle_0.1.0     DEoptimR_1.0-8     
-[46] MASS_7.3-51.5       zoo_1.8-6           scales_1.0.0       
-[49] hms_0.5.1           promises_1.1.0      parallel_3.6.3     
-[52] sandwich_2.5-1      RColorBrewer_1.1-2  qqplotr_0.0.3      
-[55] yaml_2.2.0          gridExtra_2.3       rpart_4.1-15       
-[58] latticeExtra_0.6-28 stringi_1.4.3       checkmate_1.9.4    
-[61] boot_1.3-24         rlang_0.4.0         pkgconfig_2.0.3    
-[64] evaluate_0.14       lattice_0.20-38     htmlwidgets_1.5.1  
-[67] labeling_0.3        tidyselect_0.2.5    plyr_1.8.4         
-[70] magrittr_1.5        R6_2.4.0            generics_0.0.2     
-[73] Hmisc_4.3-0         multcomp_1.4-10     foreign_0.8-75     
-[76] pillar_1.4.2        haven_2.1.1         whisker_0.4        
-[79] withr_2.1.2         nnet_7.3-12         survival_3.1-8     
-[82] modelr_0.1.5        crayon_1.3.4        plotly_4.9.0       
-[85] rmarkdown_1.16      grid_3.6.3          readxl_1.3.1       
-[88] data.table_1.12.4   git2r_0.26.1        digest_0.6.21      
-[91] xtable_1.8-4        httpuv_1.5.2        numDeriv_2016.8-1.1
-[94] munsell_0.5.0       viridisLite_0.3.0  </code></pre>
+ [4] ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
+ [7] estimability_1.3    base64enc_0.1-3     fs_1.3.1           
+[10] rstudioapi_0.10     mvtnorm_1.1-0       lubridate_1.7.4    
+[13] xml2_1.2.2          codetools_0.2-16    splines_3.6.3      
+[16] robustbase_0.93-5   knitr_1.25          zeallot_0.1.0      
+[19] Formula_1.2-3       jsonlite_1.6        workflowr_1.6.1    
+[22] nloptr_1.2.1        pbkrtest_0.4-7      cluster_2.1.0      
+[25] compiler_3.6.3      httr_1.4.1          backports_1.1.5    
+[28] assertthat_0.2.1    lazyeval_0.2.2      cli_1.1.0          
+[31] later_1.0.0         acepack_1.4.1       htmltools_0.4.0    
+[34] tools_3.6.3         coda_0.19-3         gtable_0.3.0       
+[37] glue_1.3.1          reshape2_1.4.3      Rcpp_1.0.2         
+[40] cellranger_1.1.0    vctrs_0.2.0         nlme_3.1-144       
+[43] xfun_0.9            rvest_0.3.4         lifecycle_0.1.0    
+[46] DEoptimR_1.0-8      MASS_7.3-51.5       zoo_1.8-6          
+[49] scales_1.0.0        hms_0.5.1           promises_1.1.0     
+[52] parallel_3.6.3      sandwich_2.5-1      RColorBrewer_1.1-2 
+[55] qqplotr_0.0.3       yaml_2.2.0          gridExtra_2.3      
+[58] rpart_4.1-15        latticeExtra_0.6-28 stringi_1.4.3      
+[61] highr_0.8           checkmate_1.9.4     boot_1.3-24        
+[64] rlang_0.4.0         pkgconfig_2.0.3     evaluate_0.14      
+[67] lattice_0.20-38     htmlwidgets_1.5.1   labeling_0.3       
+[70] tidyselect_0.2.5    plyr_1.8.4          magrittr_1.5       
+[73] R6_2.4.0            generics_0.0.2      Hmisc_4.3-0        
+[76] multcomp_1.4-10     foreign_0.8-75      pillar_1.4.2       
+[79] haven_2.1.1         whisker_0.4         withr_2.1.2        
+[82] nnet_7.3-12         survival_3.1-8      modelr_0.1.5       
+[85] crayon_1.3.4        plotly_4.9.0        rmarkdown_1.16     
+[88] grid_3.6.3          readxl_1.3.1        data.table_1.12.4  
+[91] git2r_0.26.1        digest_0.6.21       xtable_1.8-4       
+[94] httpuv_1.5.2        numDeriv_2016.8-1.1 munsell_0.5.0      
+[97] viridisLite_0.3.0  </code></pre>
 </div>
 </div>
 </div>
