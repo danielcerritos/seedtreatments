@@ -346,7 +346,7 @@ No significant difference for two of the the three Rps1c varieties.
 ### Yield comparison
 
 ```{r yield urbana}
-emmeans(fm.urb.vc, ~ variety) %>% 
+emmeans(fm.urb.yield, ~ variety) %>% 
   cld.emmGrid()
 ```
 
