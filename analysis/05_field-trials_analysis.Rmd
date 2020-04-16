@@ -959,7 +959,7 @@ fig.4A <- iowa %>%
               aes(xmin = start, xmax = end, annotations=label, y_position = y),
               textsize = 5, vjust = -0.2, 
               manual = TRUE) +
-  scale_y_continuous(limits = c(8, 16))
+  scale_y_continuous(limits = c(8, 18))
 ```
 
 ```{r fig 4B, echo=FALSE}
@@ -982,7 +982,6 @@ fig.4b <- iowa %>%
         axis.text.x = element_text(size = 10)) +
   labs(y = expression('Yield (kg ha'^-1*')'),
          x = "Variety") +
-  scale_x_discrete("Variety", labels = short.names) +
   stat_summary(fun.y="mean", geom="point", size=1.2,
                  position=position_dodge(width=0.75), color="black")
 ```
