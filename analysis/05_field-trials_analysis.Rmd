@@ -922,6 +922,7 @@ No difference between high and moderate.
 
 
 ```{r fig 4A, echo=FALSE}
+iowa <- resistance_info(iowa)
 lab.fig.4A <- data.frame(rps = "Rps1c", 
                          variety = "C3140RX", 
                          vc_plants.m2 = 13.5, 
@@ -954,16 +955,15 @@ fig.4A <- iowa %>%
                      labels = c("NTC", "ST"), 
                      name = element_blank()) +
   geom_text(data = lab.fig.4A, aes(label=label), 
-            size = 5, color = "black") +
-  geom_signif(data = con.fig.4A, 
+            size = 5, color = "black")+
+   geom_signif(data = con.fig.4A, 
               aes(xmin = start, xmax = end, annotations=label, y_position = y),
               textsize = 5, vjust = -0.2, 
-              manual = TRUE) +
+              manual = TRUE)+ 
   scale_y_continuous(limits = c(8, 18))
 ```
 
 ```{r fig 4B, echo=FALSE}
-iowa <- resistance_info(iowa)
 iowa <- iowa %>% 
   mutate(pr_level = forcats::fct_inorder(pr_level))
 
@@ -992,7 +992,6 @@ cowplot::plot_grid(fig.4A, fig.4b,
                    align = "v", 
                    labels = "AUTO", 
                    axis = "lr" )
-
 ```
 
 
