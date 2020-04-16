@@ -999,7 +999,7 @@ cowplot::plot_grid(fig.4A, fig.4b,
 
 
 
-## Model assumptions
+# Model assumptions
 
 
 Diagnostic plots to check on model assumptions 

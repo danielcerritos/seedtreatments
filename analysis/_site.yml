@@ -7,6 +7,8 @@ navbar:
     href: index.html
   - text: Field trials
     href: 05_field-trials_analysis.html
+  - text: Resistance screening 
+    href: 04_resistance-screening_analysis.html
   right:
   - icon: fa-github
     text: Source code
