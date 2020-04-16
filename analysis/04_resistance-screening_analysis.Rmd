@@ -20,8 +20,8 @@ library(broom)
 ## Import data
 
 ```{r import screening data}
-(screening.data <- list.files(path = here("output", "clean_data"), 
-                         full.names = TRUE, pattern = "screening"))
+screening.data <- list.files(path = here("output", "clean_data"), 
+                         full.names = TRUE, pattern = "screening")
 
 layer.test <- read.csv(screening.data[1])
 tray.test <- read.csv(screening.data[2])
