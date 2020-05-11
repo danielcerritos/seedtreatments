@@ -439,7 +439,7 @@ con.fig.1 <- data.frame(location = c("Monmouth", "Orr",
                         end = c("LD13-14071R2", "LD11-7311", 
                                 "LD10-10219", "LD11-7311"), 
                           y = c(34, 34, 41, 39), 
-                        label = c("* *", "* *", "* *", "* *"), 
+                        label = c("*", "*", "*", "*"), 
                         treatment = c("intego", "intego", 
                                       "intego", "intego"))
 # shorter varieties names
@@ -632,7 +632,8 @@ Significant differences for rps and Rps1k. Significant differences for moderate 
 
 ```{r effect yield urb18}
 emmeans(fm.urb18.yield, ~ variety:treatment) %>% 
-  custom_contrast18()
+  custom_contrast18()%>% 
+  knitr::kable()
 ```
 
 Significant differences for rps and Rps1c. Significant differences for high levels of partial resistance.
@@ -736,7 +737,7 @@ con.fig.3B <- data.frame(rps = c("rps", "Rps1c"),
                         start = c("LD07-3395bf", "LD12-15064R1a"), 
                         end = c("LD13-13478R1a", "LD13-14071R2"), 
                         y = c(4800, 5000), 
-                        label = c("* *", "* *"), 
+                        label = c("*", "*"), 
                         treatment = c("intego", "intego"))
 
 fig.3B <- urbana.2018  %>% 
@@ -932,7 +933,7 @@ con.fig.4A <- data.frame(rps = "Rps1c",
                          start = "AG28x7",
                          end = "NK3195X",  
                          y = 15.5, 
-                         label = "* *", 
+                         label = "*", 
                          treatment = "intego")
 
 fig.4A <- iowa %>% 
