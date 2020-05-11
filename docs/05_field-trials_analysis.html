@@ -389,7 +389,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -398,7 +398,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -407,10 +407,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-16
+<strong>Last updated:</strong> 2020-05-11
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>seedtreatments/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -426,12 +426,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -498,16 +498,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree383bd1d8a464cfb51332a0173876c5ecbcfb60e0targetblank383bd1da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/danielcerritos/seedtreatments/tree/383bd1d8a464cfb51332a0173876c5ecbcfb60e0" target="_blank">383bd1d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree54c4903f60f33793ecbb30a0a170c21e02dfa551targetblank54c4903a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/danielcerritos/seedtreatments/tree/54c4903f60f33793ecbb30a0a170c21e02dfa551" target="_blank">54c4903</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree383bd1d8a464cfb51332a0173876c5ecbcfb60e0targetblank383bd1da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomdanielcerritosseedtreatmentstree54c4903f60f33793ecbb30a0a170c21e02dfa551targetblank54c4903a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/danielcerritos/seedtreatments/tree/383bd1d8a464cfb51332a0173876c5ecbcfb60e0" target="_blank">383bd1d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/danielcerritos/seedtreatments/tree/54c4903f60f33793ecbb30a0a170c21e02dfa551" target="_blank">54c4903</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -515,6 +515,9 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+
+Unstaged changes:
+    Modified:   analysis/05_field-trials_analysis.Rmd
 
 </code></pre>
 <p>
@@ -553,6 +556,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/danielcerritos/seedtreatments/54c4903f60f33793ecbb30a0a170c21e02dfa551/docs/05_field-trials_analysis.html" target="_blank">54c4903</a>
+</td>
+<td>
+Daniel Guillermo Cerritos
+</td>
+<td>
+2020-04-16
+</td>
+<td>
+correct fig 4
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2375,21 +2395,84 @@ significance level used: alpha = 0.05 </code></pre>
 </table>
 <p>Significant differences for rps and Rps1k. Significant differences for moderate levels.</p>
 <pre class="r"><code>emmeans(fm.urb18.yield, ~ variety:treatment) %&gt;% 
-  custom_contrast18()</code></pre>
-<pre><code>                 contrast estimate        SE df    lower.CL upper.CL
-1           t.rps - c.rps 246.3333  96.82359 27   0.7131984 491.9535
-2       t.Rps1c - c.Rps1c 240.1250  83.85169 27  27.4117235 452.8383
-3       t.Rps1k - c.Rps1k 240.3750 118.58420 27 -60.4470006 541.1970
-4         t.High - c.High 494.1250 118.58420 27 193.2276634 795.0223
-5 t.Moderate - c.Moderate 161.5000  96.82359 27 -84.1816465 407.1816
-6           t.Low - c.Low 176.8750  83.85169 27 -35.8915472 389.6415
-   t.ratio      p.value
-1 2.544146 0.0492413556
-2 2.863687 0.0234750486
-3 2.027041 0.1466640935
-4 4.166871 0.0008205315
-5 1.667982 0.2815048156
-6 2.109379 0.1244990768</code></pre>
+  custom_contrast18()%&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+<th align="right">t.ratio</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.rps - c.rps</td>
+<td align="right">246.3333</td>
+<td align="right">96.82359</td>
+<td align="right">27</td>
+<td align="right">0.7131984</td>
+<td align="right">491.9535</td>
+<td align="right">2.544146</td>
+<td align="right">0.0492414</td>
+</tr>
+<tr class="even">
+<td align="left">t.Rps1c - c.Rps1c</td>
+<td align="right">240.1250</td>
+<td align="right">83.85169</td>
+<td align="right">27</td>
+<td align="right">27.4117235</td>
+<td align="right">452.8383</td>
+<td align="right">2.863687</td>
+<td align="right">0.0234750</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Rps1k - c.Rps1k</td>
+<td align="right">240.3750</td>
+<td align="right">118.58420</td>
+<td align="right">27</td>
+<td align="right">-60.4470006</td>
+<td align="right">541.1970</td>
+<td align="right">2.027041</td>
+<td align="right">0.1466641</td>
+</tr>
+<tr class="even">
+<td align="left">t.High - c.High</td>
+<td align="right">494.1250</td>
+<td align="right">118.58420</td>
+<td align="right">27</td>
+<td align="right">193.2276634</td>
+<td align="right">795.0223</td>
+<td align="right">4.166871</td>
+<td align="right">0.0008205</td>
+</tr>
+<tr class="odd">
+<td align="left">t.Moderate - c.Moderate</td>
+<td align="right">161.5000</td>
+<td align="right">96.82359</td>
+<td align="right">27</td>
+<td align="right">-84.1816465</td>
+<td align="right">407.1816</td>
+<td align="right">1.667982</td>
+<td align="right">0.2815048</td>
+</tr>
+<tr class="even">
+<td align="left">t.Low - c.Low</td>
+<td align="right">176.8750</td>
+<td align="right">83.85169</td>
+<td align="right">27</td>
+<td align="right">-35.8915472</td>
+<td align="right">389.6415</td>
+<td align="right">2.109379</td>
+<td align="right">0.1244991</td>
+</tr>
+</tbody>
+</table>
 <p>Significant differences for rps and Rps1c. Significant differences for high levels of partial resistance.</p>
 <pre class="r"><code>pr_contrast18 &lt;- function(lsmean){
   cons.3.18 &lt;- list(
@@ -2797,7 +2880,7 @@ other attached packages:
  [7] lmerTest_3.1-0     lme4_1.1-21        Matrix_1.2-18     
 [10] here_0.1           forcats_0.4.0      stringr_1.4.0     
 [13] dplyr_0.8.3        purrr_0.3.2        readr_1.3.1       
-[16] tidyr_1.0.0        tibble_2.1.3       ggplot2_3.2.1     
+[16] tidyr_1.0.0        tibble_2.1.3       ggplot2_3.3.0     
 [19] tidyverse_1.2.1   
 
 loaded via a namespace (and not attached):
@@ -2813,27 +2896,26 @@ loaded via a namespace (and not attached):
 [28] assertthat_0.2.1    lazyeval_0.2.2      cli_1.1.0          
 [31] later_1.0.0         acepack_1.4.1       htmltools_0.4.0    
 [34] tools_3.6.3         coda_0.19-3         gtable_0.3.0       
-[37] glue_1.3.1          reshape2_1.4.3      Rcpp_1.0.2         
-[40] cellranger_1.1.0    vctrs_0.2.0         nlme_3.1-144       
-[43] xfun_0.9            rvest_0.3.4         lifecycle_0.1.0    
-[46] DEoptimR_1.0-8      MASS_7.3-51.5       zoo_1.8-6          
-[49] scales_1.0.0        hms_0.5.1           promises_1.1.0     
-[52] parallel_3.6.3      sandwich_2.5-1      RColorBrewer_1.1-2 
-[55] qqplotr_0.0.3       yaml_2.2.0          gridExtra_2.3      
-[58] rpart_4.1-15        latticeExtra_0.6-28 stringi_1.4.3      
-[61] highr_0.8           checkmate_1.9.4     boot_1.3-24        
-[64] rlang_0.4.0         pkgconfig_2.0.3     evaluate_0.14      
-[67] lattice_0.20-38     htmlwidgets_1.5.1   labeling_0.3       
-[70] tidyselect_0.2.5    plyr_1.8.4          magrittr_1.5       
-[73] R6_2.4.0            generics_0.0.2      Hmisc_4.3-0        
-[76] multcomp_1.4-10     foreign_0.8-75      pillar_1.4.2       
-[79] haven_2.1.1         whisker_0.4         withr_2.1.2        
-[82] nnet_7.3-12         survival_3.1-8      modelr_0.1.5       
-[85] crayon_1.3.4        plotly_4.9.0        rmarkdown_1.16     
-[88] grid_3.6.3          readxl_1.3.1        data.table_1.12.4  
-[91] git2r_0.26.1        digest_0.6.21       xtable_1.8-4       
-[94] httpuv_1.5.2        numDeriv_2016.8-1.1 munsell_0.5.0      
-[97] viridisLite_0.3.0  </code></pre>
+[37] glue_1.3.1          Rcpp_1.0.2          cellranger_1.1.0   
+[40] vctrs_0.2.0         nlme_3.1-144        xfun_0.9           
+[43] rvest_0.3.4         lifecycle_0.1.0     DEoptimR_1.0-8     
+[46] MASS_7.3-51.5       zoo_1.8-6           scales_1.0.0       
+[49] hms_0.5.1           promises_1.1.0      parallel_3.6.3     
+[52] sandwich_2.5-1      qqplotr_0.0.3       RColorBrewer_1.1-2 
+[55] yaml_2.2.0          gridExtra_2.3       rpart_4.1-15       
+[58] latticeExtra_0.6-28 stringi_1.4.3       highr_0.8          
+[61] checkmate_1.9.4     boot_1.3-24         rlang_0.4.0        
+[64] pkgconfig_2.0.3     evaluate_0.14       lattice_0.20-38    
+[67] htmlwidgets_1.5.1   labeling_0.3        tidyselect_0.2.5   
+[70] plyr_1.8.4          magrittr_1.5        R6_2.4.0           
+[73] generics_0.0.2      Hmisc_4.3-0         multcomp_1.4-10    
+[76] foreign_0.8-75      pillar_1.4.2        haven_2.1.1        
+[79] whisker_0.4         withr_2.1.2         nnet_7.3-12        
+[82] survival_3.1-8      modelr_0.1.5        crayon_1.3.4       
+[85] plotly_4.9.0        rmarkdown_1.16      grid_3.6.3         
+[88] readxl_1.3.1        data.table_1.12.4   git2r_0.26.1       
+[91] digest_0.6.21       xtable_1.8-4        httpuv_1.5.2       
+[94] numDeriv_2016.8-1.1 munsell_0.5.0       viridisLite_0.3.0  </code></pre>
 </div>
 </div>
 
