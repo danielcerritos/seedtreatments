@@ -387,10 +387,6 @@ High and moderate partial resistance have higher yields than low levels. No diff
 
 ## Figure 1
 
-Effect of seed treatment (ST) on stand for multilocation field trials in 2017. Dots represent mean stands at VC and 
-vertical lines their confidence interval. Means with an asterick are significantly different. Panels with two asteriks
-represent a significant difference in the contrast between the untreated control and the seed treatment.
-
 
 ```{r add resistance info, echo=FALSE}
 # add resistance information (Rps and partial resistance levels) for figures
@@ -457,7 +453,7 @@ short.names <- c("LD10-10219" = "LD10-10",
 ```
 
 ```{r fig 1, warning = FALSE, fig.width = 7, fig.height = 6, echo=FALSE}
-illinois.2017 %>% 
+figure1 <- illinois.2017 %>% 
   ggplot(aes(x = variety, y = vc_plants.m2)) +
   geom_point(aes(color = treatment), 
                position = position_jitterdodge(dodge.width = 0.5), 
@@ -473,7 +469,7 @@ illinois.2017 %>%
                                           color = "grey80"), 
         legend.position = "bottom") +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("NTC", "ST"), 
+                     labels = c("UTC", "ST"), 
                      name = element_blank()) +
   scale_x_discrete("Variety", labels = short.names) +
   geom_text(data = lab.fig.1, aes(label=label), 
@@ -483,6 +479,8 @@ illinois.2017 %>%
               textsize = 5, vjust = -0.2, 
               manual = TRUE) +
   scale_y_continuous(limits = c(15, 45))
+
+ggsave("cerritos-garcia1.tiff", plot = figure1, dpi = 300, path = here("docs", "figure"))
 ```
 
 ## Figure 2
@@ -497,7 +495,7 @@ illinois.2017$pr_level <- factor(illinois.2017$pr_level,
                                  levels = c("High", 
                                             "Moderate", 
                                             "Low"))
-illinois.2017 %>% 
+figure2 <- illinois.2017 %>% 
   ggplot(aes(x = fct_reorder(variety, -yield_kg.ha), 
              y = yield_kg.ha, fill= pr_level)) +
   geom_jitter(alpha= 0.2, width = 0.4) +
@@ -515,6 +513,8 @@ illinois.2017 %>%
   scale_x_discrete("Variety", labels = short.names) +
   stat_summary(fun.y="mean", geom="point", size=1.2,
                  position=position_dodge(width=0.75), color="black")
+
+ggsave("cerritos-garcia2.tiff", plot = figure2, dpi = 300, path = here("docs", "figure"))
 ```
 
 
@@ -655,7 +655,8 @@ pr_contrast18 <- function(lsmean){
 
 ```{r pr level yield urb18}
 emmeans(fm.urb18.yield, ~ variety) %>% 
-  pr_contrast18
+  pr_contrast18%>% 
+  knitr::kable()
 ```
 
 High level partial resistnace has higher yields than both moderate and low levels.
@@ -663,16 +664,6 @@ High level partial resistnace has higher yields than both moderate and low level
 
 
 ## Figure 3
-
-Effect of seed treatment and varieties with no resistance gene (rps), Rps1c or Rps1k on stand count at VC (A) and 
-yield (B) in 2018 field trial in Urbana, IL. Dots represent the mean stand of seed treatment (ST) plots and untreated 
-control (NTC) plots. Vertical bars show confidence intervals of means. Varieties with a significant difference between
-the untreated control and seed treatment are indicated with an asterisk. (C) Box plots of the distribution of yield of
-varieties with different levels of partial resistance in 2018 field trial in Urbana, IL. The center lines show the
-medians and box limits indicate the 25th and 75th percentiles and whiskers extend 1.5 times the interquartile range
-(IQR). Outliers are represented by black solid dots. 
-
-
 
 ```{r fig 3A, warning=FALSE, echo=FALSE}
 urbana.2018 <- resistance_info(urbana.2018)
@@ -761,7 +752,7 @@ fig.3B <- urbana.2018  %>%
                                           color = "grey80"), 
         ) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("NTC", "ST"), 
+                     labels = c("UTC", "ST"), 
                      name = element_blank()) +
   geom_text(data = lab.fig.3B, aes(label=label), 
             size = 5, color = "black") +
@@ -795,12 +786,14 @@ fig.3C <- urbana.2018 %>%
 ```
 
 ```{r figure 3, echo=FALSE, fig.width = 7, fig.height = 7}
-cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
+figure3 <- cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
                    ncol = 1, 
                    align = "v", 
                    labels = "AUTO", 
                    axis = "lr", 
                    rel_heights = c(1, 1, 1.3))
+
+ggsave("cerritos-garcia3.tiff", plot = figure3, dpi = 300, path = here("docs", "figure"))
 ```
 
 
@@ -953,7 +946,7 @@ fig.4A <- iowa %>%
                                           color = "grey80"), 
         axis.title.x = element_blank()) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("NTC", "ST"), 
+                     labels = c("UTC", "ST"), 
                      name = element_blank()) +
   geom_text(data = lab.fig.4A, aes(label=label), 
             size = 5, color = "black")+
@@ -988,11 +981,14 @@ fig.4b <- iowa %>%
 ```
 
 ```{r fig 4, fig.width = 7, fig.height = 4.4, echo=FALSE}
-cowplot::plot_grid(fig.4A, fig.4b,
+figure4 <- cowplot::plot_grid(fig.4A, fig.4b,
                    ncol = 1, 
                    align = "v", 
                    labels = "AUTO", 
                    axis = "lr" )
+
+figure4
+ggsave("cerritos-garcia4.tiff", plot = figure4,  width=7, height=4, dpi = 300, path = here("docs", "figure"))
 ```
 
 
