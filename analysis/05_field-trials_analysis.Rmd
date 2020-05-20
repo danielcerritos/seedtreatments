@@ -681,7 +681,7 @@ con.fig.3A <- data.frame(rps = c("rps", "Rps1k"),
                         start = c("LD07-3395bf", "LD11-13802R2"), 
                         end = c("LD13-13478R1a", "LD11-7311"), 
                         y = c(35, 35), 
-                        label = c("* *", "* *"), 
+                        label = c("*", "*"), 
                         treatment = c("intego", "intego"))
 
 fig.3A <- urbana.2018 %>% 
@@ -793,6 +793,7 @@ figure3 <- cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
                    axis = "lr", 
                    rel_heights = c(1, 1, 1.3))
 
+figure3
 ggsave("cerritos-garcia3.tiff", plot = figure3, dpi = 300, path = here("docs", "figure"))
 ```
 
