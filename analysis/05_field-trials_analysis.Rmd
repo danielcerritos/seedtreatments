@@ -713,7 +713,7 @@ fig.3A <- urbana.2018 %>%
                   y_position = y),
               textsize = 5, vjust = -0.2, 
               manual = TRUE) +
-  scale_y_continuous(limits = c(10, 40))
+  scale_y_continuous(limits = c(5, 40))
 ```
 
 ```{r fig 3B, echo=FALSE, warning=FALSE}
