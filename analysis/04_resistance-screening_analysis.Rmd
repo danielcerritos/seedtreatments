@@ -20,13 +20,13 @@ library(broom)
 ## Import data
 
 ```{r import screening data}
-screening.data <- list.files(path = here("output", "clean_data"), 
+screening_data <- list.files(path = here("output", "clean_data"), 
                          full.names = TRUE, pattern = "screening")
 
-layer.test <- read.csv(screening.data[1])
-tray.test <- read.csv(screening.data[2])
-rps.greenhouse <- read.csv(screening.data[3])
-rps.incubator <- read.csv(screening.data[4])
+layer_test <- read.csv(screening.data[1])
+tray_test <- read.csv(screening.data[2])
+rps_greenhouse <- read.csv(screening.data[3])
+rps_incubator <- read.csv(screening.data[4])
 ```
 
 ## Resistance gene (Rps) screening 
@@ -34,7 +34,7 @@ rps.incubator <- read.csv(screening.data[4])
 ### Greenhouse trial
 
 ```{r greenhouse trial}
-rps.greenhouse <- rps.greenhouse %>% 
+rps_greenhouse <- rps_greenhouse %>% 
   filter(dai == "dai.10") %>% 
   mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
   group_by(isolate, line) %>% 
@@ -44,22 +44,22 @@ rps.greenhouse <- rps.greenhouse %>%
     mean_incidence <= 25 ~ "R", # resistant
     TRUE ~ "I")) # intermediate 
 
-reaction.results <- rps.greenhouse %>% 
+reaction_results <- rps_greenhouse %>% 
   dplyr::select(-mean_incidence) %>% 
   spread(isolate, reaction) %>% 
   select(line, OH1, OH3, OH4, OH7, OH25, OH28) 
 
-incidence.results <- rps.greenhouse %>% 
+incidence_results <- rps_greenhouse %>% 
   dplyr::select(-reaction) %>% 
   spread(isolate, mean_incidence) %>% 
   select(line, OH1, OH3, OH4, OH7, OH25, OH28) 
 
-gh.controls <- c("harlon", "harosoy", "williams79", 
-              "williams82", "williams", "harosoy62xx", 
-              "harosoy13xx", "sloan", "L83-570")
+greenhouse_controls <- c("harlon", "harosoy", "williams79", 
+                         "williams82", "williams", "harosoy62xx", 
+                         "harosoy13xx", "sloan", "L83-570")
 
-reaction.results %>% 
-  filter(line %in% gh.controls) 
+reaction_results %>% 
+  filter(line %in% greenhouse_controls) 
 ```
 
 overrall, checks are having a susceptible reaction
@@ -67,8 +67,8 @@ OHR1 and OH28 resistant check was included and had the expected reaction
 
 ```{r GH Rps discovery}
 # all lines are susceptible to OH25 (1a, 1b, 1c, 1k)
-(assign.rps <- reaction.results %>% 
-  filter(!line %in% gh.controls) %>% 
+(assign_rps <- reaction_results %>% 
+  filter(!line %in% greenhouse_controls) %>% 
   mutate(Rps = case_when(
     OH1 == "S" ~ "rps",
     OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") ~ "Rps1c", 
@@ -84,28 +84,28 @@ with the exception of LD09-30224 and LD12-15129
 
 - I will assign no resistance gene to these lines except to the mention above
 
-- Lets look the lines with a R reactions and no gene was asign 
+- Lets look the lines with a R reactions and no gene was assign 
 
 ```{r gh rps discovery 2.0}
-lines.R.OH1 <- assign.rps %>% 
+lines_resistant_OH1 <- assign_rps %>% 
   filter(OH1 == "R", is.na(Rps)) %>%
   dplyr::select(line)
 
-lines.R.OH1 <- lines.R.OH1$line
+lines_resistant_OH1 <- lines_resistant_OH1$line
 
-incidence.results %>% 
-  filter(line %in% lines.R.OH1)
+incidence_results %>% 
+  filter(line %in% lines_resistant_OH1)
 ```
 
-Although no consistent R reactions to assign a gene, I will asign one based on what is closer
+Although no consistent R reactions to assign a gene, I will assign one based on what is closer
 
 ```{r gh final Rps genes}
 rps1a <- c("LD09-30224", "LD11-2170", "LD12-15246R2a")
 rps1c <- c("LD13-13334R1a", "LD12-15129R1a")
 rps1k <- c("LD11-13802R2", "LD11-7311")
 
-(rps.gh <- reaction.results %>% 
-  filter(!line %in% gh.controls) %>% 
+(rps_greenhouse <- reaction_results %>% 
+  filter(!line %in% greenhouse_controls) %>% 
   mutate(Rps = case_when(
     OH1 == "R" & OH4 == "S" & (OH3 == "R" | OH7 == "R") | line %in% rps1c ~ "Rps1c", 
     OH1 == "R" & (OH3 == "S" | OH4 == "S" | OH7 == "S") | line %in% rps1a ~ "Rps1a", 
@@ -120,7 +120,7 @@ rps1k <- c("LD11-13802R2", "LD11-7311")
 - lines that were susceptible to OH1 were not inoculated with OH3 and OH4
 
 ```{r incubator trial}
-rps.incubator <- rps.incubator %>% 
+rps_incubator <- rps_incubator %>% 
   mutate(incidence = (dead_seedlings/total_seedlings)*100) %>% 
   group_by(isolate, line) %>% 
   summarise(mean_incidence = round(mean(incidence))) %>% 
@@ -130,19 +130,19 @@ rps.incubator <- rps.incubator %>%
     TRUE ~ "I"
   ))
 
-inc.reaction <- rps.incubator %>% 
+incubator_reaction <- rps_incubator %>% 
   dplyr::select(-mean_incidence) %>% 
   spread(isolate, reaction)
 
-inc.incidence <- rps.incubator %>% 
+incubator_incidence <- rps_incubator %>% 
   dplyr::select(-reaction) %>% 
   spread(isolate, mean_incidence)
 
-inc.controls <- c("Harlon (Rps1a)", "Harosoy (Rps7)", "Harosoy 13x (Rps1b)", 
-              "Harosoy 62XX (Rps6)", "Williams (rps)", "Williams 79 (Rps1c)")
+incubator_controls <- c("Harlon (Rps1a)", "Harosoy (Rps7)", "Harosoy 13x (Rps1b)", 
+                        "Harosoy 62XX (Rps6)", "Williams (rps)", "Williams 79 (Rps1c)")
 
-rps.inc <- inc.reaction %>%
-  filter(!line %in% inc.controls) %>% 
+rps_incubator <- incubator_reaction %>%
+  filter(!line %in% incubator_controls) %>% 
   mutate(Rps = case_when(
     OH1 == "R" & OH3 == "R" & (OH4 == "S" | OH4 == "I") ~ "Rps 1c", 
     OH1 == "R" & OH3 == "S" & OH4 == "S" ~ "Rps 1a", 
@@ -151,44 +151,45 @@ rps.inc <- inc.reaction %>%
     TRUE ~ "rps")
     )
 
+rps_incubator
 ```
 
 Lets compare results from both trials and assign final Rps
 
 ```{r compare rps trials }
 
-rps.gh <- rps.gh %>% 
+rps_greenhouse <- rps_greenhouse %>% 
   dplyr::select(line, Rps) %>% 
-  filter(!line %in% gh.controls)
+  filter(!line %in% greenhouse_controls)
 
-rps.inc <- rps.inc %>% 
+rps_incubator <- rps_incubator %>% 
   dplyr::select(line, Rps) %>% 
-  filter(!line %in% inc.controls)
+  filter(!line %in% incubator_controls)
 
-(rps.final <- bind_cols(rps.gh, rps.inc))
+(rps_final_results <- bind_cols(rps_greenhouse, rps_incubator))
 ```
 
 Most of the results form the two trials match, with the exception of Rps 1a  
-Lest check the intermediate results of those lines 
+Lest check the intermediate results of those lines
 
 ```{r check rps1a}
-rps1a.lines <- rps.final %>% 
-  dplyr::select(line, Rps) %>% 
-  filter(Rps == "Rps1a")
+rps1a_lines <- rps_final_results %>% 
+  dplyr::select(line...1, Rps...2) %>% 
+  filter(Rps...2 == "Rps1a")
 
-inc.incidence %>% 
-  filter(line %in% rps1a.lines)
+incubator_incidence %>% 
+  filter(line %in% rps1a_lines)
 ```
 
 all lines have mix reactions that look like no rps or other gene, except LD12-8677
 reaction to OH3 is close to a susceptible reaction so I will assign Rps1a to this line
 
 ```{r final rps}
-rps.final <- rps.final %>% 
+rps_final_results <- rps_final_results %>% 
   mutate(rps = case_when(
-    Rps == "Rps1k" & Rps1 == "Rps 1k" ~ "Rps1k", 
-    Rps == "Rps1c" & Rps1 == "Rps 1c" ~ "Rps1c", 
-    line == "LD12-8677" ~ "Rps1a", 
+    Rps...2 == "Rps1k" & Rps...4 == "Rps 1k" ~ "Rps1k", 
+    Rps...2 == "Rps1c" & Rps...4 == "Rps 1c" ~ "Rps1c", 
+    line...1 == "LD12-8677" ~ "Rps1a", 
     TRUE ~ "rps")
     )
 ```
@@ -198,14 +199,14 @@ rps.final <- rps.final %>%
 ### Layer test
 
 ```{r layer test scores}
-hist(layer.test$scale_dorrance) # most scores are b/w 4-7 (moderate to low levels)
+hist(layer_test$scale_dorrance) # most scores are b/w 4-7 (moderate to low levels)
 # mean for layer test and clasify as High, Moderate or Low based on the score mean
-mean.scores <- layer.test %>% 
+mean_scores <- layer_test %>% 
   group_by(line) %>% 
-  summarise(mean(scale_dorrance)) 
+  summarise(round(mean(scale_dorrance)))
 
-mean.scores <- mean.scores %>% 
-  rename(mean_score = `mean(scale_dorrance)`)%>% 
+mean_scores <- mean_scores %>% 
+  rename(mean_score = `round(mean(scale_dorrance))`)%>% 
   mutate(
     pr_level = case_when(
       mean_score <= 4 ~ "High", 
@@ -215,20 +216,20 @@ mean.scores <- mean.scores %>%
 ```
 
 ```{r tray test lesion}
-fm.tray.test <- lm(lesion_length.cm ~ line, data = tray.test) 
-plot(fm.tray.test) #data not normal
-trans <- boxcox(fm.tray.test) 
+fm_tray_test <- lm(lesion_length.cm ~ line, data = tray.test) 
+plot(fm_tray_test) #data not normal
+trans <- boxcox(fm_tray_test) 
 trans$x[which.max(trans$y)]
-boxc.tran <- make.tran("boxcox", 0.2626)
+boxc_tran <- make.tran("boxcox", 0.2626)
 ```
 
 ```{r transform data}
-fm.tray.test<- with(boxc.tran, 
+fm_tray_test<- with(boxc_tran, 
                 lm(linkfun(lesion_length.cm) ~ line, data = tray.test))
 summary(fm.tray.test) # differences in lesion length 
 
-mean.lesion <- emmeans(fm.tray.test, ~ line, type = "response") #obtain back-transformed emmmeans    
-mean.lesion %>% 
+mean_lesion <- emmeans(fm_tray_test, ~ line, type = "response") #obtain back-transformed emmmeans    
+mean_lesion %>% 
   cld.emmGrid()
 
 # dunnetts to compare against moderately susceptible check (Williams)
@@ -241,14 +242,17 @@ line.vs.L76 <- tidy(line.vs.L76$contrasts)
 ```
 
 ```{r combine screening data}
-lesion.cm <- mean.lesion %>% 
+lesion_cm <- mean_lesion %>% 
   tidy() %>% 
   filter(!line %in% c("L76-1988", "Sloan", "Williams")) %>% 
   dplyr::select(line, lesion_cm = response)
-  
-screening.final <- bind_cols(rps.final, mean.scores, lesion.cm) %>% 
-  dplyr::select(line, rps, pr_level, mean_score, lesion_cm)
 
-write_csv(screening.final, path = here("output", "results", 
+rps_final_results <- rps_final_results %>% 
+  select(line = line...1, Rps = rps)
+
+screening_results <- left_join(rps_final_results, mean_scores)
+screening_results <- left_join(screening_results, lesion_cm)
+
+write_csv(screening_results, path = here("output", "results", 
                                        "04_resistance-screening_final-results.csv"))
 ```

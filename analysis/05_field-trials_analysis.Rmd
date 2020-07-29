@@ -183,7 +183,7 @@ custom_contrasts <- function(lsmeans){
     "t.Moderate - c.Moderate" = c(0, rep(-0.25, 4), rep(0, 3), rep(0.25, 4), 0, 0), 
     "t.Low - c.Low" = c(rep(0, 5), -1, rep(0, 6), 1, 0)
   )
-  cus.con1 <- contrast(lsmeans, cons.1, adjust = "mvt") # adjustment for mutiple testing
+  cus.con1 <- contrast(lsmeans, cons.1, adjust = "mvt") # adjustment for multiple testing
   cus.con2 <- contrast(lsmeans, cons.2, adjust = "mvt") 
   con.both <- c(cus.con1, cus.con2)
   confi_con <- map(con.both, summary, infer = TRUE) # confidence intervals
@@ -255,7 +255,7 @@ anova(fm.orr.yield)
 
 
 ```{r vc orr}
-emmeans(fm.orr.vc, ~ treatment|variety) %>% 
+emmeans(fm.orr.vc, ~ treatment) %>% 
   cld.emmGrid()
 ```
 
@@ -336,7 +336,7 @@ Seems that seed treatment is having an effect in both rps and Rps1k.
 
 
 ```{r vc urbana}
-emmeans(fm.urb.vc, ~ treatment|variety) %>% 
+emmeans(fm.urb.vc, ~ treatment) %>% 
   cld.emmGrid()
 ```
 
@@ -471,7 +471,7 @@ figure1 <- illinois.2017 %>%
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
                      labels = c("NTC", "ST"), 
                      name = element_blank()) +
-  scale_x_discrete("Experimental line", labels = short.names) +
+  scale_x_discrete("Line", labels = short.names) +
   geom_text(data = lab.fig.1, aes(label=label), 
             size = 5, color = "black") +
   geom_signif(data = con.fig.1, 
@@ -506,8 +506,8 @@ figure2 <- illinois.2017 %>%
         panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80")) +
   labs(y = expression('Yield (kg ha'^-1*')'),
-         x = "Experimental line") +
-  scale_x_discrete("Experimental line", labels = short.names) +
+         x = "Line") +
+  scale_x_discrete("Line", labels = short.names) +
   stat_summary(fun.y="mean", geom="point", size=1.2,
                  position=position_dodge(width=0.75), color="black")
 
@@ -547,7 +547,7 @@ and yield.
 
 ```{r treatment urbana 18, fig.height=2, fig.width=6}
 # overrall treatment effect
-emmeans(fm.urb18.vc, ~ treatment) %>% #17.82%
+emmeans(fm.urb18.vc, ~ treatment)  #17.82%
   plot(comparison = TRUE)
 emmeans(fm.urb18.v2, ~ treatment) %>% #18.61
   plot(comparison = TRUE)
@@ -695,7 +695,7 @@ fig.3A <- urbana.2018 %>%
   labs(y = expression('Stand (plants m'^-2*')')) +
   theme_cowplot() +
   panel_border() +
-  theme(legend.position = "none",
+  theme(legend.position = "bottom",
         axis.title.x = element_blank(),
         axis.text.x = element_text(size = 8),
         panel.grid.major.y = element_line(linetype = "dotted", 
@@ -751,7 +751,7 @@ fig.3B <- urbana.2018  %>%
                                           color = "grey80"), 
         ) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("UTC", "ST"), 
+                     labels = c("NTC", "ST"), 
                      name = element_blank()) +
   geom_text(data = lab.fig.3B, aes(label=label), 
             size = 5, color = "black") +
@@ -779,21 +779,21 @@ fig.3C <- urbana.2018 %>%
         axis.text.x = element_text(size = 8)) +
   labs(y = expression('Yield (kg ha'^-1*')'),
          x = "Experimental line") +
-  scale_x_discrete("Experimental line", labels = short.names) +
+  scale_x_discrete("Line", labels = short.names) +
   stat_summary(fun.y="mean", geom="point", size=1.2,
                  position=position_dodge(width=0.75), color="black")
 ```
 
-```{r figure 3, echo=FALSE, fig.width = 7, fig.height = 7}
-figure3 <- cowplot::plot_grid(fig.3A, fig.3B, fig.3C,
+```{r figure 3, echo=FALSE, fig.width = 7, fig.height = 5.3}
+figure3 <- cowplot::plot_grid(fig.3A, fig.3C,
                    ncol = 1, 
                    align = "v", 
                    labels = "AUTO", 
                    axis = "lr", 
-                   rel_heights = c(1, 1, 1.3))
+                   rel_heights = c(1, 1))
 
 figure3
-ggsave("cerritos-garcia3.tiff", plot = figure3, dpi = 300, path = here("docs", "figure"))
+ggsave("cerritos-garcia3.tiff", plot = figure3, width=7, height=5, dpi = 300, path = here("docs", "figure"))
 ```
 
 
@@ -941,12 +941,13 @@ fig.4A <- iowa %>%
   labs(y = expression('Stand (plants m'^-2*')')) +
   theme_cowplot() +
   panel_border() +
-  theme(axis.text.x = element_text(size = 10),
+  theme(
+        axis.text.x = element_text(size = 10),
         panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80"), 
         axis.title.x = element_blank()) +
   scale_color_manual(values = c("#D55E00", "#0072B2"), 
-                     labels = c("UTC", "ST"), 
+                     labels = c("NTC", "ST"), 
                      name = element_blank()) +
   geom_text(data = lab.fig.4A, aes(label=label), 
             size = 5, color = "black")+
@@ -980,7 +981,7 @@ fig.4b <- iowa %>%
                  position=position_dodge(width=0.75), color="black")
 ```
 
-```{r fig 4, fig.width = 7, fig.height = 4.4, echo=FALSE}
+```{r fig 4, fig.width = 7, fig.height = 5, echo=FALSE}
 figure4 <- cowplot::plot_grid(fig.4A, fig.4b,
                    ncol = 1, 
                    align = "v", 
@@ -988,7 +989,7 @@ figure4 <- cowplot::plot_grid(fig.4A, fig.4b,
                    axis = "lr" )
 
 figure4
-ggsave("cerritos-garcia4.tiff", plot = figure4,  width=7, height=4, dpi = 300, path = here("docs", "figure"))
+ggsave("cerritos-garcia4.tiff", plot = figure4,  width=7, height=5, dpi = 300, path = here("docs", "figure"))
 ```
 
 
