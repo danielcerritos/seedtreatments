@@ -203,10 +203,10 @@ hist(layer_test$scale_dorrance) # most scores are b/w 4-7 (moderate to low level
 # mean for layer test and clasify as High, Moderate or Low based on the score mean
 mean_scores <- layer_test %>% 
   group_by(line) %>% 
-  summarise(round(mean(scale_dorrance)))
+  summarise(mean(scale_dorrance))
 
 mean_scores <- mean_scores %>% 
-  rename(mean_score = `round(mean(scale_dorrance))`)%>% 
+  rename(mean_score = `mean(scale_dorrance)`)%>% 
   mutate(
     pr_level = case_when(
       mean_score <= 4 ~ "High", 
@@ -252,6 +252,9 @@ rps_final_results <- rps_final_results %>%
 
 screening_results <- left_join(rps_final_results, mean_scores)
 screening_results <- left_join(screening_results, lesion_cm)
+
+screening_results <- screening_results %>% 
+  mutate(lesion_mm = lesion_cm*10)
 
 write_csv(screening_results, path = here("output", "results", 
                                        "04_resistance-screening_final-results.csv"))

@@ -941,7 +941,7 @@ fig.4A <- iowa %>%
   labs(y = expression('Stand (plants m'^-2*')')) +
   theme_cowplot() +
   panel_border() +
-  theme(
+  theme(legend.position = "bottom",
         axis.text.x = element_text(size = 10),
         panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80"), 
@@ -963,6 +963,7 @@ iowa <- iowa %>%
   mutate(pr_level = forcats::fct_inorder(pr_level))
 
 fig.4b <- iowa %>% 
+  filter(!is.na(yield_kg.ha)) %>% 
   ggplot(aes(x = fct_reorder(variety, -yield_kg.ha), 
              y = yield_kg.ha, fill= pr_level)) +
   geom_jitter(alpha= 0.2, width = 0.4) +
@@ -971,7 +972,7 @@ fig.4b <- iowa %>%
                     name = element_blank()) +
   theme_cowplot() +
   panel_border() +
-  theme(
+  theme(legend.position = "bottom",
         panel.grid.major.y = element_line(linetype = "dotted", 
                                           color = "grey80"), 
         axis.text.x = element_text(size = 10)) +
