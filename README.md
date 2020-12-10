@@ -1,6 +1,6 @@
 # Effect of resistance and ethaboxam seed treatment on the management of PRR in Illinois and Iowa
 
-This repository contains data and code used to analyze data for the manuscript XXXX. The repository is divided in the following folders:  
+This repository contains data and code used to analyze data for the manuscript Cerritos-Garcia et al. 2020. The repository is divided in the following folders:  
 - [analysis](https://github.com/danielcerritos/seedtreatments/tree/master/analysis): Code use for analysis.  
 - [code](https://github.com/danielcerritos/seedtreatments/tree/master/code): Code used for data cleaning.  
 - [data](https://github.com/danielcerritos/seedtreatments/tree/master/data): All raw data collected.  
