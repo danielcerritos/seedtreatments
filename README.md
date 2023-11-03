@@ -10,4 +10,3 @@ This repository contains data and code used to analyze data for the manuscript [
 ## Analysis
 Complete analysis can be found in the following [website](https://danielcerritos.github.io/seedtreatments/index.html) built with the [workflowr](https://jdblischak.github.io/workflowr/) package. 
 
-## Data
